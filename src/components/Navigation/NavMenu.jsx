@@ -43,6 +43,12 @@ export class NavMenu extends Component {
                 <NavLink href="/Home">Home</NavLink>
               </NavItem>
               <NavItem>
+                <NavLink href="/Login">Login</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/Register">Register</NavLink>
+              </NavItem>
+              <NavItem>
                 <NavLink href="/Categories">Categories</NavLink>
               </NavItem>
               <NavItem>
@@ -50,9 +56,6 @@ export class NavMenu extends Component {
               </NavItem>
               <NavItem>
                 <NavLink href="/Wishlist">Wishlist</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="/Login">Login</NavLink>
               </NavItem>
             </Nav>
           </Collapse>

@@ -5,6 +5,7 @@ import { Home } from "../components/Home/Home";
 import { Login } from "../components/Login/Login";
 import "./App.css";
 import { BrowserRouter } from "react-router-dom";
+import { Register } from "../components/Register/Register";
 
 export default class App extends Component {
   static displayName = App.name;
@@ -20,6 +21,7 @@ export default class App extends Component {
             <Route path="/Home" component={Home}></Route>
             <Route exact path="/" component={Home}></Route>
             <Route path="/Login" component={Login}></Route>
+            <Route path="/Register" component={Register}></Route>
           </div>
         </BrowserRouter>
       </Layout>
