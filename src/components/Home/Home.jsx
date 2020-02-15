@@ -1,20 +1,17 @@
-import React, { Component } from 'react';
-import './Home.css';
+import React, { Component } from "react";
+import "./Home.css";
 
 export class Home extends Component {
-	constructor() {
-		super();
-		this.state = {
+  constructor() {
+    super();
+    this.state = {};
+  }
 
-		};
-	}
-
-
-	render() {
-		return (
-			<div className="home-method">
-				<p></p>
-			</div>
-		);
-	}
+  render() {
+    return (
+      <div className="home-method">
+        <p>Home</p>
+      </div>
+    );
+  }
 }
