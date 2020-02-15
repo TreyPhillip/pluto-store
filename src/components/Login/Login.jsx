@@ -43,6 +43,7 @@ export class Login extends Component {
     const { email, password } = this.state;
     return (
       <Container className="Login">
+        <h2>Login</h2>
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
             <Label>Email</Label>
