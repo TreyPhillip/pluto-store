@@ -1,2 +1,8 @@
-.Item {
+.ItemPicture {
+  align-items: center;
+}
+
+.ItemName,
+.ItemDescription {
+  text-align: center;
 }
