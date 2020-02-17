@@ -1,20 +1,20 @@
 import React, { Component } from "react";
 import "./Home.css";
-import { ItemList } from "../Products/ProductList/ProductList";
+import { ProductList } from "../Products/ProductList/ProductList";
 
 export class Home extends Component {
   constructor() {
     super();
     this.state = {
-      items:[]
+      products:[]
     };
   }
 
   render() {
     return (
       <div className="home-method">
-        {/* TODO: Get item card ID mapped to database
-        <ItemList items={this.state.items} /> */}
+        {/* TODO: Get item card ID mapped to database */}
+        {/*<ProductList products={this.state.products} />*/} 
       </div>
     );
   }
