@@ -53,7 +53,7 @@ export class Register extends Component {
       phoneNumber
     } = this.state;
     return (
-      <Container className="Register">
+      <Container className="register">
         <h2>Register</h2>
         <p>* indicates a required field</p>
         <Form onSubmit={this.handleSubmit}>

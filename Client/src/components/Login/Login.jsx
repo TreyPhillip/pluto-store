@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from 'react-router-dom';
 import { Container, Form, FormGroup, Label, Input, Button } from "reactstrap";
 import "./Login.css";
 
@@ -42,7 +43,7 @@ export class Login extends Component {
   render() {
     const { email, password } = this.state;
     return (
-      <Container className="Login">
+      <Container className="login">
         <h2>Login</h2>
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
@@ -73,6 +74,7 @@ export class Login extends Component {
           <Button onClick={this.validateForm} type="submit">
             Login
           </Button>
+		<p>Don't have an account? <Link to='/Register'>Register Here</Link></p>
         </Form>
       </Container>
     );

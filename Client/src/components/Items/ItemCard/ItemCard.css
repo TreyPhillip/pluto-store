@@ -1,0 +1,22 @@
+.item-card {
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  display:grid;
+  font-size: 15px;
+  text-align: center;
+  vertical-align: top;
+}
+
+.item-card img {
+  height: 180px;
+  object-fit: cover;
+}
+.item-card:hover {
+  cursor: pointer;
+  transform: scale(1.1,1.1);
+  box-shadow:  2px 2px 10px 2px #D8737F;
+  -webkit-filter: brightness(100%);
+  
+  filter:brightness(100%);
+}
