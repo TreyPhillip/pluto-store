@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./Home.css";
-import { ItemList } from "../Items/ItemList/ItemList";
+import { ItemList } from "../Products/ProductList/ProductList";
 
 export class Home extends Component {
   constructor() {

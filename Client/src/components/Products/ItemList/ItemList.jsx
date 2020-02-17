@@ -1,6 +1,6 @@
 import React from "react";
 import './ItemList.css';
-import { ItemCard } from '../ItemCard/ItemCard';
+import { ItemCard } from '../ProductCard/ProductCard';
 
 //Creates the item list using the card component
 export const ItemList = props => (

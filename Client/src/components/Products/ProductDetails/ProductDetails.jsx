@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import './ItemDetails.css'
+import './ProductDetails.css'
 
-export class ItemDetails extends Component {
+export class ProductDetails extends Component {
     constructor() {
         super();
         this.state = {
             isAdd: false,
-            itemDetails: []
+            productDetails: []
         }
     };
 }
