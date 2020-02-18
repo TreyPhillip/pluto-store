@@ -7,6 +7,9 @@ import "./App.css";
 import { BrowserRouter } from "react-router-dom";
 import { Register } from "../components/Register/Register";
 
+//Add a product page
+import { AddProduct } from "../components/Products/CreateProducts/product-listing-form";
+
 export default class App extends Component {
   static displayName = App.name;
 
@@ -22,6 +25,7 @@ export default class App extends Component {
             <Route exact path="/" component={Home}></Route>
             <Route path="/Login" component={Login}></Route>
             <Route path="/Register" component={Register}></Route>
+            <Route path="/AddProduct" component={AddProduct}></Route>
           </div>
         </BrowserRouter>
       </Layout>

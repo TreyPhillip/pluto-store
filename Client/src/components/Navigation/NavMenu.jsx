@@ -49,6 +49,9 @@ export class NavMenu extends Component {
                 <NavLink href="/Register">Register</NavLink>
               </NavItem>
               <NavItem>
+                <NavLink href="/AddProduct">Add A Product</NavLink>
+              </NavItem>
+              <NavItem>
                 <NavLink href="/Categories">Categories</NavLink>
               </NavItem>
               <NavItem>
