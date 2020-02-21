@@ -37,31 +37,31 @@ export class NavMenu extends Component {
             Store
           </NavbarBrand>
           <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
-          <Collapse isOpen={!this.state.collapsed} navbar>
-            <Nav navbar>
-              <NavItem>
+            <Collapse isOpen={!this.state.collapsed} navbar>
+              <Nav navbar>
+                <NavItem>
                 <NavLink href="/Home">Home</NavLink>
-              </NavItem>
-              <NavItem>
+                </NavItem>
+                <NavItem>
                 <NavLink href="/Login">Login</NavLink>
-              </NavItem>
-              <NavItem>
+                </NavItem>
+                <NavItem>
                 <NavLink href="/Register">Register</NavLink>
-              </NavItem>
-              <NavItem>
+                </NavItem>
+                <NavItem>
                 <NavLink href="/AddProduct">Add A Product</NavLink>
-              </NavItem>
-              <NavItem>
+                </NavItem>
+                <NavItem>
                 <NavLink href="/Categories">Categories</NavLink>
-              </NavItem>
-              <NavItem>
+                </NavItem>
+                <NavItem>
                 <NavLink href="/Cart">Cart</NavLink>
-              </NavItem>
-              <NavItem>
+                </NavItem>
+                <NavItem>
                 <NavLink href="/Wishlist">Wishlist</NavLink>
-              </NavItem>
-            </Nav>
-          </Collapse>
+                </NavItem>
+              </Nav>
+            </Collapse>
         </Navbar>
       </header>
     );
