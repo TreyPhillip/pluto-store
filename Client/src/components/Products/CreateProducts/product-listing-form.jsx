@@ -44,7 +44,7 @@ export class AddProduct extends Component {
       <div className="product-form">
         <form onSubmit={this.handleSubmit}>
           <FormGroup>
-            <label>Product Name:</label>
+            <label>Product Name: </label>
             <input
               type="text"
               name="product_name"
