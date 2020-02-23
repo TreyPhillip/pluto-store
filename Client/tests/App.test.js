@@ -1,9 +1,9 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import App from './App';
+import App from '../src/containers/App';
 
-test('renders learn react link', () => {
+test('renders home page', () => {
   const { getByText } = render(<App />);
-  const linkElement = getByText(/learn react/i);
+  const linkElement = getByText(/Pluto Store/);
   expect(linkElement).toBeInTheDocument();
 });
