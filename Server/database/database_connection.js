@@ -1,8 +1,8 @@
 const Pool = require('pg').Pool;
 const pool = new Pool({
-	user: 'kevin',
+	user: 'Kevin',
 	host: 'localhost',
-	database: 'plutoDB',
+	database: 'PlutoDB',
 	password: 'password123',
 	port: 5432
 });
@@ -12,9 +12,6 @@ module.exports = pool;
 
 
 /**
- * 
- * 
- * 
  * 
  * const Pool = require('pg').Pool;
 const pool = new Pool({

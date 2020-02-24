@@ -33,16 +33,14 @@ export class AddProduct extends Component {
           price: this.price.value,
           description: this.description.value
         };
+        CreateAProduct(product_obj);
     }
     else{
       alert("Price needs to be a number");
     }
 
-
     //validation------------
     //----------------------
-
-    CreateAProduct(product_obj);
 
     console.log(product_obj);
     event.preventDefault();
