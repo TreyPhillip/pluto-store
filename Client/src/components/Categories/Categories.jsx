@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './Categories.css';
 
 export  class Categories extends Component {
@@ -17,7 +18,7 @@ export  class Categories extends Component {
     render() {
         return (
         <div className="category-method">
-            <p category={this.state.categories} />
+            <Link category={this.state.categories}></Link>
         </div>
         );
     }
