@@ -8,7 +8,6 @@ import {
   NavItem,
   NavLink
 } from "reactstrap";
-import { CurrentDate } from '../DateTime';
 import Logo from "../../assets/pluto-logo.png";
 import "./NavMenu.css";
 
@@ -37,7 +36,6 @@ export class NavMenu extends Component {
             <img src={Logo} className="plutoLogo" alt="Pluto Logo" /> Pluto
             Store
           </NavbarBrand>
-          <CurrentDate/>
           <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
             <Collapse isOpen={!this.state.collapsed} navbar>
               <Nav navbar>
