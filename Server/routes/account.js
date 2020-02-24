@@ -13,8 +13,7 @@ router.get("/account", (request, response, next) => {
   const { emailaddress, userpassword } = request.body;
   db_connection.query(
     "SELECT * FROM account WHERE emailaddress = $1",
-    [emailaddress],
-    (error, result) => {
+    [emailaddress], (error, result) => {
       //compare plaintext password with the stored hashed password
       bcrypt.compare(userpassword, result.rows[0].userpassword, function(
         err,
@@ -31,7 +30,6 @@ router.get("/account", (request, response, next) => {
     }
   );
 });
-
 //Add a new account
 router.post("/account/register", (request, response, next) => {
   const {
@@ -55,7 +53,6 @@ router.post("/account/register", (request, response, next) => {
   );
   response.status(200).send("Account has been registered successfully");
 });
-
 //update an account
 router.put("/account/update", (request, response, next) => {
   const {

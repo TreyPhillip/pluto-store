@@ -51,7 +51,7 @@ router.post("/products/add", (request, response, next) => {
         return next(error);
       }
       //send a success full response to the client.
-      response.status(200).send("Product added successfull added");
+      response.status(200).json("Product added successfully");
     }
   );
 });
@@ -73,7 +73,7 @@ router.put("/products/update", (request, response, next) => {
       if (error) {
         return next(error);
       }
-      response.status(200).send(`Product modified with ID: ${productid}`);
+      response.status(200).json(`Product modified with ID: ${productid}`);
     }
   );
 });
@@ -88,7 +88,7 @@ router.delete("/products/delete", (request, response, next) => {
       if (error) {
         throw error;
       }
-      response.status(200).send(`Product was deleted with ID: ${productid}`);
+      response.status(200).json(`Product was deleted with ID: ${productid}`);
     }
   );
 });

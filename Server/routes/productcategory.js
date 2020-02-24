@@ -27,12 +27,17 @@ router.get('/product/category/:id', (request,response,next) =>{
 //add a category
 router.post('/product/category/add', (request, response, next) =>{
     const {categoryname} = request.body;
-    db_connection.query('INSERT INTO productcategory (categoryname) VALUES($1)', [categoryname], (error,result) =>{
-        if(error){
-            return next(error);
-        }
-        response.status(200).json("Product category successfully been added");
-    });
+	if(categoryname!= null){
+		db_connection.query('INSERT INTO productcategory (categoryname) VALUES($1)', [categoryname], (error,result) =>{
+			if(error){
+				return next(error);
+			}
+			response.status(200).json("Product category successfully been added");
+		});
+	}
+	else{
+		response.status(500).json("Product category requires a name");
+	}
 });
 
 router.put('/product/category/update', (request,response, next) =>{

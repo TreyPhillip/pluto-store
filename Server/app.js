@@ -2,7 +2,6 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-
 var cors = require("cors");
 
 //------Routers--------------
@@ -44,5 +43,5 @@ app.use("/", orderRouter);
 app.use("/", orderDetailRouter);
 app.use("/", purchaseHistoryRouter);
 app.use("/", reviewRouter);
-//export to be used
+
 module.exports = app;

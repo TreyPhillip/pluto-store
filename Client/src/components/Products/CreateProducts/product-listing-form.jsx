@@ -22,13 +22,22 @@ export class AddProduct extends Component {
   }
 
   handleSubmit = event => {
-    let product_obj = {
-      productname: this.productname.value,
-      categoryid: this.category_sel.value,
-      sellerid: 3,
-      price: this.price.value,
-      description: this.description.value
-    };
+
+    let product_obj ={};
+    if(isNaN(this.price.value) === false){
+        
+         product_obj = {
+          productname: this.productname.value,
+          categoryid: this.category_sel.value,
+          sellerid: this.seller_id.value,
+          price: this.price.value,
+          description: this.description.value
+        };
+    }
+    else{
+      alert("Price needs to be a number");
+    }
+
 
     //validation------------
     //----------------------
@@ -49,7 +58,7 @@ export class AddProduct extends Component {
               type="text"
               name="product_name"
               ref={data => (this.productname = data)}
-            />
+              required  />
           </FormGroup>
 
           <FormGroup>
@@ -57,7 +66,7 @@ export class AddProduct extends Component {
             <select
               className="form-control "
               ref={category_sel => (this.category_sel = category_sel)}
-            >
+              required  >
               {this.state.product_category.map(category => {
                 return (
                   <option key={category.categoryid} value={category.categoryid}>
@@ -71,19 +80,19 @@ export class AddProduct extends Component {
           <FormGroup>
             <label>Seller account: </label>
             <input
-              type="text"
+              type="number"
               name="product name"
               ref={seller_id => (this.seller_id = seller_id)}
-            />
+              required  />
           </FormGroup>
 
           <FormGroup>
             <label>Price: </label>
             <input
-              type="number"
+              type="text"
               name="product name"
               ref={price => (this.price = price)}
-            />
+              required />
           </FormGroup>
 
           <FormGroup>
@@ -91,7 +100,7 @@ export class AddProduct extends Component {
             <textarea
               name="description"
               ref={description => (this.description = description)}
-            />
+           required />
           </FormGroup>
 
           <input type="submit" value="Submit"></input>
@@ -109,7 +118,7 @@ export function CreateAProduct(data) {
   };
 
   axios.post("http://localhost:5000/products/add", data, config).then(res => {
-    alert("Successfully added your profile");
+    alert("Successfully listed your product");
   });
   //redirects the view to display the games
   return window.location.reload();
