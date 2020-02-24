@@ -8,7 +8,7 @@ import {
   NavItem,
   NavLink
 } from "reactstrap";
-import Logo from "../../assets/pluto-logo.png";
+import Logo from "../../assets/pluto-logo-dark.png";
 import "./NavMenu.css";
 
 export class NavMenu extends Component {
@@ -31,7 +31,7 @@ export class NavMenu extends Component {
   render() {
     return (
       <header>
-        <Navbar color="faded" light>
+        <Navbar color="primary" dark>
           <NavbarBrand href="/" className="mr-auto">
             <img src={Logo} className="plutoLogo" alt="Pluto Logo" /> Pluto
             Store
@@ -40,25 +40,25 @@ export class NavMenu extends Component {
             <Collapse isOpen={!this.state.collapsed} navbar>
               <Nav navbar>
                 <NavItem>
-                <NavLink href="/Home">Home</NavLink>
+                <NavLink href="/Home" className="text-white">Home</NavLink>
                 </NavItem>
                 <NavItem>
-                <NavLink href="/Login">Login</NavLink>
+                <NavLink href="/Login" className="text-white">Login</NavLink>
                 </NavItem>
                 <NavItem>
-                <NavLink href="/Register">Register</NavLink>
+                <NavLink href="/Register" className="text-white">Register</NavLink>
                 </NavItem>
                 <NavItem>
-                <NavLink href="/AddProduct">Add A Product</NavLink>
+                <NavLink href="/AddProduct" className="text-white">Add A Product</NavLink>
                 </NavItem>
                 <NavItem>
-                <NavLink href="/Categories">Categories</NavLink>
+                <NavLink href="/Categories" className="text-white">Categories</NavLink>
                 </NavItem>
                 <NavItem>
-                <NavLink href="/Cart">Cart</NavLink>
+                <NavLink href="/Cart" className="text-white">Cart</NavLink>
                 </NavItem>
                 <NavItem>
-                <NavLink href="/Wishlist">Wishlist</NavLink>
+                <NavLink href="/Wishlist" className="text-white">Wishlist</NavLink>
                 </NavItem>
               </Nav>
             </Collapse>
