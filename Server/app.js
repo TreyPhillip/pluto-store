@@ -44,5 +44,5 @@ app.use("/", orderRouter);
 app.use("/", orderDetailRouter);
 app.use("/", purchaseHistoryRouter);
 app.use("/", reviewRouter);
-//export to be use o
+//export to be used
 module.exports = app;
