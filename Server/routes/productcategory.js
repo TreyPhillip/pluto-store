@@ -37,7 +37,7 @@ router.post('/product/category/add', (request, response, next) =>{
 
 router.put('/product/category/update', (request,response, next) =>{
     const {categoryid, categoryname} = request.body;
-    db_connection.query('UPDATE productcategory SET categoryname=$1 WHERE categoryid =$2', [categoryname, categoryid], (error, result) =>{
+    db_connection.query('UPDATE productcategory SET categoryname = $1 WHERE categoryid = $2', [categoryname, categoryid], (error, result) =>{
         if(error){
             return next(error);
         }
@@ -47,7 +47,7 @@ router.put('/product/category/update', (request,response, next) =>{
 
 router.delete('/product/category/delete',(request,response,next) =>{
     const{categoryid} = request.body;
-    db_connection.query('DELETE FROM productcategory WHERE categoryid=$1', [categoryid], (error, result) =>{
+    db_connection.query('DELETE FROM productcategory WHERE categoryid = $1', [categoryid], (error, result) =>{
         if(error){
             return next(error);
         }
