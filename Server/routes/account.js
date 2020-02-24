@@ -69,7 +69,7 @@ router.put("/account/update", (request, response, next) => {
   var hashedPassword = bcrypt.hashSync(userpassword, saltCount);
 
   db_connection.query(
-    "UPDATE account SET userpassword = $1, username = $2, isverified = $3, profileid=$4 WHERE emailaddress = $5",
+    "UPDATE account SET userpassword = $1, username = $2, isverified = $3, profileid = $4 WHERE emailaddress = $5",
     [hashedPassword, username, isverified, profileid, emailaddress],
     (error, result) => {
       if (error) {
