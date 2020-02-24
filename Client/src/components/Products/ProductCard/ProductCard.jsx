@@ -8,6 +8,7 @@ export const ProductCard = props => {
             <div className= "product-card">
                 <img className='card-img-top' alt='product images' src={props.product.productimagePath}/>
                 <p>{props.product.productname}</p>
+                <p>{props.product.description}</p>
             </div>
         </Link>
     );
