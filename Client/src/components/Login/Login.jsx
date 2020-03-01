@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 import { Container, Form, FormGroup, Label, Input, Button } from "reactstrap";
+import axios from "axios";
+import cookie from 'react-cookies';
 import "./Login.css";
 
 export class Login extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -14,10 +17,22 @@ export class Login extends Component {
       }
     };
     this.handleChange = this.handleChange.bind(this);
+    
   }
 
   handleSubmit = event => {
     event.preventDefault();
+    let date = new Date();
+    date.setHours(1);
+    //testing loging functionality
+    axios.post("http://localhost:5000/authentication",{
+      emailaddress: this.state.email,
+      userpassword:this.state.password
+    })
+    //save the token as a cookie
+    .then(res => cookie.save('token',res.data.token,{path: '/'}))
+    //redirects the user to the homepage
+    .then(final => this.props.history.replace('/'));
   };
 
   handleChange = async event => {
