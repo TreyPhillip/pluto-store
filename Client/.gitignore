@@ -2,7 +2,7 @@
 
 # dependencies
 /node_modules
-!/node_modules/bootstrap
+!node_modules/bootstrap
 /.pnp
 .pnp.js
 
