@@ -120,7 +120,7 @@ export class Register extends Component {
           </FormGroup>
           <FormGroup>
             <Label>Phone Number</Label>
-            <Input
+            <Input className="form-control-plaintext"
               type="phone"
               name="phoneNumber"
               id="phoneNumberInput"
@@ -130,7 +130,7 @@ export class Register extends Component {
               }}
             />
           </FormGroup>
-          <Button onClick={this.validateForm} type="submit">
+          <Button  className="btn btn-primary" color="primary" dark onClick={this.validateForm} type="submit">
             Register
           </Button>
         </Form>

@@ -5,6 +5,7 @@ import axios from "axios";
 import cookie from 'react-cookies';
 import "./Login.css";
 import { NotificationContainer, NotificationManager } from "react-notifications";
+import { PrivateMenu } from "../Navigation/PrivateMenu";
 
 export class Login extends Component {
 
@@ -59,20 +60,20 @@ export class Login extends Component {
 
   createNotification = (type) =>  {
     return () => {
-        switch(type) {
-            case 'info': 
-                NotificationManager.info();
-                break;
-            case 'success':
-                NotificationManager.success('Success!', 'test message');
-                break;
-            case 'warning':
-                NotificationManager.warning();
-                break;
-            case 'error':
-                NotificationManager.error();
-                break;
-        }
+      switch(type) {
+          case 'info': 
+              NotificationManager.info();
+              break;
+          case 'success':
+              NotificationManager.success('Success!', 'test message');
+              break;
+          case 'warning':
+              NotificationManager.warning();
+              break;
+          case 'error':
+              NotificationManager.error();
+              break;
+      }
     }
   }
 
@@ -108,10 +109,10 @@ export class Login extends Component {
               onChange={e => this.handleChange(e)}
             />
           </FormGroup>
-          <Button onClick={this.validateForm, this.createNotification('succcess')} type="submit">
+          <Button className="btn btn-primary" color="primary" dark onClick={this.validateForm, this.createNotification('succcess')} type="submit">
             Login
           </Button>
-		<p>Don't have an account? <Link to='/Register'>Register Here</Link></p>
+		<p>Don't have an account? <Link className="btn btn-link" to='/Register'>Register Here</Link></p>
         </Form>
       </Container>
     );
