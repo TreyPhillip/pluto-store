@@ -16,18 +16,9 @@ export class Home extends Component {
   componentDidMount() {
 
     var token = cookie.load("token");
-
     fetch("http://localhost:5000/products")
       .then(res => res.json())
       .then(data => this.setState({ products: data }));
-
-    // check if the token is valid and pulls the account information to be used.
-      axios.post("http://localhost:5000/checkToken",{
-        tokenString:  token
-        //currently just logged out
-      }).then(res => console.log(res));
-      
-
   }
 
   render() {

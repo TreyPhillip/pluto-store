@@ -1,22 +1,27 @@
-require('dotenv').config();
+
+
 const Pool = require('pg').Pool;
 const pool = new Pool({
-	user: 'postgres',
+	user: 'Kevin',
 	host: 'localhost',
-	database: 'plutoDB',
-	password: 'BHXK7GNKR4',
+	database: 'PlutoDB',
+	password: 'password123',
 	port: 5432
 });
 
 module.exports = pool;
 
+
+
+
 /**
  * 
- * const Pool = require('pg').Pool;
+ require('dotenv').config();
+const Pool = require('pg').Pool;
 const pool = new Pool({
 	user: 'postgres',
 	host: 'localhost',
-	database: 'PlutoDB',
+	database: 'plutoDB',
 	password: 'BHXK7GNKR4',
 	port: 5432
 });

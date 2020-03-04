@@ -32,7 +32,8 @@ export class Login extends Component {
     //save the token as a cookie
     .then(res => cookie.save('token',res.data.token,{path: '/'}))
     //redirects the user to the homepage
-    .then(final => this.props.history.replace('/'));
+    .then(final => this.props.history.replace('/'))
+    .then(res => window.location.reload());
   };
 
   handleChange = async event => {
