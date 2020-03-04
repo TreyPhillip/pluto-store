@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Container, Form, FormGroup, Label, Input, Button } from "reactstrap";
 import axios from "axios";
 import cookie from 'react-cookies';
-import Notification from '../Notification';
 import "./Login.css";
 import { NotificationContainer, NotificationManager } from "react-notifications";
 
