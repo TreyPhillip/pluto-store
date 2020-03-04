@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import { Container, Form, FormGroup, Label, Input, Button } from "reactstrap";
 import axios from "axios";
 import cookie from 'react-cookies';
+import Notification from '../Notification';
 import "./Login.css";
+import { NotificationContainer, NotificationManager } from "react-notifications";
 
 export class Login extends Component {
 
@@ -56,10 +58,30 @@ export class Login extends Component {
     this.setState({ validate });
   };
 
+  createNotification = (type) =>  {
+    return () => {
+        switch(type) {
+            case 'info': 
+                NotificationManager.info();
+                break;
+            case 'success':
+                NotificationManager.success('Success!', 'test message');
+                break;
+            case 'warning':
+                NotificationManager.warning();
+                break;
+            case 'error':
+                NotificationManager.error();
+                break;
+        }
+    }
+  }
+
   render() {
     const { email, password } = this.state;
     return (
       <Container className="login">
+        <NotificationContainer />
         <h2>Login</h2>
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
@@ -87,7 +109,7 @@ export class Login extends Component {
               onChange={e => this.handleChange(e)}
             />
           </FormGroup>
-          <Button onClick={this.validateForm} type="submit">
+          <Button onClick={this.validateForm, this.createNotification('succcess')} type="submit">
             Login
           </Button>
 		<p>Don't have an account? <Link to='/Register'>Register Here</Link></p>
