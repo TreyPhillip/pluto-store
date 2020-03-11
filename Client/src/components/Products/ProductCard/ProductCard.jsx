@@ -21,4 +21,10 @@ export const ProductCard = props => {
         </Link>
     );
 }
+// <Link to={"/Details/" + props.product.productid}>
+//<div className= "product-card">
+//<img className='card-img-top' alt='product images' src={props.product.productimagePath}/>
+//<p>{props.product.productname}</p>
+//</div>
+//</Link>
 

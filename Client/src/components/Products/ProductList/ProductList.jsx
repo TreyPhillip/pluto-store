@@ -21,4 +21,6 @@ export const ProductList = props => (
         </div>
     </Link>
     )} </div>
+
+    //<div className="product-list">{props.product.map((product) => <Card key={product.id} product={product} />)} </div>
 );
