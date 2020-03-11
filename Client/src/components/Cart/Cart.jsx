@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './Cart.css';
+import { Container, Form, FormGroup, Label, Input, Button } from "reactstrap";
+
 export class Cart extends Component {
 	constructor(props) {
 		super(props);
@@ -11,12 +13,12 @@ export class Cart extends Component {
 			<div>
 				<div class="shopping-cart">
 					<div class="column-labels">
-						<label className="image">Image</label>
-						<label className="details">Product</label>
-						<label className="price">Price</label>
-						<label className="quantity">Quantity</label>
-						<label className="removal">Remove</label>
-						<label className="line-price">Total</label>
+						<Label className="image">Image</Label>
+						<Label className="details">Product</Label>
+						<Label className="price">Price</Label>
+						<Label className="quantity">Quantity</Label>
+						<Label className="removal">Remove</Label>
+						<Label className="line-price">Total</Label>
 					</div>
 
 					<div class="product">
@@ -29,14 +31,13 @@ export class Cart extends Component {
 						<div class="price">{'500'}</div>
 						<div class="quantity">{'2'}</div>
 						<div class="removal">
-							<button
+							<Button color="danger"
 								onClick={() => {
 									// removeItem(this.state.itemID);
 								}}
-								class="remove-product"
-							>
+								class="remove-product">
 								Remove
-							</button>
+							</Button>
 						</div>
 						<div class="line-price">{this.state.total}</div>
 					</div>
@@ -55,7 +56,7 @@ export class Cart extends Component {
 						))} */}
 
 					{/* <Link to="/"> */}
-					<button className="checkout">Checkout</button>
+					<Button color="success" className="checkout">Checkout</Button>
 					{/* </Link> */}
 				</div>
 			</div>
