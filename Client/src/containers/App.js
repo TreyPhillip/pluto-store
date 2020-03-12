@@ -13,6 +13,7 @@ import axios from 'axios';
 //Add a product page
 import { AddProduct } from '../components/Products/CreateProducts/product-listing-form';
 import { PrivateMenu } from '../components/Navigation/PrivateMenu';
+import { Categories } from '../components/Categories/Categories';
 
 const PrivateRoute = ({ component: Component, isAuthenicated, ...rest }) => {
 	return (
@@ -67,6 +68,7 @@ export default class App extends Component {
 						<Route path="/Login" component={Login} />
 						<Route path="/Register" component={Register} />
 						<Route path="/Cart" component={Cart} />
+						<Route path="/Categories" component={Categories} />
 						<PrivateRoute path="/AddProduct" isAuthenicated={this.state.status} component={AddProduct} />
 					</div>
 				</BrowserRouter>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './Categories.css';
+import { ListGroup, ListGroupItem } from 'reactstrap';
 
 export  class Categories extends Component {
     constructor() {
@@ -18,7 +19,20 @@ export  class Categories extends Component {
     render() {
         return (
         <div className="category-method">
-            <Link category={this.state.categories}>Test</Link>
+            <ListGroup>
+                <ListGroupItem>
+                    <Link to={this.state.categories}>Books</Link>
+                </ListGroupItem>
+                <ListGroupItem>
+                    <Link to={this.state.categories}>Electronics</Link>
+                </ListGroupItem>
+                <ListGroupItem>
+                    <Link to={this.state.categories}>Fashion</Link>
+                </ListGroupItem>
+                <ListGroupItem>
+                    <Link to={this.state.categories}>Sports</Link>
+                </ListGroupItem>
+            </ListGroup>
         </div>
         );
     }
