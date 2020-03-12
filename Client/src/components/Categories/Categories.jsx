@@ -18,7 +18,7 @@ export  class Categories extends Component {
     render() {
         return (
         <div className="category-method">
-            <Link category={this.state.categories}></Link>
+            <Link category={this.state.categories}>Test</Link>
         </div>
         );
     }
