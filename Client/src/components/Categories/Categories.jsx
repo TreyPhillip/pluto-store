@@ -18,22 +18,12 @@ export  class Categories extends Component {
     }
     render() {
         return (
-        <div className="category-method">
-            <ListGroup>
-                <ListGroupItem>
-                    <Link to={this.state.categories}>Books</Link>
-                </ListGroupItem>
-                <ListGroupItem>
-                    <Link to={this.state.categories}>Electronics</Link>
-                </ListGroupItem>
-                <ListGroupItem>
-                    <Link to={this.state.categories}>Fashion</Link>
-                </ListGroupItem>
-                <ListGroupItem>
-                    <Link to={this.state.categories}>Sports</Link>
-                </ListGroupItem>
+            <ListGroup flush>
+                <ListGroupItem tag="a" href={this.state.categories} action>Books</ListGroupItem>
+                <ListGroupItem tag="a" href={this.state.categories} action>Electronics</ListGroupItem>
+                <ListGroupItem tag="a" href={this.state.categories} action>Fashion</ListGroupItem>
+                <ListGroupItem tag="a" href={this.state.categories} action>Sports</ListGroupItem>
             </ListGroup>
-        </div>
         );
     }
 }
