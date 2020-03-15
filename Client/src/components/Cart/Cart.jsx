@@ -5,7 +5,10 @@ import { Container, Form, FormGroup, Label, Input, Button } from "reactstrap";
 export class Cart extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			cartItems: JSON.parse(sessionStorage.getItem("cart")) 
+		};
+		
 	}
 
 	render() {
