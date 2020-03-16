@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import "./Home.css";
+import "./HomePage.css";
 import cookie from 'react-cookies';
 import axios from "axios";
 import { ProductList } from "../Products/ProductList/ProductList";
 
-export class Home extends Component {
+export class HomePage extends Component {
   constructor() {
     super();
     this.state = {

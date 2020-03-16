@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router';
 import { Layout } from '../components/Layout';
-import { Home } from '../components/Home/Home';
+import { HomePage } from '../components/HomePage/HomePage';
 import { Login } from '../components/Login/Login';
 import { Cart } from '../components/Cart/Cart';
 import './App.css';
@@ -63,8 +63,8 @@ export default class App extends Component {
 				<BrowserRouter>
 					{!this.state.status ? <Layout /> : <PrivateMenu />}
 					<div>
-						<Route path="/Home" component={Home} />
-						<Route exact path="/" component={Home} />
+						<Route path="/Home" component={HomePage} />
+						<Route exact path="/" component={HomePage} />
 						<Route path="/Login" component={Login} />
 						<Route path="/Register" component={Register} />
 						<Route path="/Cart" component={Cart} />
