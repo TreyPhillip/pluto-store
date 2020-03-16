@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 import { Container, Form, FormGroup, Label, Input, Button } from "reactstrap";
-import { Notification } from "../Notification";
+import Notification from "../Notification";
 import axios from "axios";
 import cookie from 'react-cookies';
 import "./Login.css";
@@ -62,7 +62,6 @@ export class Login extends Component {
     const { email, password } = this.state;
     return (
       <Container className="login">
-        <NotificationContainer />
         <h2>Login</h2>
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>

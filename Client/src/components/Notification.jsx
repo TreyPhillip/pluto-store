@@ -23,3 +23,5 @@ const Notification = (props) => {
         </div>
     )
 }
+
+export default Notification;
