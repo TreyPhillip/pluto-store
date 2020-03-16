@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Container, Form, FormGroup, Label, Input, Button } from "reactstrap";
+import { Link } from 'react-router-dom';
 import "./Register.css";
 
 export class Register extends Component {
@@ -133,6 +134,7 @@ export class Register extends Component {
           <Button  className="btn btn-primary" color="primary" dark onClick={this.validateForm} type="submit">
             Register
           </Button>
+          <p>Already have an account?<Link className="btn btn-link" to='/Login'>Log in Here</Link></p>
         </Form>
       </Container>
     );
