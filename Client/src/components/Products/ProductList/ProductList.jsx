@@ -1,15 +1,14 @@
 import React from "react";
 import './ProductList.css';
 import { ProductCard } from '../ProductCard/ProductCard';
-import { Link } from 'react-router-dom';
-import {
-    Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Button
-  } from 'reactstrap';
 
 //Creates the product list using the card component
 export const ProductList = props => (
-    <div className="product-list">{props.product.map((product) => 
+    <div className="product-list">{props.product.map((product) => <ProductCard key={product.id} product={product} />)} </div> 
+);
+
+/* 
+ <div className="product-list">{props.product.map((product) => 
         <Link to={"/Details/" + props.product.productid}>
         <div>
             <Card className = "card text-white bg-primary mb-3" key={product.id} product={product}>
@@ -21,6 +20,4 @@ export const ProductList = props => (
         </div>
     </Link>)} 
     </div>
-
-    //<div className="product-list">{props.product.map((product) => <Card key={product.id} product={product} />)} </div>
-);
+*/

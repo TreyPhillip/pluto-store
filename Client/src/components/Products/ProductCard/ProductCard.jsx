@@ -14,7 +14,8 @@ export const ProductCard = props => {
                 <Card>
                     <CardImg top width="100%" src="/assets/318x180.svg" alt="Card image cap" />
                     <CardBody>
-                    <CardTitle>{props.product.productname}</CardTitle> 
+                    <CardTitle>{props.product.productname}</CardTitle>
+                    <CardSubtitle>{props.product.productprice}</CardSubtitle> 
                     </CardBody>
                 </Card>
             </div>
