@@ -120,7 +120,7 @@ export class Register extends Component {
           </FormGroup>
           <FormGroup>
             <Label>Phone Number</Label>
-            <Input className="form-control-plaintext"
+            <Input
               type="phone"
               name="phoneNumber"
               id="phoneNumberInput"
