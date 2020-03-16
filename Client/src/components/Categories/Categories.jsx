@@ -23,13 +23,14 @@ export  class Categories extends Component {
                     <ListGroupItem tag="a" href={this.state.categories} action>Automotive</ListGroupItem>
                     <ListGroupItem tag="a" href={this.state.categories} action>Books</ListGroupItem>
                     <ListGroupItem tag="a" href={this.state.categories} action>Cooking</ListGroupItem>
-                    <ListGroupItem tag="a" href={this.state.categories} action>Electronics and Office</ListGroupItem>
+                    <ListGroupItem tag="a" href={this.state.categories} action>Electronics</ListGroupItem>
                     <ListGroupItem tag="a" href={this.state.categories} action>Fashion</ListGroupItem>
                     <ListGroupItem tag="a" href={this.state.categories} action>Garden</ListGroupItem>
                     <ListGroupItem tag="a" href={this.state.categories} action>Grocery and Whole Foods</ListGroupItem>
                     <ListGroupItem tag="a" href={this.state.categories} action>Home</ListGroupItem>
                     <ListGroupItem tag="a" href={this.state.categories} action>Movies and TV Shows</ListGroupItem>
                     <ListGroupItem tag="a" href={this.state.categories} action>Music</ListGroupItem>
+                    <ListGroupItem tag="a" href={this.state.categories} action>Office</ListGroupItem>
                     <ListGroupItem tag="a" href={this.state.categories} action>Software and Video Games</ListGroupItem>
                     <ListGroupItem tag="a" href={this.state.categories} action>Sports and Outdoors</ListGroupItem>
                     <ListGroupItem tag="a" href={this.state.categories} action>Toys and Games</ListGroupItem>
