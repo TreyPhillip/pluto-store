@@ -27,6 +27,8 @@ export class Login extends Component {
     let date = new Date();
     date.setHours(1);
     //testing loging functionality
+
+    console.log(this.state.email  + " " + this.state.password )
     axios.post("http://localhost:5000/authentication",{
       emailaddress: this.state.email,
       userpassword:this.state.password
