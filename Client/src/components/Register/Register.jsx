@@ -13,6 +13,7 @@ export class Register extends Component {
       firstName: "",
       lastName: "",
       phoneNumber: "",
+      address: "",
       validate: {
         emailState: ""
       }
@@ -114,6 +115,18 @@ export class Register extends Component {
               name="lastName"
               id="lastNameInput"
               value={lastName}
+              onChange={e => {
+                this.handleChange(e);
+              }}
+            />
+          </FormGroup>
+          <FormGroup>
+          <Label>Address *</Label>
+            <Input
+              type="text"
+              name="address"
+              id="addressInput"
+              value={shippingAddress}
               onChange={e => {
                 this.handleChange(e);
               }}
