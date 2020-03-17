@@ -11,7 +11,7 @@ export class Appliances extends Component {
     //pull data from the backend (database)
     componentDidMount() {
     var token = cookie.load("token");
-    fetch("http://localhost:5000/categories/appliances")
+    fetch("http://localhost:5000/Appliances")
       .then(res => res.json())
       .then(data => this.setState({ appliances: data }));
     }
