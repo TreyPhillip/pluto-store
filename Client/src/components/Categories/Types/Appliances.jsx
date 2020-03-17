@@ -17,7 +17,7 @@ export class Appliances extends Component {
     }
     render() {
         return (
-            <ProductList product={this.state.products} />
+            <ProductList product={this.state.appliances} />
         )
     }
 }
