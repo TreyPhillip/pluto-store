@@ -24,8 +24,6 @@ export class PrivateMenu extends Component {
     };
   }
 
-
-
   //click handler for logout
   logoutHandler(){
       cookie.remove('token');
@@ -55,6 +53,9 @@ export class PrivateMenu extends Component {
                 </NavItem>
                 <NavItem>
                 <NavLink href="/AddProduct" className="text-white">Add A Product</NavLink>
+                </NavItem>
+                <NavItem>
+                <NavLink href="/Account" className="text-white">Account</NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink href="/Categories" className="text-white">Categories</NavLink>

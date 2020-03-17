@@ -15,16 +15,20 @@ import { AddProduct } from '../components/Products/CreateProducts/product-listin
 import { PrivateMenu } from '../components/Navigation/PrivateMenu';
 import { Categories } from '../components/Categories/Categories';
 
-const PrivateRoute = ({ component: Component, isAuthenicated, ...rest }) => {
-	return (
-		<Route
-			{...rest}
-			render={(props) =>
-				//checks  if the the user is authenicated.
-				isAuthenicated ? <Component {...props} /> : <Redirect to="/login" />}
-		/>
+//Account page
+import {Account} from '../components/Account/Account';
+
+const PrivateRoute = ({component:Component, isAuthenicated,...rest}) =>{
+	return(
+	<Route {...rest} render={props =>
+	  //checks  if the the user is authenicated. 
+	  (isAuthenicated ?
+		<Component{...props}/>
+		:<Redirect to='/login'/>
+	  )}/>
 	);
-};
+  };
+
 export default class App extends Component {
 	constructor() {
 		super();
@@ -34,24 +38,14 @@ export default class App extends Component {
 		};
 	}
 
-	componentDidMount() {
-		var token = cookie.load('token');
-		//console.log("cookie: " + token);
-
-		if (token === undefined) {
-			this.setState({ status: false });
-		} else {
-			//validate the token.... if the token is valid, rendor the login navigates else render the guest view.
-			this.setState({ status: true });
-			// check if the token is valid and pulls the account information to be used.
-			axios
-				.post('http://localhost:5000/checkToken', {
-					tokenString: token
-					//save the account details in the state.
-				})
-				.then((res) => this.setState({ account: res }));
-		}
-	}
+	componentDidMount(){
+		var token = cookie.load("token");
+		axios.post("http://localhost:5000/checkToken",{
+		  tokenString:token
+		})
+		.then(res => this.setState({account:res, status:true}))
+		.catch(err => this.setState({status:false}))
+  };
 
 	static displayName = App.name;
 	//TODO: Solve Routing Problem in this file and NavMenu. (FINISHED)
@@ -61,7 +55,10 @@ export default class App extends Component {
 			<div>
 				{/* DO NOT DELETE THESE ROUTER TAGS */}
 				<BrowserRouter>
-					{!this.state.status ? <Layout /> : <PrivateMenu />}
+					{!this.state.status ?
+					<Layout/> :
+					<PrivateMenu/>}
+
 					<div>
 						<Route path="/Home" component={HomePage} />
 						<Route exact path="/" component={HomePage} />
@@ -70,6 +67,7 @@ export default class App extends Component {
 						<Route path="/Cart" component={Cart} />
 						<Route path="/Categories" component={Categories} />
 						<PrivateRoute path="/AddProduct" isAuthenicated={this.state.status} component={AddProduct} />
+						<PrivateRoute path='/Account' isAuthenicated={this.state.status} component={Account} Account={this.state.account}/>
 					</div>
 				</BrowserRouter>
 			</div>
