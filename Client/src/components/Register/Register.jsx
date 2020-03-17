@@ -52,6 +52,7 @@ export class Register extends Component {
       userName,
       firstName,
       lastName,
+      address,
       phoneNumber
     } = this.state;
     return (
@@ -126,7 +127,7 @@ export class Register extends Component {
               type="text"
               name="address"
               id="addressInput"
-              value={shippingAddress}
+              value={address}
               onChange={e => {
                 this.handleChange(e);
               }}
