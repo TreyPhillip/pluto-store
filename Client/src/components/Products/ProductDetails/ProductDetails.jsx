@@ -42,7 +42,7 @@ export class ProductDetails extends Component {
      //pull data from the backend (database)
      componentDidMount() {
         let productId = this.props.location.pathname.split('/').pop();
-        fetch("http://localhost:5000/" + "/details" + productId)
+        fetch("http://localhost:5000/" + "/details/" + productId)
         .then(res => res.json())
         .then(data => this.setState({ details: data }));
     }
