@@ -174,7 +174,7 @@ export class Register extends Component {
           <FormGroup>
             <Label>Phone Number</Label>
             <Input
-              type="phone"
+              type="text"
               name="phoneNumber"
               id="phoneNumberInput"
               value={phoneNumber}

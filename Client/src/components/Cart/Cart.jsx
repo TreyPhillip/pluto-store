@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Cart.css';
-import { Label, Button } from 'reactstrap';
+import { Container, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 
 export class Cart extends Component {
 	constructor(props) {
@@ -12,7 +12,7 @@ export class Cart extends Component {
 		};
 	}
 	componentDidMount() {
-		testAddToCart();
+		testAddToCart(this.state.productDetails);
 		console.log(this.state.cartItems);
 	}
 
@@ -39,6 +39,7 @@ export class Cart extends Component {
 									<Button color="danger" class="remove-product">
 										Remove
 									</Button>
+									
 								</div>
 								<div class="line-price">{'111'}</div>
 							</div>
@@ -54,8 +55,9 @@ export class Cart extends Component {
 		);
 	}
 }
+
 //debug purposes only, will be implemented in product detail page
-function testAddToCart() {
+function testAddToCart(productInfo) {
 	let cartItems = [];
 	var product = {
 		//productID: productInfo.productID
