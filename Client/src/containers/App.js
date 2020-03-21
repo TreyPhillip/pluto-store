@@ -67,7 +67,7 @@ export default class App extends Component {
 						<Route path="/Register" component={Register} />
 						<Route path="/Cart" component={Cart} />
 						<Route path="/Categories" component={Categories} />
-						<Route path="/Details/" component={ProductDetails} />
+						<Route path="/Details/:id" component={ProductDetails} />
 						<PrivateRoute path="/AddProduct" isAuthenicated={this.state.status} component={AddProduct} />
 						<PrivateRoute path='/Account' isAuthenicated={this.state.status} component={Account} Account={this.state.account}/>
 					</div>
