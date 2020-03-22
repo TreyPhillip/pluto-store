@@ -11,7 +11,7 @@ export  class Categories extends Component {
     }
      //pull data from the backend (database)
     componentDidMount() {
-        fetch("http://localhost:5000/categories")
+        fetch("http://localhost:5000/Categories")
         .then(res => res.json())
         .then(data => this.setState({ categories: data }));
     }

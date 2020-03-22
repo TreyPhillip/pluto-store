@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 import ProductList from '../../Products/ProductList/ProductList'
 
-export class home extends Component {
+export class Decor extends Component {
     constructor() {
         super();
         this.state = {
-          home: [],
+          decor: [],
         };
       }
     //pull data from the backend (database)
     componentDidMount() {
     var token = cookie.load("token");
-    fetch("http://localhost:5000/Home")
+    fetch("http://localhost:5000/Decor")
       .then(res => res.json())
-      .then(data => this.setState({ home: data }));
+      .then(data => this.setState({ decor: data }));
     }
     render() {
         return (
-            <ProductList product={this.state.home} />
+            <ProductList product={this.state.Decor} />
         )
     }
 }
