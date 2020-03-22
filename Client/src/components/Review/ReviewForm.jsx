@@ -49,7 +49,7 @@ export class ReviewForm extends Component {
                 <Form id='reviewForm' method='POST' onSubmit={this.handleSubmission}>
                     <h3>Leave a Review!</h3>
                     <select id='ratingValue' onChange={this.RatingHandler} onSubmit={this.handleSubmission}>
-                        <option selected value="1">1 Stars</option>
+                        <option selected value="1">1 Star</option>
                         <option value="2">2 Stars</option>
                         <option value="3">3 Stars</option>
                         <option value="4">4 Stars</option>
