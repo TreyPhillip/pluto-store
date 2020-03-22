@@ -17,8 +17,9 @@ router.get('/profile', (request,response,next) =>{
         }
     });
 });
-router.get('/profile/:id',(request,response,next) =>{
-    const id = parseInt(request.params.id);
+//send a body 
+router.post('/profile',(request,response,next) =>{
+    const {id} = request.body; 
 
     db_connection.query('SELECT * FROM profile WHERE profileid=$1',[id],
      (error, result) =>{
@@ -42,6 +43,9 @@ router.get('/lastRecord', (request,response,next) =>{
 //add a profile
 router.post('/profile/add', (request,response, next) =>{
     const{firstname,lastname,phonenumber} = request.body;
+
+    console.log(phonenumber);
+
     db_connection.query("INSERT INTO profile (firstname,lastname,phonenumber) VALUES($1,$2,$3)",
     [firstname,lastname,phonenumber], (error, result)=>{
         if(error){

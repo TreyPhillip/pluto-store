@@ -23,13 +23,12 @@ router.post("/authentication", (request, response, next) => {
     db_connection.query("SELECT * FROM account WHERE emailaddress = $1",
       [emailaddress], (error, result) => {
         //compare plaintext password with the stored hashed password
-   
+
         if(result.rowCount != 0){
         bcrypt.compare(userpassword, result.rows[0].userpassword, function( err,res) {
           if (res) {
-            //CREATE A TOKEN -----------------------------------------------
             //what the payloads is sent within the token
-            const payload = {emailaddress, accountid:result.rows[0].accountid};
+            const payload = {emailaddress, accountid:result.rows[0].accountid,profileid:result.rows[0].profileid,isverified:result.rows[0].isverified, username:result.rows[0].username};
             //signs the payload with the secert and sets the expiry date for 1 hour
             const token = jwt.sign(payload,secert,{
               expiresIn:'1h'
@@ -47,7 +46,6 @@ router.post("/authentication", (request, response, next) => {
     }); 
   }
 });
-
 
 //verify token======================================= check if a use has
 router.post("/checkToken", (request,response, next) => {
@@ -74,22 +72,16 @@ router.post("/checkToken", (request,response, next) => {
 ///=======================================================
 //Add a new account
 router.post("/account/register", (request, response, next) => {
-  const {
-    username,
-    emailaddress,
-    userpassword,
-    isverified,
-    profileid
-  } = request.body;
+  const { username, emailaddress, userpassword, isverified,profileid} = request.body;
   //encrypt the password
   var hash = bcrypt.hashSync(userpassword, saltCount);
-  console.log(hash);
+
   db_connection.query(
     "INSERT INTO account (username,userpassword,emailaddress,isverified,profileid) VALUES ($1,$2,$3,$4,$5)",
     [username, hash, emailaddress, isverified, profileid],
     (error, result) => {
       if (error) {
-        return next(error);
+        response.status(400).send(error);
       }
     }
   );
@@ -106,17 +98,22 @@ router.put("/account/update", (request, response, next) => {
   } = request.body;
   //encrypt the replacement password
   var hashedPassword = bcrypt.hashSync(userpassword, saltCount);
-
-  db_connection.query(
-    "UPDATE account SET userpassword = $1, username = $2, isverified = $3, profileid = $4 WHERE emailaddress = $5",
-    [hashedPassword, username, isverified, profileid, emailaddress],
-    (error, result) => {
-      if (error) {
-        return next(error);
+ //Validate the inputs
+  if(username && userpassword && emailaddress && isverified && profileid){
+    db_connection.query("UPDATE account SET userpassword = $1, username = $2, isverified = $3, profileid = $4 WHERE emailaddress = $5",
+      [hashedPassword, username, isverified, profileid, emailaddress],
+      (error, result) => {
+        if (error) {
+          response.status(400).json(error);
+        }
       }
-    }
-  );
-  response.status(200).send("Account information has been updated");
+    );
+    response.status(200).json("Account information has been updated");
+  }
+  else{
+    response.status(301).json("All fields are required");
+  }
+  
 });
 //delete an account
 router.delete("/account/delete", (request, response, next) => {
@@ -126,11 +123,11 @@ router.delete("/account/delete", (request, response, next) => {
     [accountid],
     (error, result) => {
       if (error) {
-        return next(error);
+        response.status(401).json('Error deleted account');
       }
     }
   );
-  response.status(200).send("Account has been deleted");
+  response.status(200).json("Account has been deleted");
 });
 
 module.exports = router;

@@ -1,21 +1,35 @@
 import React, { Component } from "react";
 import "./HomePage.css";
-import cookie from 'react-cookies';
-import axios from "axios";
 import { ProductList } from "../Products/ProductList/ProductList";
+//toast
+import {toast} from 'react-toastify';
 
-export class HomePage extends Component {
+//redux
+import {connect} from 'react-redux';
+ class HomePage extends Component {
   constructor() {
     super();
     this.state = {
       products: [],
     };
   }
-
   //pull data from the backend (database)
   componentDidMount() {
 
-    var token = cookie.load("token");
+
+    if(this.props.isAuthenticated){
+      //display toast!
+        toast('Successfully Logged in');
+    }
+    if(this.props.auth.isRegistered){
+        toast('Successfully Registered');
+    }
+    if(this.props.auth.isDeleted){
+      toast('Your account has be successfully Deleted')
+    }
+
+
+   
     fetch("http://localhost:5000/products")
       .then(res => res.json())
       .then(data => this.setState({ products: data }));
@@ -31,3 +45,11 @@ export class HomePage extends Component {
     );
   }
 }
+
+const mapStateToProps = state =>({
+  isAuthenticated: state.auth.isAuthenticated,
+  auth:state.auth,
+  error:state.error
+})
+
+export default connect(mapStateToProps,null)(HomePage);

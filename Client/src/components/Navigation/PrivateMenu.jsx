@@ -11,25 +11,33 @@ import {
 import cookie from 'react-cookies';
 import Logo from "../../assets/pluto-logo-dark.png";
 import "./NavMenu.css";
+import {toast} from 'react-toastify';
 
-export class PrivateMenu extends Component {
+//redux
+import { connect } from "react-redux";
+import {logout} from '../Actions/authAction';
+
+ class PrivateMenu extends Component {
   static displayName = PrivateMenu.name;
 
   constructor(props) {
     super(props);
-    this.logoutHandler = this.logoutHandler.bind(this);
-    this.toggleNavbar = this.toggleNavbar.bind(this);
+  
     this.state = {
       collapsed: true
     };
+
+    this.logoutHandler = this.logoutHandler.bind(this);
+    this.toggleNavbar = this.toggleNavbar.bind(this);
   }
 
   //click handler for logout
-  logoutHandler(){
-      cookie.remove('token');
-      window.location.reload();
+  logoutHandler =event =>{
+    console.log('hi')
+    event.preventDefault();
+    this.props.logout();
+    toast('Successfully Logged Out');
   }
-
   //Toggle for navbar collapsing
   toggleNavbar() {
     this.setState({
@@ -75,5 +83,6 @@ export class PrivateMenu extends Component {
       </header>
     );
   };
-
 };
+
+export default connect(null,{logout})(PrivateMenu);

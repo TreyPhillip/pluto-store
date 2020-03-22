@@ -3,7 +3,10 @@ import { Container, Form, FormGroup, Label, Input, Button } from "reactstrap";
 import "./Register.css";
 import axios from 'axios';
 
-export class Register extends Component {
+import {connect} from 'react-redux';
+import {register} from '../Actions/authAction';
+
+ class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,6 +24,7 @@ export class Register extends Component {
       status:false
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount(){
@@ -28,39 +32,42 @@ export class Register extends Component {
    .then(res =>res.json())
    .then(json => this.setState({profile: json}));
   }
+  componentWillReceiveProps(nextProps){
+    if(this.props.auth.isRegistered !== nextProps.auth.isRegistered ){
+        if(nextProps.auth.isRegistered === true){
+          this.props.history.push('/Home');
+        }
+     }
+  }
 
   handleSubmit = event => {
     event.preventDefault();
-
     //get the new profile id
-    let status = false;
     let newProfile_id = this.state.profile[0].profileid + 1;
     let response = false;
     //insert the new profile
-    let profile ={
-      firstname: this.state.firstName,
-      lastname: this.state.lastName,
-      phoneNumber: this.state.phoneNumber
-    }
-    if(this.state.firstName !== "" && this.state.lastname  !== ""  && this.state.phoneNumber  !== "" ){
-       response = addProfileRecord(profile);
-       console.log(response);
-    }
-    if(response === true){
-      //add the account record into the database
-        if(this.state.userName !=="" && this.state.lastName !== "" && this.state.userpassword !== "" && newProfile_id !== ""){
-        axios.post('http://localhost:5000/account/register', {
-            username: this.state.userName,
-            emailaddress: this.state.email,
-            userpassword: this.state.password,
-            isverified: true,
-            profileid: newProfile_id,
-        })
-        .then(final => this.props.history.replace('/'))
-        .then(res => window.location.reload())
-      }
-    }
-  };
+  //make sure the form is filled.    
+    if(this.state.firstName !== "" && this.state.lastname  !== ""  && this.state.phoneNumber  !== "" && 
+    this.state.userName !=="" && this.state.lastName !== "" && this.state.userpassword !== "" && newProfile_id !== "")
+    {
+        console.log(newProfile_id)
+        response = addProfileRecord(this.state.firstName,this.state.lastName,this.state.phoneNumber);
+        console.log(response);
+        if(response === true)
+        {
+            let username = this.state.userName;
+            let email = this.state.email;
+            let password = this.state.password;
+            let isverified = true
+            let profileid = newProfile_id
+
+
+            //TODO Validate the inputs - password    
+            //call the redux function
+            this.props.register(username,email,password,isverified,profileid);            
+        }
+      }   
+    };
 
   handleChange = async event => {
     const { target } = event;
@@ -70,7 +77,6 @@ export class Register extends Component {
       [name]: value
     });
   };
-
   validateEmail = e => {
     const emailRegEx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const { validate } = this.state;
@@ -83,7 +89,6 @@ export class Register extends Component {
   };
 
   render() {
-    console.log(this.state.status);
     const {
       email,
       password,
@@ -192,18 +197,29 @@ export class Register extends Component {
   }
 };
 
-  function addProfileRecord (profile_obj)
+  function addProfileRecord (firstName,lastName,phoneNumber)
   {
+
+    let result = true;
+
     try{
-      let  IsSuccessful = false;
-      axios.post("http://localhost:5000/profile/add",{
-          firstname: profile_obj.firstname,
-          lastname: profile_obj.lastname,
-          phonenumber: profile_obj.phonenumber
-      });
+        axios.post("http://localhost:5000/profile/add",{
+          firstname: firstName,
+          lastname: lastName,
+          phonenumber: phoneNumber
+      })
+      result = true;
     }
-    catch(err){
-      return false;
+    catch(error){
+      result = false;
     }
-    return true;
+       
+    return result;
   }
+
+  const mapStateToProps = state =>({
+    auth: state.auth,
+    error:state.error
+    })
+
+  export default connect(mapStateToProps, {register})(Register);

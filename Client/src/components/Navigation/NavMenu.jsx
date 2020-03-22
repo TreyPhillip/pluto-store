@@ -3,7 +3,7 @@ import { Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } f
 import Logo from '../../assets/pluto-logo-dark.png';
 import './NavMenu.css';
 
-export class NavMenu extends Component {
+ class NavMenu extends Component {
 	static displayName = NavMenu.name;
 
 	constructor(props) {
@@ -20,7 +20,12 @@ export class NavMenu extends Component {
 		});
 	}
 
+	componentDidMount(){
+		
+	}
+
 	render() {
+
 		return (
 			<header>
 				<Navbar color="primary" dark>
@@ -71,4 +76,8 @@ export class NavMenu extends Component {
 			</header>
 		);
 	}
+
 }
+
+export default (NavMenu);
+

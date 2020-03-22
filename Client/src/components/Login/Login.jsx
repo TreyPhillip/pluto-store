@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
-import { Container, Form, FormGroup, Label, Input, Button } from "reactstrap";
+import { Container, Form, FormGroup, Label, Input, Button,Toast } from "reactstrap";
 import Notification from "../Notification";
-import axios from "axios";
-import cookie from 'react-cookies';
 import "./Login.css";
-import { PrivateMenu } from "../Navigation/PrivateMenu";
+//redux
+import {connect} from 'react-redux';
+import {login} from '../Actions/authAction';
 
-export class Login extends Component {
+class Login extends Component {
 
   constructor(props) {
     super(props);
@@ -19,25 +19,20 @@ export class Login extends Component {
       }
     };
     this.handleChange = this.handleChange.bind(this);
-    
+  }
+  componentWillReceiveProps(nextProps){
+    if(this.props.isAuthenticated !== nextProps.isAuthenticated ){
+        if(nextProps.isAuthenticated === true){
+           this.props.history.push('/Home');
+        }
+     }
   }
 
   handleSubmit = event => {
     event.preventDefault();
-    let date = new Date();
-    date.setHours(1);
-    //testing loging functionality
-
-    console.log(this.state.email  + " " + this.state.password )
-    axios.post("http://localhost:5000/authentication",{
-      emailaddress: this.state.email,
-      userpassword:this.state.password
-    })
-    //save the token as a cookie
-    .then(res => cookie.save('token',res.data.token,{path: '/'}))
-    //redirects the user to the homepage
-    .then(final => this.props.history.replace('/'))
-    .then(res => window.location.reload());
+    //validate the email and password before sending it 
+    const{email,password} = this.state;
+    this.props.login(email,password);
   };
 
   handleChange = async event => {
@@ -100,3 +95,10 @@ export class Login extends Component {
     );
   }
 }
+//map stuff to the props
+const mapStateToProps = state =>({
+  isAuthenticated: state.auth.isAuthenticated,
+  error:state.error
+})
+
+export default connect(mapStateToProps,{login})(Login);
