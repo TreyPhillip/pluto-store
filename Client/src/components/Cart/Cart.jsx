@@ -31,7 +31,7 @@ export class Cart extends Component {
 						this.state.cartItems.map((item) => (
 							<div class="product">
 								<div class="details">
-									<div class="title">{item.productName}</div>
+									<div class="title">{item.productname}</div>
 								</div>
 								<div class="price">{item.price}</div>
 								{/* <div class="quantity">{item}</div> */}

@@ -25,7 +25,7 @@ export class ReviewForm extends Component {
         fetch("http://localhost:5000/reviews")
         .then(response => response.json())
         .then(data => this.setState({
-            ReviewList: data.filter(product => product.productId == productId)
+            ReviewList: data.filter(product => product.productid == productid)
         }));
     }
     RatingHandler(event) {

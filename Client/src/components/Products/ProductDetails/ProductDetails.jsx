@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Button, Container } from 'reactstrap';
-import './ProductDetails.css'
 
 function addElementToCart(product) {
     //create cart item
@@ -51,13 +50,15 @@ export class ProductDetails extends Component {
     render() {
         return (
             <Container className="productDetails">
+                <header>{this.state.productDetails.productname}</header>
                 <div className="addToCart">
                     {/* <img className="productImage" alt="product image"/> */}
                     <p className="price">${this.state.productDetails.price}</p>
-                    <Button className="btnAddToCart" onClick={() => { addElementToCart(this.state.productDetails) }}>Add to Cart</Button>
+                    <Button className="btnAddToCart" color='success' onClick={() => { addElementToCart(this.state.productDetails) }}>Add to Cart</Button>
                 </div>
+                <hr/>
                 <div className="description">
-                    <h2>{this.state.productDetails.productName} Details</h2>
+                    <h5>{this.state.productDetails.productname} Details</h5>
                     <p className="productDescription">{this.state.productDetails.description}</p>
                 </div>
             </Container>
