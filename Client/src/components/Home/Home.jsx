@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import "./HomePage.css";
+import "./Home.css";
 import { ProductList } from "../Products/ProductList/ProductList";
 //toast
 import {toast} from 'react-toastify';
 
 //redux
 import {connect} from 'react-redux';
- class HomePage extends Component {
+ class Home extends Component {
   constructor() {
     super();
     this.state = {
@@ -52,4 +52,4 @@ const mapStateToProps = state =>({
   error:state.error
 })
 
-export default connect(mapStateToProps,null)(HomePage);
+export default connect(mapStateToProps,null)(Home);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Redirect, Switch,Router } from 'react-router';
 import  Layout  from '../components/Layout';
-import  HomePage  from '../components/HomePage/HomePage';
+import  Home  from '../components/Home/Home';
 import  Login  from '../components/Login/Login';
 import Register from '../components/Register/Register';
 import Account from '../components/Account/Account';
@@ -48,8 +48,8 @@ toast.configure();
 						<div className="App">
 							<ToastContainer/>
 							<Switch>
-								<Route path="/HomePage" component={HomePage} />
-								<Route exact path="/" component={HomePage} />
+								<Route path="/Home" component={Home} />
+								<Route exact path="/" component={Home} />
 								<Route path="/Login" component={Login} />
 								<Route path="/Register" component={Register} />
 								<Route path="/Cart" component={Cart} />

@@ -36,7 +36,7 @@ import './NavMenu.css';
 					<Collapse isOpen={!this.state.collapsed} navbar>
 						<Nav navbar>
 							<NavItem>
-								<NavLink href="/HomePage" className="text-white">
+								<NavLink href="/Home" className="text-white">
 									Home
 								</NavLink>
 							</NavItem>
