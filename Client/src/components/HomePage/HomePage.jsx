@@ -30,7 +30,7 @@ import {connect} from 'react-redux';
 
 
    
-    fetch("http://localhost:5000/products")
+    fetch("http://localhost:5000/Products")
       .then(res => res.json())
       .then(data => this.setState({ products: data }));
   }

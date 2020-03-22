@@ -48,7 +48,7 @@ toast.configure();
 						<div className="App">
 							<ToastContainer/>
 							<Switch>
-								<Route path="/Home" component={HomePage} />
+								<Route path="/HomePage" component={HomePage} />
 								<Route exact path="/" component={HomePage} />
 								<Route path="/Login" component={Login} />
 								<Route path="/Register" component={Register} />
