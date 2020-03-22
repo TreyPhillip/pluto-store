@@ -29,7 +29,7 @@ const pool = new Pool({
 	user: 'postgres',
 	host: 'localhost',
 	database: 'PlutoDB',
-	password: 'BHXK7GNKR4',
+	password: 'Password123',
 	port: 5432
 });
 
