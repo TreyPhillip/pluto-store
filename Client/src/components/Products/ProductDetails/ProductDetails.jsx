@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from 'reactstrap';
+import { Button, Container } from 'reactstrap';
 import './ProductDetails.css'
 
 function addElementToCart(product) {
@@ -50,7 +50,7 @@ export class ProductDetails extends Component {
     }
     render() {
         return (
-            <div className="productDetails">
+            <Container className="productDetails">
                 <div className="addToCart">
                     {/* <img className="productImage" alt="product image"/> */}
                     <p className="price">${this.state.productDetails.price}</p>
@@ -60,7 +60,7 @@ export class ProductDetails extends Component {
                     <h2>{this.state.productDetails.productName} Details</h2>
                     <p className="productDescription">{this.state.productDetails.description}</p>
                 </div>
-            </div>
+            </Container>
         )
     }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { ReviewList } from './ReviewList'
+import { Form, Container } from 'reactstrap';
 
 export class ReviewForm extends Component {
     constructor(props) {
@@ -40,5 +41,13 @@ export class ReviewForm extends Component {
 
     handleSubmission(event) {
         event.preventDefault();
+    }
+
+    render() {
+        return(
+            <Container className='reviewWrapper'>
+                <Form></Form>
+            </Container>
+        )
     }
 }

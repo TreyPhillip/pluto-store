@@ -1,9 +1,9 @@
 import React from 'react'
-import { ListGroup, ListGroupItem, ListGroupItemHeading } from 'reactstrap'
+import { ListGroup, ListGroupItem, ListGroupItemHeading, Container } from 'reactstrap'
 
 export const ReviewList = props => {
     return (
-        <div className="reviewList">
+        <Container className="reviewList">
             <ListGroup>
                 <ListGroupItem>
                     <ListGroupItemHeading>
@@ -16,6 +16,6 @@ export const ReviewList = props => {
                     </ListGroupItemText>
                 </ListGroupItem>
             </ListGroup>
-        </div>
+        </Container>
     );
 };

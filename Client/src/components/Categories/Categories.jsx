@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Categories.css';
-import { ListGroup, ListGroupItem, Button } from 'reactstrap';
+import { ListGroup, ListGroupItem, Container } from 'reactstrap';
 
 export  class Categories extends Component {
     constructor() {
@@ -17,7 +17,7 @@ export  class Categories extends Component {
     }
     render() {
         return (
-            <div>
+            <Container>
                 <ListGroup flush>
                     <ListGroupItem tag="a" href="/Appliances" action>Appliances</ListGroupItem>
                     <ListGroupItem tag="a" href="/Automotive" action>Automotive</ListGroupItem>
@@ -36,7 +36,7 @@ export  class Categories extends Component {
                     <ListGroupItem tag="a" href="/Sports" action>Sports</ListGroupItem>
                     <ListGroupItem tag="a" href="/Toys" action>Toys and Games</ListGroupItem>
                 </ListGroup>
-            </div>
+            </Container>
         );
     }
 }
