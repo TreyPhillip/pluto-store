@@ -205,8 +205,8 @@ import {deleteAccount,deleteProfile,updateAccount,updateProfile} from '../Action
                   }}
                 />
               </FormGroup>
-              <Button onClick={this.validateForm} type="submit">Save</Button>
-              <Button onClick={this.onDelete} type="button">Delete</Button>
+              <Button onClick={this.validateForm} type="submit" color='success'>Save</Button>
+              <Button onClick={this.onDelete} type="button" color='danger'>Delete</Button>
             </Form>
           </Container>
         );
