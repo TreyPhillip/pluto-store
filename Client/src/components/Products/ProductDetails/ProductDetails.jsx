@@ -44,7 +44,7 @@ function addElementToCart(product) {
     var product = {
         productId: product.productid,
         productName: product.productname,
-        price: product.productprice,
+        price: product.price,
         quantity: 1,
         total: product.price * product.quantity
     };
