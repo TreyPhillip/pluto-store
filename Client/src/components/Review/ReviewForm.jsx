@@ -41,7 +41,52 @@ export class ReviewForm extends Component {
 
     handleSubmission(event) {
         event.preventDefault();
+        
+    //data being saved
+    if (profile != null) {
+
+        profile = profile[2].split(',');
+
+         data = {
+            AccountId: profile[0],
+            GameId: this.props.productId,
+            ReviewInfo: this.state.Review,
+            RatingValue: parseInt(this.state.Rating)
+        };
     }
+    else {
+        data = {
+          
+            AccountId: 'Guest',
+            GameId: this.props.productId,
+            ReviewInfo: this.state.Review,
+            RatingValue: parseInt(this.state.Rating)
+        };
+        console.log(data);
+    }
+    //config the header
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    ////post request to the backend----
+    axios.post("http://localhost:5000/reviews", JSON.stringify(data), config).then(res => {
+    alert('Your review has successfully been added.');
+    });
+
+}
+
+calculateAverage() {
+    let reviewList = this.state.ReviewList;
+    var result = 0;
+
+    for (var i = 0; i < reviewList.length; i++) {
+        result += reviewList[i].ratingValue;
+    }
+    return (result / reviewList.length).toFixed(2);
+}
 
     render() {
         return(
