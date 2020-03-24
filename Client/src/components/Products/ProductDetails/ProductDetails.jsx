@@ -1,52 +1,24 @@
 import React, { Component } from 'react';
 import { Button, Container } from 'reactstrap';
 
-function addElementToCart(product) {
-    //create cart item
-    // let cartProducts = [];
-    // var product = {
-    //     productId: product.productid,
-    //     productName: product.productname,
-    //     price: product.productprice,
-    //     quantity: 1,
-    //     total: product.price * product.quantity
-    // };
-    // console.log(product.productName)
-
-    // if (sessionStorage.getItem('cart')) {
-    //     cartProducts = JSON.parse(sessionStorage.getItem('cart'));
-
-    //     for (var i = 0; i < cartProducts.length; i++) {
-    //         if (cartProducts[i].productId == product.productId) {
-    //             exist = true;
-    //             break;
-    //         }
-    //     }
-    // }
-    // else {
-    //     //add the current item onto the cart list.
-    //     cartProducts.push(item);
-    //     //save the cart element to local storage where it can be extracted later
-    //     sessionStorage.setItem("cart", JSON.stringify(cartProducts));
-    // }
-};
-
 export class ProductDetails extends Component {
     constructor() {
         super();
         this.state = {
             isAdd: false,
-            productDetails: []
+            productDetails: [],
+            cartItems: []
         };
     }
      //pull data from the backend (database)
      componentDidMount() {
-        //let productId = this.props.location.pathname.split('/').pop();
-        fetch("http://localhost:5000/products/1")
+        let productId = this.props.location.pathname.split('/').pop();
+        fetch("http://localhost:5000/products/" + productId)
         .then(res => res.json())
-        .then(data => this.setState({ productDetails: data }))
+        .then(data => this.setState({ productDetails: data[0] }))
         .then(data => console.log(data));
     }
+    
     render() {
         return (
             <Container className="productDetails">
@@ -65,4 +37,46 @@ export class ProductDetails extends Component {
         )
     }
 }
+
+function addElementToCart(product) {
+    //create cartitem
+    let cartItems = [];
+    var product = {
+        productId: product.productid,
+        productName: product.productname,
+        price: product.productprice,
+        quantity: 1,
+        total: product.price * product.quantity
+    };
+    console.log(product.productName)
+
+    var exist = false
+
+    if (sessionStorage.getItem('cart')) {
+        cartItems = JSON.parse(sessionStorage.getItem('cart'));
+
+        for (var i = 0; i < cartItems.length; i++) {
+            if (cartItems[i].productId == product.productId) {
+                exist = true;
+                break;
+            }
+        }
+
+        if (exist) {
+            alert("You already added this item on the list");
+        }
+        else {
+            //add the current item onto the cart list.
+            cartItems.push(product);
+            //save the cart element to local storage where it can be extracted later
+            sessionStorage.setItem("cart", JSON.stringify(cartItems));
+        }
+    }
+    else {
+        //add the current item onto the cart list.
+        cartItems.push(product);
+        //save the cart element to local storage where it can be extracted later
+        sessionStorage.setItem("cart", JSON.stringify(cartItems));
+    }
+};
 

@@ -7,12 +7,15 @@ export class Cart extends Component {
 		super(props);
 		this.state = {
 			cartItems: JSON.parse(sessionStorage.getItem('cart')),
-			productDetails: []
-			//cartItems: []
+			productDetails: [],
+			productId: this.props.itemID,
+			productName: this.props.itemName,
+			price: this.props.price
 		};
 	}
+	
 	componentDidMount() {
-		testAddToCart(this.state.productDetails);
+		//testAddToCart(this.state.productDetails);
 		console.log(this.state.cartItems);
 	}
 
@@ -21,7 +24,7 @@ export class Cart extends Component {
 			<div>
 				<div class="shopping-cart">
 					<div class="column-labels">
-						<Label className="details">Item</Label>
+						<Label className="name">Name</Label>
 						<Label className="price">Price</Label>
 						<Label className="removal">Remove</Label>
 						<Label className="line-price">Total</Label>
@@ -30,13 +33,15 @@ export class Cart extends Component {
 					{this.state.cartItems &&
 						this.state.cartItems.map((item) => (
 							<div class="product">
-								<div class="details">
-									<div class="title">{item.productname}</div>
+								<div class="name">
+									<div class="title">{item.productName}</div>
 								</div>
 								<div class="price">{item.price}</div>
 								{/* <div class="quantity">{item}</div> */}
 								<div class="removal">
-									<Button color="danger" class="remove-product">
+									<Button color="danger" 
+									class="remove-product" 
+									onClick={() => remove(item.productID)}>
 										Remove
 									</Button>
 									
@@ -49,11 +54,23 @@ export class Cart extends Component {
 					<Button color="success" className="checkout">
 						Checkout
 					</Button>
-					{/* </Link> */}
+					{/* </Link>*/}
 				</div>
 			</div>
 		);
 	}
+}
+
+function remove(productId) {
+    var cart = JSON.parse(sessionStorage.getItem('cart'));
+
+    for (var i = 0; i < cart.length; i++) {
+        if (cart[i].itemID == productId) {
+            cart.splice(i, 1);
+        }
+    }
+    sessionStorage.setItem('cart', JSON.stringify(cart));
+    window.location.reload();
 }
 
 //debug purposes only, will be implemented in product detail page
