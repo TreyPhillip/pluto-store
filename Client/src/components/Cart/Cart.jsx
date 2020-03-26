@@ -10,55 +10,62 @@ export class Cart extends Component {
 			productDetails: [],
 			productId: this.props.itemID,
 			productName: this.props.itemName,
-			price: this.props.price
+			description: this.props.description,
+			price: this.props.price,
+			linePrice: 0
 		};
 	}
 	
 	componentDidMount() {
 		//testAddToCart(this.state.productDetails);
 		console.log(this.state.cartItems);
+		
 	}
 
 	render() {
 		return (
 			<div>
 				<div class="shopping-cart">
-					<div class="column-labels">
-						<Label className="name">Name</Label>
-						<Label className="price">Price</Label>
-						<Label className="removal">Remove</Label>
-						<Label className="line-price">Total</Label>
-					</div>
-
-					{this.state.cartItems &&
-						this.state.cartItems.map((item) => (
-							<div class="product">
-								<div class="name">
-									<div class="title">{item.productName}</div>
-								</div>
-								<div class="price">{item.price}</div>
-								{/* <div class="quantity">{item}</div> */}
-								<div class="removal">
-									<Button color="danger" 
-									class="remove-product" 
-									onClick={() => remove(item.productID)}>
-										Remove
-									</Button>
-									
-								</div>
-								<div class="line-price">{'111'}</div>
+				<div class="column-labels">
+					<label class="product-image">Image</label>
+					<label class="product-details">Product</label>
+					<label class="product-price">Price</label>
+					<label class="product-quantity">Quantity</label>
+					<label class="product-removal">Remove</label>
+					<label class="product-line-price">Total</label>
+  				</div>
+						{this.state.cartItems &&
+							this.state.cartItems.map((item) => (							
+							<div>
+								<div class="product">
+									<div class="product-image">
+										<img src="https://homepages.cae.wisc.edu/~ece533/images/watch.png"></img>
+									</div>
+									<div class="product-details">
+										<div class="product-title">{item.productName}</div>
+										<p class="product-description">{item.description}</p>
+									</div>
+									<div class="product-price">{item.price}</div>
+									<div class="product-quantity">
+									<input type="number" defaultValue="1" min="1"></input>
+									</div>
+									<div class="product-removal">
+										<button class="remove-product">
+											Remove
+										</button>
+									</div>
+							<div class="product-line-price">{item.price * item.quantity}</div>
+								</div>			
 							</div>
-						))}
-
-					{/* <Link to="/"> */}
-					<Button color="success" className="checkout">
-						Checkout
-					</Button>
-					{/* </Link>*/}
-				</div>
-			</div>
+						))}		
+				</div>	
+			</div>																
 		);
 	}
+}
+function getLinePrice(price, quantity){
+
+	return price * quantity
 }
 
 function remove(productId) {
