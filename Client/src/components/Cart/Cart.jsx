@@ -50,9 +50,9 @@ export class Cart extends Component {
 									<input type="number" defaultValue="1" min="1"></input>
 									</div>
 									<div class="product-removal">
-										<button class="remove-product">
+										<Button color="danger" class="remove-product">
 											Remove
-										</button>
+										</Button>
 									</div>
 							<div class="product-line-price">{item.price * item.quantity}</div>
 								</div>			
