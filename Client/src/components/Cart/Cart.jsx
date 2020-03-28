@@ -50,7 +50,7 @@ export class Cart extends Component {
 									<input type="number" defaultValue="1" min="1"></input>
 									</div>
 									<div class="product-removal">
-										<Button color="danger" class="remove-product">
+										<Button color="danger" class="remove-product" onClick={() => { remove(item.itemID) }}>
 											Remove
 										</Button>
 									</div>
