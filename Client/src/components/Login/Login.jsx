@@ -1,9 +1,14 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
-import { Container, Form, FormGroup, Label, Input, Button } from "reactstrap";
+import { Container, Form, FormGroup, Label, Input, Button,Toast } from "reactstrap";
+import Notification from "../Notification";
 import "./Login.css";
+//redux
+import {connect} from 'react-redux';
+import {login} from '../Actions/authAction';
 
-export class Login extends Component {
+class Login extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -15,9 +20,19 @@ export class Login extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
   }
+  componentWillReceiveProps(nextProps){
+    if(this.props.isAuthenticated !== nextProps.isAuthenticated ){
+        if(nextProps.isAuthenticated === true){
+           this.props.history.push('/Home');
+        }
+     }
+  }
 
   handleSubmit = event => {
     event.preventDefault();
+    //validate the email and password before sending it 
+    const{email,password} = this.state;
+    this.props.login(email,password);
   };
 
   handleChange = async event => {
@@ -71,12 +86,19 @@ export class Login extends Component {
               onChange={e => this.handleChange(e)}
             />
           </FormGroup>
-          <Button onClick={this.validateForm} type="submit">
+          <Button className="btn btn-primary" color="primary" dark onClick={this.validateForm, <Notification {...email}/> } type="submit">
             Login
           </Button>
-		<p>Don't have an account? <Link to='/Register'>Register Here</Link></p>
+		<p>Don't have an account?<Link className="btn btn-link" to='/Register'>Register Here</Link></p>
         </Form>
       </Container>
     );
   }
 }
+//map stuff to the props
+const mapStateToProps = state =>({
+  isAuthenticated: state.auth.isAuthenticated,
+  error:state.error
+})
+
+export default connect(mapStateToProps,{login})(Login);

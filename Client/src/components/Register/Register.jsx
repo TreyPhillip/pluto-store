@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 import { Container, Form, FormGroup, Label, Input, Button } from "reactstrap";
 import "./Register.css";
+import axios from 'axios';
 
-export class Register extends Component {
+import {connect} from 'react-redux';
+import {register} from '../Actions/authAction';
+
+ class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,16 +16,58 @@ export class Register extends Component {
       firstName: "",
       lastName: "",
       phoneNumber: "",
+      address: "",
       validate: {
         emailState: ""
-      }
+      },
+      profile:[],
+      status:false
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount(){
+    fetch('http://localhost:5000/lastRecord')
+   .then(res =>res.json())
+   .then(json => this.setState({profile: json}));
+  }
+  componentWillReceiveProps(nextProps){
+    if(this.props.auth.isRegistered !== nextProps.auth.isRegistered ){
+        if(nextProps.auth.isRegistered === true){
+          this.props.history.push('/Home');
+        }
+     }
   }
 
   handleSubmit = event => {
     event.preventDefault();
-  };
+    //get the new profile id
+    let newProfile_id = this.state.profile[0].profileid + 1;
+    let response = false;
+    //insert the new profile
+  //make sure the form is filled.    
+    if(this.state.firstName !== "" && this.state.lastname  !== ""  && this.state.phoneNumber  !== "" && 
+    this.state.userName !=="" && this.state.lastName !== "" && this.state.userpassword !== "" && newProfile_id !== "")
+    {
+        console.log(newProfile_id)
+        response = addProfileRecord(this.state.firstName,this.state.lastName,this.state.phoneNumber);
+        console.log(response);
+        if(response === true)
+        {
+            let username = this.state.userName;
+            let email = this.state.email;
+            let password = this.state.password;
+            let isverified = true
+            let profileid = newProfile_id
+
+
+            //TODO Validate the inputs - password    
+            //call the redux function
+            this.props.register(username,email,password,isverified,profileid);            
+        }
+      }   
+    };
 
   handleChange = async event => {
     const { target } = event;
@@ -31,7 +77,6 @@ export class Register extends Component {
       [name]: value
     });
   };
-
   validateEmail = e => {
     const emailRegEx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const { validate } = this.state;
@@ -50,6 +95,7 @@ export class Register extends Component {
       userName,
       firstName,
       lastName,
+      address,
       phoneNumber
     } = this.state;
     return (
@@ -119,9 +165,21 @@ export class Register extends Component {
             />
           </FormGroup>
           <FormGroup>
+          <Label>Address *</Label>
+            <Input
+              type="text"
+              name="address"
+              id="addressInput"
+              value={address}
+              onChange={e => {
+                this.handleChange(e);
+              }}
+            />
+          </FormGroup>
+          <FormGroup>
             <Label>Phone Number</Label>
             <Input
-              type="phone"
+              type="text"
               name="phoneNumber"
               id="phoneNumberInput"
               value={phoneNumber}
@@ -137,4 +195,31 @@ export class Register extends Component {
       </Container>
     );
   }
-}
+};
+
+  function addProfileRecord (firstName,lastName,phoneNumber)
+  {
+
+    let result = true;
+
+    try{
+        axios.post("http://localhost:5000/profile/add",{
+          firstname: firstName,
+          lastname: lastName,
+          phonenumber: phoneNumber
+      })
+      result = true;
+    }
+    catch(error){
+      result = false;
+    }
+       
+    return result;
+  }
+
+  const mapStateToProps = state =>({
+    auth: state.auth,
+    error:state.error
+    })
+
+  export default connect(mapStateToProps, {register})(Register);

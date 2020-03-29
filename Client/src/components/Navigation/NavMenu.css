@@ -1,35 +1,35 @@
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+	white-space: normal;
+	text-align: center;
+	word-break: break-all;
 }
 
 html {
-  font-size: 14px;
+	font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+	html {
+		font-size: 16px;
+	}
 }
 
 .plutoLogo {
-  width: 40px;
-  height: 50px;
-  background-color: inherit;
+	width: 40px;
+	height: 50px;
+	background-color: inherit;
 }
 
 .storeSearch {
-  align-items: center;
-  background-color: lightgrey;
-  border-radius: 10px;
-  color: black;
-  display: flex;
-  font-weight: bold;
-  height: 40px;
-  text-align: center;
+	align-items: center;
+	background-color: lightgrey;
+	border-radius: 10px;
+	color: black;
+	display: flex;
+	font-weight: bold;
+	height: 40px;
+	text-align: center;
 }
 #hamburger {
-  background-color: blue;
+	background-color: blue;
 }

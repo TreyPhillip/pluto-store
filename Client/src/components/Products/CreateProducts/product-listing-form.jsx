@@ -3,7 +3,12 @@ import "./list_product_style.css";
 import { FormGroup } from "reactstrap";
 import axios from "axios";
 
-export class AddProduct extends Component {
+import {connect} from 'react-redux';
+import {loadUser} from '../../Actions/authAction'
+import {toast} from 'react-toastify';
+
+
+ class AddProduct extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,25 +24,27 @@ export class AddProduct extends Component {
     fetch("http://localhost:5000/product/category")
       .then(res => res.json())
       .then(data => this.setState({ product_category: data }));
+
+      this.props.loadUser();
+  
   }
 
   handleSubmit = event => {
-
+   // console.log(this.props.Auth.user.decoded.profileid)
     let product_obj ={};
     if(isNaN(this.price.value) === false){
-        
-         product_obj = {
-          productname: this.productname.value,
-          categoryid: this.category_sel.value,
-          sellerid: this.seller_id.value,
-          price: this.price.value,
-          description: this.description.value
-        };
-        CreateAProduct(product_obj);
-    }
-    else{
-      alert("Price needs to be a number");
-    }
+      product_obj = {
+       productname: this.productname.value,
+       categoryid: this.category_sel.value,
+       sellerid: this.props.Auth.user.decoded.profileid,
+       price: this.price.value,
+       description: this.description.value
+     };
+     CreateAProduct(product_obj);
+ }
+ else{
+   toast("Price needs to be a number");
+ }
 
     //validation------------
     //----------------------
@@ -58,7 +65,6 @@ export class AddProduct extends Component {
               ref={data => (this.productname = data)}
               required  />
           </FormGroup>
-
           <FormGroup>
             <label>Product Category:</label>
             <select
@@ -74,16 +80,6 @@ export class AddProduct extends Component {
               })}
             </select>
           </FormGroup>
-
-          <FormGroup>
-            <label>Seller account: </label>
-            <input
-              type="number"
-              name="product name"
-              ref={seller_id => (this.seller_id = seller_id)}
-              required  />
-          </FormGroup>
-
           <FormGroup>
             <label>Price: </label>
             <input
@@ -92,7 +88,6 @@ export class AddProduct extends Component {
               ref={price => (this.price = price)}
               required />
           </FormGroup>
-
           <FormGroup>
             <label>Description: </label>
             <textarea
@@ -100,13 +95,18 @@ export class AddProduct extends Component {
               ref={description => (this.description = description)}
            required />
           </FormGroup>
-
           <input type="submit" value="Submit"></input>
         </form>
       </div>
     );
   }
 }
+
+const mapStateToProps = state =>({
+  Auth: state.auth,
+  error:state.error
+})
+
 
 export function CreateAProduct(data) {
   const config = {
@@ -121,3 +121,4 @@ export function CreateAProduct(data) {
   //redirects the view to display the games
   return window.location.reload();
 }
+export default connect(mapStateToProps, {loadUser})(AddProduct);
