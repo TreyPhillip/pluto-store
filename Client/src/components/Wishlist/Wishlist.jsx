@@ -18,7 +18,7 @@ export  class Wishlist extends Component {
     render() {
         return (
             <ListGroup flush>
-                <ListGroupItem>${ProductDetails.productname}</ListGroupItem>
+                <ListGroupItem>{ProductDetails.productname}</ListGroupItem>
             </ListGroup>
         );
     }
