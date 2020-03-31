@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Container } from 'reactstrap';
 import axios from 'axios'
+import { ReviewForm } from '../../Review/ReviewForm';
 
 export class ProductDetails extends Component {
     constructor() {
@@ -37,6 +38,7 @@ export class ProductDetails extends Component {
                     <h5>{this.state.productDetails.productname} Description</h5>
                     <p className="productDescription">{this.state.productDetails.description}</p>
                 </div>
+                <ReviewForm/>
             </Container>
         )
     }

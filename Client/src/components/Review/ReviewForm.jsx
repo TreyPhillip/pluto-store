@@ -25,7 +25,7 @@ export class ReviewForm extends Component {
         fetch("http://localhost:5000/reviews")
         .then(response => response.json())
         .then(data => this.setState({
-            ReviewList: data.filter(product => product.productid == productid)
+            ReviewList: data.filter(product => product.productId == productId)
         }));
     }
     RatingHandler(event) {
@@ -43,13 +43,15 @@ export class ReviewForm extends Component {
         event.preventDefault();
         
     //data being saved
+    //let profile = 
+
     if (profile != null) {
 
         profile = profile[2].split(',');
 
          data = {
             AccountId: profile[0],
-            GameId: this.props.productId,
+            ProductId: this.props.productId,
             ReviewInfo: this.state.Review,
             RatingValue: parseInt(this.state.Rating)
         };
@@ -58,7 +60,7 @@ export class ReviewForm extends Component {
         data = {
           
             AccountId: 'Guest',
-            GameId: this.props.productId,
+            ProductId: this.props.productId,
             ReviewInfo: this.state.Review,
             RatingValue: parseInt(this.state.Rating)
         };
