@@ -10,33 +10,17 @@ export class Electronics extends Component {
         };
       }
     //pull data from the backend (database)
-    componentDidMount() {
-    var token = cookie.load("token");
-    fetch("http://localhost:5000/Electronics")
-      .then(res => res.json())
-      .then(data => this.setState({
-        ItemList: data.filter(product => product.productid == productid)}));
-    }
-
-    saveData(){
-      let data = {};
-      data = {
-        productId: this.props.productid                              
+     //pull data from the backend (database)
+     componentDidMount() {
+      var token = cookie.load("token");
+      fetch("http://localhost:5000/Products")
+      .then(res =>res.json())
+      .then(data =>this.setState({products:data
+      .filter(item=>item.categoryid == categoryid) }));
       }
-      //config the header
-      const config = {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-      };
-    }    
-    render() {
-        return (
-          <Container>
-            {this.state.Electronics.map(electronics => (
-              <ProductList key={product.productId} product={product} />
-            ))}
-          </Container>
-        )
-    }
+      render() {
+          return (
+              <ProductList product={this.state.electronics} />
+          )
+      }
 }

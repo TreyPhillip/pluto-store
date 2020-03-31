@@ -11,9 +11,10 @@ export class Books extends Component {
     //pull data from the backend (database)
     componentDidMount() {
     var token = cookie.load("token");
-    fetch("http://localhost:5000/Books")
-      .then(res => res.json())
-      .then(data => this.setState({ books: data }));
+    fetch("http://localhost:5000/Products")
+    .then(res =>res.json())
+    .then(data =>this.setState({products:data
+    .filter(item=>item.categoryid == categoryid) }));
     }
     render() {
         return (
