@@ -93,4 +93,17 @@ router.delete("/products/delete", (request, response, next) => {
   );
 });
 
+//get products by 
+router.get('/getAllProductsByCategory/:id', (request, response) =>{
+  const id = parseInt(request.params.id);
+
+    db_connection.query('SELECT * FROM products WHERE categoryid =$1',
+      [id], (error,results) =>{
+        if(error){
+          return response.status(404).json('No product with the provided category');
+        }
+        response.status(200).json(results.rows);
+      }
+    )
+});
 module.exports = router;
