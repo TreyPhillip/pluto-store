@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./list_product_style.css";
-import { FormGroup } from "reactstrap";
+import { Container, Form, FormGroup, Label, Input, Button,Toast } from "reactstrap";
 import axios from "axios";
 
 import {connect} from 'react-redux';
@@ -13,11 +13,18 @@ import {toast} from 'react-toastify';
     super(props);
     this.state = {
       product_category: [],
-      seller_information: []
+      seller_information: [],
+      productName: "",
+      categoryid: "",
+      sellerid: "",
+      price: "",
+      description: ""
     };
     //Click Handler for the submit
 
+    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.validateForm  = this.validateForm.bind(this);
   }
 
   componentDidMount() {
@@ -28,21 +35,40 @@ import {toast} from 'react-toastify';
       this.props.loadUser();
   
   }
+  validateForm = (price) => {
+    const priceRegex = /^^\d+(?:[.,]\d+)*$/
+    if (priceRegex.test(price)){
+        return true
+    }
+    else {
+      return false;     
+    }
+  }
+
+  handleChange = async event => {
+    const { target } = event;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const { name } = target;
+    await this.setState({
+      [name]: value
+    });
+  };
 
   handleSubmit = event => {
    // console.log(this.props.Auth.user.decoded.profileid)
+   console.log(this.state.price);
     let product_obj ={};
-    if(isNaN(this.price.value) === false){
+    if(this.validateForm(this.state.price) == true){
       product_obj = {
-       productname: this.productname.value,
+       productname: this.state.productName,
        categoryid: this.category_sel.value,
        sellerid: this.props.Auth.user.decoded.profileid,
-       price: this.price.value,
-       description: this.description.value
+       price: parseInt(this.state.price),
+       description: this.state.description
      };
      CreateAProduct(product_obj);
- }
- else{
+    }
+    else{
    toast("Price needs to be a number");
  }
 
@@ -54,19 +80,22 @@ import {toast} from 'react-toastify';
   };
 
   render() {
+    const { productName, category, price, description } = this.state;
     return (
-      <div className="product-form">
-        <form onSubmit={this.handleSubmit}>
+      <Container className="product-form">
+        <Form onSubmit={this.handleSubmit}>
           <FormGroup>
-            <label>Product Name: </label>
-            <input
+            <Label>Product Name: </Label>
+            <Input
               type="text"
-              name="product_name"
-              ref={data => (this.productname = data)}
+              name="productName"
+              id="productNameInput"
+              value={productName}
+              onChange={e => this.handleChange(e)}
               required  />
           </FormGroup>
           <FormGroup>
-            <label>Product Category:</label>
+            <Label>Product Category:</Label>
             <select
               className="form-control "
               ref={category_sel => (this.category_sel = category_sel)}
@@ -81,23 +110,29 @@ import {toast} from 'react-toastify';
             </select>
           </FormGroup>
           <FormGroup>
-            <label>Price: </label>
-            <input
+            <Label>Price: </Label>
+            <Input
               type="text"
-              name="product name"
-              ref={price => (this.price = price)}
+              name="price"
+              id="priceInput"
+              value={price}
+              onChange={e => this.handleChange(e)}
               required />
           </FormGroup>
           <FormGroup>
-            <label>Description: </label>
+            <Label>Description: </Label><br></br>
             <textarea
+              rows="4" 
+              cols="50"
               name="description"
-              ref={description => (this.description = description)}
+              id="descriptionId"
+              value={description}
+              onChange={e => this.handleChange(e)}
            required />
           </FormGroup>
-          <input type="submit" value="Submit"></input>
-        </form>
-      </div>
+          <Input type="submit" value="Submit"></Input>
+        </Form>
+        </Container>
     );
   }
 }

@@ -8,8 +8,8 @@ export class Cart extends Component {
 		this.state = {
 			cartItems: JSON.parse(sessionStorage.getItem('cart')),
 			productDetails: [],
-			productId: this.props.itemID,
-			productName: this.props.itemName,
+			productId: this.props.productID,
+			productName: this.props.productName,
 			description: this.props.description,
 			price: this.props.price,
 			linePrice: 0
@@ -19,7 +19,7 @@ export class Cart extends Component {
 	componentDidMount() {
 		//testAddToCart(this.state.productDetails);
 		console.log(this.state.cartItems);
-		
+		console.log(sessionStorage.getItem('cart'));
 	}
 
 	render() {
@@ -50,7 +50,7 @@ export class Cart extends Component {
 									<input type="number" defaultValue="1" min="1"></input>
 									</div>
 									<div class="product-removal">
-										<Button color="danger" class="remove-product" onClick={() => { remove(item.itemID) }}>
+										<Button color="danger" class="remove-product" onClick={() => { remove(item.productID) }}>
 											Remove
 										</Button>
 									</div>
@@ -58,6 +58,22 @@ export class Cart extends Component {
 								</div>			
 							</div>
 						))}		
+						  <div class="totals">
+    <div class="totals-item">
+      <label>Subtotal</label>
+      <div class="totals-value" id="cart-subtotal">99.00</div>
+    </div>
+    <div class="totals-item">
+      <label>Shipping</label>
+      <div class="totals-value" id="cart-shipping">15.00</div>
+    </div>
+    <div class="totals-item totals-item-total">
+      <label>Grand Total</label>
+      <div class="totals-value" id="cart-total">114.00</div>
+    </div>
+  </div>
+      
+      <button class="checkout">Checkout</button>
 				</div>	
 			</div>																
 		);
@@ -80,7 +96,7 @@ function remove(productId) {
     window.location.reload();
 }
 
-//debug purposes only, will be implemented in product detail page
+//debug purposes only, implemented in product detail page
 function testAddToCart(productInfo) {
 	let cartItems = [];
 	var product = {

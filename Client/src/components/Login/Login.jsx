@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
-import { Container, Form, FormGroup, Label, Input, Button,Toast } from "reactstrap";
+import { Container, Form, FormGroup, Label, Input, Button, Toast } from "reactstrap";
 import Notification from "../Notification";
 import "./Login.css";
 //redux
