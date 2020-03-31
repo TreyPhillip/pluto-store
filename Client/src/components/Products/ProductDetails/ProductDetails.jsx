@@ -90,9 +90,7 @@ function addElementToWishlist(product) {
         wishlistId: getRandomInt(10000),
         productId: product.productid,
         productName: product.productname,
-        price: product.price,
-        quantity: 1,
-        total: product.price * product.quantity
+        price: product.price
     };
     let identityAccount = document.cookie.match(new RegExp('(^| )' + 'userId' + '=([^;]+)'));
     if (identityAccount == null) {
