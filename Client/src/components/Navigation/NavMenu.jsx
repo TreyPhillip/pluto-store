@@ -60,16 +60,6 @@ import './NavMenu.css';
 									Categories
 								</NavLink>
 							</NavItem>
-							<NavItem>
-								<NavLink href="/Cart" className="text-white">
-									Cart
-								</NavLink>
-							</NavItem>
-							<NavItem>
-								<NavLink href="/Wishlist" className="text-white">
-									Wishlist
-								</NavLink>
-							</NavItem>
 						</Nav>
 					</Collapse>
 				</Navbar>
