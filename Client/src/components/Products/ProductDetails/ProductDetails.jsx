@@ -38,7 +38,7 @@ export class ProductDetails extends Component {
                     <h5>{this.state.productDetails.productname} Description</h5>
                     <p className="productDescription">{this.state.productDetails.description}</p>
                 </div>
-                <ReviewForm/>
+               <ReviewForm/>
             </Container>
         )
     }

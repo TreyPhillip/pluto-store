@@ -1,26 +1,43 @@
 import React, { Component } from 'react';
-import ProductList from '../../Products/ProductList/ProductList'
-import { Container } from 'reactstrap';
+import Axios from 'axios';
+//import ProductList from '../../Products/ProductList/ProductList'
 
-export class Electronics extends Component {
+import {loadUser} from '../../Actions/authAction';
+import { connect } from 'react-redux';
+
+
+ class Automotive extends Component {
     constructor() {
         super();
         this.state = {
-          electronics: [],
+          automotive: [],
         };
       }
     //pull data from the backend (database)
-     //pull data from the backend (database)
-     componentDidMount() {
-      var token = cookie.load("token");
-      fetch("http://localhost:5000/Products")
-      .then(res =>res.json())
-      .then(data =>this.setState({products:data
-      .filter(item=>item.categoryid == categoryid) }));
-      }
-      render() {
-          return (
-              <ProductList product={this.state.electronics} />
-          )
-      }
+    componentDidMount() {
+      const {user} = this.props.auth;
+      let id  = window.location.href.split('/')[4];
+
+    //var token = cookie.load("token");
+    this.props.loadUser();
+    Axios.get("http://localhost:5000/getAllProductsByCategory/6")
+      .then(data => this.setState({ automotive: data }));
+    }
+    render() {
+        const {user} = this.props.auth;
+        console.log(user)
+
+
+        return (
+          <div></div>
+            //<ProductList product={this.state.automotive} />
+        )
+    }
 }
+
+const mapStateToProps = state =>({
+	auth: state.auth,
+	error:state.error
+  })
+
+export default connect(mapStateToProps, {loadUser})(Automotive);

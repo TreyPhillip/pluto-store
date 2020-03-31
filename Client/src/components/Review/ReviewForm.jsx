@@ -43,7 +43,8 @@ export class ReviewForm extends Component {
         event.preventDefault();
         
     //data being saved
-    //let profile = 
+    let profile;
+    let data = {};
 
     if (profile != null) {
 
