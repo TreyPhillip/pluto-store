@@ -130,7 +130,7 @@ import {toast} from 'react-toastify';
               onChange={e => this.handleChange(e)}
            required />
           </FormGroup>
-          <Input type="submit" value="Submit"></Input>
+          <Button type="submit" color="info">Add Product</Button>
         </Form>
         </Container>
     );
@@ -153,7 +153,7 @@ export function CreateAProduct(data) {
   axios.post("http://localhost:5000/products/add", data, config).then(res => {
     alert("Successfully listed your product");
   });
-  //redirects the view to display the games
+  //redirects the view to display the products
   return window.location.reload();
 }
 export default connect(mapStateToProps, {loadUser})(AddProduct);

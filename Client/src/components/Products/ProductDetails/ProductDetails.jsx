@@ -33,11 +33,12 @@ export class ProductDetails extends Component {
                     <Button className="btnAddToCart" color='success' onClick={() => { addElementToCart(this.state.productDetails) }}>Add to Cart</Button>
                     <Button className="btnAddToWishlist" color='info' onClick={() => { addElementToWishlist(this.state.productDetails) }}>Add to Wishlist</Button>
                 </div>
-                <hr/>
+                <br/>
                 <div className="description">
                     <h5>{this.state.productDetails.productname} Description</h5>
                     <p className="productDescription">{this.state.productDetails.description}</p>
                 </div>
+                <hr/>
                <ReviewForm/>
             </Container>
         )

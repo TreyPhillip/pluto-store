@@ -7,8 +7,8 @@ export class ReviewForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Rating: 1,
-            Review: '',
+            rating: 1,
+            reviewComment: '',
             ReviewList:[]
         };
         
@@ -95,7 +95,7 @@ calculateAverage() {
         return(
             <Container className='reviewWrapper'>
                 <Form id='reviewForm' method='POST' onSubmit={this.handleSubmission}>
-                    <h3>Leave a Review!</h3>
+                    <h3><u>Leave a Review!</u></h3>
                     <select id='ratingValue' onChange={this.RatingHandler} onSubmit={this.handleSubmission}>
                         <option selected value="1">1 Star</option>
                         <option value="2">2 Stars</option>
@@ -103,12 +103,16 @@ calculateAverage() {
                         <option value="4">4 Stars</option>
                         <option value="5">5 Starts</option>
                     </select>
-                    <hr/>
-                    <textarea id='reviewComment' value={this.state.Review} onChange={this.ReviewChangeHandler} rows='5' required />
+                    <br/>
+                    <br/>
+                    <textarea id='reviewComment' value={this.state.Review} 
+                    onChange={this.ReviewChangeHandler} rows='5' cols='50' required />
+                    <br/>
+                    <br/>
                     <Button type='submit' id='submitReview' color='success'>Submit Review</Button>
                 </Form>
                 <div id='reviewList'>
-                    <h3>Review</h3>
+                    <h3><u>Review</u></h3>
                     <h4>{this.calculateAverage()}/5</h4>
                 </div>
                     {this.state.ReviewList.map(reviews => (
