@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
-import ProductList from '../../Products/ProductList/ProductList'
+//import ProductList from '../../Products/ProductList/ProductList'
 
 import {loadUser} from '../../Actions/authAction';
 import { connect } from 'react-redux';
@@ -26,10 +26,11 @@ import { connect } from 'react-redux';
     render() {
         const {user} = this.props.auth;
         console.log(user)
+        console.log(this.state.electronics)
 
         return (
           <div>
-             <ProductList product={this.state.electronics} />
+             <p product={this.state.electronics} />
           </div>
         )
     }
