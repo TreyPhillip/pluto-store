@@ -18,7 +18,7 @@ export  class Categories extends Component {
     render() {
         return (
             <ListGroup flush>
-                <ListGroupItem tag="a" href="/Appliances" action category={this.state.categoryid}>Appliances</ListGroupItem>
+                <ListGroupItem tag="a" href="/Appliances" action>Appliances</ListGroupItem>
                 <ListGroupItem tag="a" href="/Automotive" action>Automotive</ListGroupItem>
                 <ListGroupItem tag="a" href="/Books" action>Books</ListGroupItem>
                 <ListGroupItem tag="a" href="/Cooking" action>Cooking</ListGroupItem>

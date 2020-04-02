@@ -23,6 +23,7 @@ import {loadUser} from '../components/Actions/authAction';
 import { ProductDetails } from '../components/Products/ProductDetails/ProductDetails';
 
 import PrivateRoute from '../components/PrivateRoutes';
+import Electronics from '../components/Categories/Types/Electronics';
 
 const history = createBrowserHistory();
 //only needs to be called once --- required for the toasts work
@@ -55,6 +56,7 @@ toast.configure();
 								<Route path="/Cart" component={Cart} />
 								<Route path="/Categories" component={Categories} />
 								<Route path="/Details/:id" component={ProductDetails} />
+								<Route path="/Electronics" component={Electronics} />
 								<PrivateRoute path="/AddProduct" isAuthenicated={this.state.status} component={AddProduct} />
 								<PrivateRoute path='/Account' isAuthenicated={this.state.status} component={Account} Account={this.state.account}/>
 							</Switch>
