@@ -18,7 +18,6 @@ export class ProductDetails extends Component {
         fetch("http://localhost:5000/products/" + productId)
         .then(res => res.json())
         .then(data => this.setState({ productDetails: data[0] }))
-        .then(data => console.log(data));
     }
     
     render() {
@@ -38,7 +37,7 @@ export class ProductDetails extends Component {
                     <h5>{this.state.productDetails.productname} Description</h5>
                     <p className="productDescription">{this.state.productDetails.description}</p>
                 </div>
-               <ReviewForm/>
+                <ReviewForm/>
             </Container>
         )
     }
@@ -52,9 +51,9 @@ function addElementToCart(product) {
         productName: product.productname,
         price: product.price,
         quantity: 1,
-        total: product.price * product.quantity
+        linePrice: product.price * product.quantity
     };
-    console.log(product.productName)
+    console.log(product.linePrice)
 
     var exist = false
 
