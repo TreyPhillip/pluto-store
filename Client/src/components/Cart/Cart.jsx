@@ -49,7 +49,7 @@ export class Cart extends Component {
 				<div className="totals-value" id="cart-total">114.00</div>
 				</div>
 			</div> */}
-			<button className="checkout">Checkout</button>
+			<Button color="success" className="checkout">Checkout</Button>
 		</div>
 		)
 	}		
