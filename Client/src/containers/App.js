@@ -22,18 +22,18 @@ import { ProductDetails } from '../components/Products/ProductDetails/ProductDet
 import PrivateRoute from '../components/PrivateRoutes';
 //Category Pages
 import { Categories } from '../components/Categories/Categories';
-import { Appliances } from '../components/Categories/Types/Appliances';
-import { Automotive } from '../components/Categories/Types/Automotive';
-import { Books } from '../components/Categories/Types/Books';
-import { Electronics } from '../components/Categories/Types/Electronics';
-import { Entertainment } from '../components/Categories/Types/Entertainment';
-import { Fashion } from '../components/Categories/Types/Fashion';
-import { Food } from '../components/Categories/Types/Food';
-import { Garden } from '../components/Categories/Types/Garden';
-import { Office } from '../components/Categories/Types/Office';
-import { Outdoors } from '../components/Categories/Types/Outdoors';
-import { Software } from '../components/Categories/Types/Software';
-import { Sports } from '../components/Categories/Types/Sports';
+import Appliances from '../components/Categories/Types/Appliances';
+import Automotive from '../components/Categories/Types/Automotive';
+import Books from '../components/Categories/Types/Books';
+import Electronics from '../components/Categories/Types/Electronics';
+import Entertainment from '../components/Categories/Types/Entertainment';
+import Fashion from '../components/Categories/Types/Fashion';
+import Food from '../components/Categories/Types/Food';
+import Garden from '../components/Categories/Types/Garden';
+import Office from '../components/Categories/Types/Office';
+import Outdoors from '../components/Categories/Types/Outdoors';
+import Software from '../components/Categories/Types/Software';
+import Sports from '../components/Categories/Types/Sports';
 
 const history = createBrowserHistory();
 //only needs to be called once --- required for the toasts work
