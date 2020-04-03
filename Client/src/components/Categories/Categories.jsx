@@ -26,7 +26,6 @@ export class Categories extends Component {
                 <ListGroupItem tag="a" href="/Garden" action>Garden</ListGroupItem>
                 <ListGroupItem tag="a" href="/Food" action>Grocery and Whole Foods</ListGroupItem>
                 <ListGroupItem tag="a" href="/Entertainment" action>Music, Movies, and TV Shows</ListGroupItem>
-                <ListGroupItem tag="a" href="/Music" action>Music</ListGroupItem>
                 <ListGroupItem tag="a" href="/Office" action>Office</ListGroupItem>
                 <ListGroupItem tag="a" href="/Outdoors" action>Outdoors</ListGroupItem>
                 <ListGroupItem tag="a" href="/Software" action>Software and Video Games</ListGroupItem>

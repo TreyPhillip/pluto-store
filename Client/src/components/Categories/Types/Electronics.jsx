@@ -4,7 +4,7 @@ import { ProductList } from '../../Products/ProductList/ProductList'
 import {loadUser} from '../../Actions/authAction';
 import { connect } from 'react-redux';
 
- class Electronics extends Component {
+export class Electronics extends Component {
     constructor() {
         super();
         this.state = {
