@@ -28,7 +28,7 @@ render() {
 
     return (
       <div>
-         {/*<ProductList product={this.state.appliances} />*/}
+         <ProductList product={this.state.appliances} />
       </div>
     )
 }

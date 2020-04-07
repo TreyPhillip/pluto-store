@@ -19,7 +19,7 @@ export class Outdoors extends Component {
     //var token = cookie.load("token");
     this.props.loadUser();
     Axios.get("http://localhost:5000/getAllProductsByCategory/1")
-      .then(data => this.setState({ outdoors: data}));
+      .then(data => this.setState({ outdoors: data.data}));
     }
     render() {
         const {user} = this.props.auth;
@@ -28,7 +28,7 @@ export class Outdoors extends Component {
 
         return (
           <div>
-             {/*<ProductList product={this.state.outdoors} />*/}
+             <ProductList product={this.state.outdoors} />
           </div>
         )
     }
