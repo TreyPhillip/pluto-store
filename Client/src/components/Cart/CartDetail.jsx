@@ -31,20 +31,20 @@ export default class CartDetails extends Component {
 		window.location.reload();
     }
     
-    onQuantityChange = (value) => {
+    onQuantityChange = async (value) => {
         let subtotal = 0;
-        this.setState({
+        await this.setState({
             quantity: value,
             linePrice: this.state.price * value,            
-        })
-        this.state.cartItems.map((item) => {
-            this.setState({...this.state.cartItems, linePrice: item.price * value});
-            console.log(item.linePrice);
-        })
+        });
+        await this.setState({...this.state.cartItems, quantity: value});
         this.state.cartItems.map((item) => {
             subtotal += item.linePrice;
-        })
-        console.log(subtotal)
+            console.log("item.LinePrice " + item.linePrice)
+        });
+        // console.log(this.state.cartItems)
+        // console.log(this.state.linePrice)
+        console.log("subtotal " + subtotal)
     }
 
 	render() {

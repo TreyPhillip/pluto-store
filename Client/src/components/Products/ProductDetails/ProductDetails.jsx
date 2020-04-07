@@ -53,7 +53,7 @@ function addElementToCart(product) {
         price: product.price,
         quantity: 1,
         maxQuantity: product.quantity,
-        linePrice: product.price * product.quantity
+        linePrice: product.price * 1
     };
     console.log(product)
 
