@@ -10,7 +10,7 @@ import Test from '../../../assets/318x180.svg'
 export const ProductCard = props => {
     return (
         <Link to={"/Details/" + props.product.productid} className="text-dark">
-            <Card>
+            <Card outline color="primary">
                 <CardImg top width="100%" src={Test} alt="Card image cap" />
                 <CardBody>
                 <CardTitle className="text-dark">{props.product.productname}</CardTitle>
