@@ -38,8 +38,6 @@ import {connect} from 'react-redux';
   render() {
     return (
       <div className="home-method">
-        {/* TODO: Get item card ID mapped to database */}
-        {/*<ProductList products={this.state.products} />*/}
         <ProductList product={this.state.products} />
       </div>
     );
