@@ -19,7 +19,7 @@ componentDidMount() {
 //var token = cookie.load("token");
 this.props.loadUser();
 Axios.get("http://localhost:5000/getAllProductsByCategory/1")
-  .then(data => this.setState({ software: data}));
+  .then(data => this.setState({ software: data.data}));
 }
 render() {
     const {user} = this.props.auth;
@@ -28,7 +28,7 @@ render() {
 
     return (
       <div>
-         {/*<ProductList product={this.state.software} />*/}
+         <ProductList product={this.state.software} />
       </div>
     )
 }

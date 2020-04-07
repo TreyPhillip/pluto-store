@@ -19,7 +19,7 @@ export class Electronics extends Component {
     //var token = cookie.load("token");
     this.props.loadUser();
     Axios.get("http://localhost:5000/getAllProductsByCategory/1")
-      .then(data => this.setState({ electronics: data}));
+      .then(data => this.setState({ electronics: data.data}));
     }
     render() {
         const {user} = this.props.auth;
@@ -28,7 +28,7 @@ export class Electronics extends Component {
 
         return (
           <div>
-             {/*<ProductList product={this.state.electronics} />*/}
+             <ProductList product={this.state.electronics} />
           </div>
         )
     }

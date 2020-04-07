@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Container } from 'reactstrap';
 import axios from 'axios'
 import { ReviewForm } from '../../Review/ReviewForm';
+import Test from '../../../assets/318x180.svg'
 
 export class ProductDetails extends Component {
     constructor() {
@@ -27,6 +28,7 @@ export class ProductDetails extends Component {
                     <h1><u>Product Details</u></h1>
                 </header>
                 <div className="addToCart">
+                    <img src={Test} />
                     <p className='productinfo'>{this.state.productDetails.productname}</p>
                     <p className='productinfo'>${this.state.productDetails.price}</p>
                     <Button className="btnAddToCart" color='success' onClick={() => { addElementToCart(this.state.productDetails) }}>Add to Cart</Button>
