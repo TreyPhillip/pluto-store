@@ -52,9 +52,10 @@ function addElementToCart(product) {
         productName: product.productname,
         price: product.price,
         quantity: 1,
+        maxQuantity: product.quantity,
         linePrice: product.price * product.quantity
     };
-    console.log(product.linePrice)
+    console.log(product)
 
     var exist = false
 

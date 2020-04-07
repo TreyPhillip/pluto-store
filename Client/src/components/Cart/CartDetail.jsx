@@ -6,35 +6,46 @@ export default class CartDetails extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+            cartItems: JSON.parse(sessionStorage.getItem('cart')),
             productID: this.props.productID,
             description: this.props.description,
             productName: this.props.productName,
             price: this.props.price,
-            quantity: this.props.quantity,
+            quantity: 1,
+            maxQuantity: this.props.maxQuantity,
             linePrice: this.props.price * this.props.quantity
 		};
-		this.remove  = this.remove.bind(this);
-		this.getLinePrice  = this.getLinePrice.bind(this);
-	}
-	getLinePrice = (price, quantity) => {
-		var linePrice;
-		var gPrice = parseInt(price);
-		var gQuantity = parseInt(quantity);
-		linePrice = gPrice * gQuantity;
-		return linePrice
-	}
+        this.remove  = this.remove.bind(this);
+        this.onQuantityChange  = this.onQuantityChange.bind(this);
+    }
 	
 	remove = (productId) => {
 		var cart = JSON.parse(sessionStorage.getItem('cart'));
 	
 		for (var i = 0; i < cart.length; i++) {
-			if (cart[i].itemID == productId) {
+			if (cart[i].productID == productId) {
 				cart.splice(i, 1);
 			}
 		}
 		sessionStorage.setItem('cart', JSON.stringify(cart));
 		window.location.reload();
-	}
+    }
+    
+    onQuantityChange = (value) => {
+        let subtotal = 0;
+        this.setState({
+            quantity: value,
+            linePrice: this.state.price * value,            
+        })
+        this.state.cartItems.map((item) => {
+            this.setState({...this.state.cartItems, linePrice: item.price * value});
+            console.log(item.linePrice);
+        })
+        this.state.cartItems.map((item) => {
+            subtotal += item.linePrice;
+        })
+        console.log(subtotal)
+    }
 
 	render() {
 		return (
@@ -53,14 +64,11 @@ export default class CartDetails extends Component {
                         <input 
                         ref={testRef => (this.testRef = testRef)} 
                         value={this.state.quantity}
-                        onChange={() => {this.setState({
-                        	quantity: this.testRef.value,
-                        	linePrice: this.state.price * this.testRef.value,
-                        })}}
-                        
+                        onChange={() => {this.onQuantityChange(this.testRef.value)}}                       
                         type="number" 
                         defaultValue={this.state.quantity} 
-                        min="1"></input>
+                        min="1"
+                        max={this.state.maxQuantity}></input>
                         </div>
                         <div className="product-removal">
                             <Button color="danger" className="remove-product" onClick={() => { this.remove(this.state.productID) }}>

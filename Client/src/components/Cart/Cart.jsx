@@ -10,6 +10,7 @@ export class Cart extends Component {
 			cartItems: JSON.parse(sessionStorage.getItem('cart'))
 		};
 	}
+
 	render(){
 		return(
 		<div>
@@ -25,20 +26,21 @@ export class Cart extends Component {
 			</div>
 			<div>
 			{this.state.cartItems.map((item) => (	
-							<CartDetail 
-							key={item.productId} 
-							productId={item.productId} 
-							productName={item.productName} 
-							price={item.price} 
-							quantity={item.quantity} 
-							total={item.total}/>
+				<CartDetail 
+				key={item.productId} 
+				productId={item.productId} 
+				productName={item.productName} 
+				price={item.price} 
+				quantity={item.quantity}
+				maxQuantity={item.maxQuantity}
+				linePrice={item.linePrice}/>
 			))}
 			</div>
 			{/* <div className="totals">
 				{this.state.cartItems.map(item => item.linePrice).reduce((total, item) => item + total)};
 					<div className="totals-item">
 						<label>Subtotal</label>
-				<div className="totals-value" id="cart-subtotal">{}</div>
+			<div className="totals-value" id="cart-subtotal">{this.state.cartItems.linePrice}</div>
 					</div>
 				<div className="totals-item">
 				<label>Shipping</label>
