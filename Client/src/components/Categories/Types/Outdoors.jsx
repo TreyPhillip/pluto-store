@@ -4,11 +4,11 @@ import { ProductList } from '../../Products/ProductList/ProductList'
 import {loadUser} from '../../Actions/authAction';
 import { connect } from 'react-redux';
 
-export class Electronics extends Component {
+export class Outdoors extends Component {
     constructor() {
         super();
         this.state = {
-          electronics: [],
+          outdoors: [],
         };
       }
     //pull data from the backend (database)
@@ -19,16 +19,16 @@ export class Electronics extends Component {
     //var token = cookie.load("token");
     this.props.loadUser();
     Axios.get("http://localhost:5000/getAllProductsByCategory/1")
-      .then(data => this.setState({ electronics: data}));
+      .then(data => this.setState({ outdoors: data}));
     }
     render() {
         const {user} = this.props.auth;
         console.log(user)
-        console.log(this.state.electronics)
+        console.log(this.state.outdoors)
 
         return (
           <div>
-             {/*<ProductList product={this.state.electronics} />*/}
+             {/*<ProductList product={this.state.outdoors} />*/}
           </div>
         )
     }
@@ -39,4 +39,4 @@ const mapStateToProps = state =>({
 	error:state.error
   })
 
-export default connect(mapStateToProps, {loadUser})(Electronics);
+export default connect(mapStateToProps, {loadUser})(Outdoors);
