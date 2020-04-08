@@ -4,6 +4,7 @@ import axios from 'axios'
 import { ReviewForm } from '../../Review/ReviewForm';
 import {connect} from 'react-redux';
 
+import {loadUser} from '../../Actions/authAction'
 
 
  class ProductDetails extends Component {
@@ -36,8 +37,8 @@ import {connect} from 'react-redux';
         axios.post("http://localhost:5000/wishlist/add",{
             accountid:this.state.user.accountid,
             productid:this.state.productDetails.productid,
-            description:this.state.productDetails.description,
-            productname:this.state.productDetails.productname
+           // description:this.state.productDetails.description,
+           // productname:this.state.productDetails.productname
         })
       }
 
@@ -72,7 +73,7 @@ import {connect} from 'react-redux';
     user:state.auth.user
 })
 
-export default connect(mapPropsToState)(ProductDetails);
+export default connect(mapPropsToState,{loadUser})(ProductDetails);
 
 function addElementToCart(product) {
     //create cartitem

@@ -6,6 +6,9 @@ import {toast} from 'react-toastify';
 
 //redux
 import {connect} from 'react-redux';
+import {loadUser} from '../Actions/authAction';
+
+
  class Home extends Component {
   constructor() {
     super();
@@ -15,17 +18,6 @@ import {connect} from 'react-redux';
   }
   //pull data from the backend (database)
   componentDidMount() {
-
-    if(this.props.isAuthenticated){
-      //display toast!
-        toast('Successfully Logged in');
-    }
-    if(this.props.auth.isRegistered){
-        toast('Successfully Registered');
-    }
-    if(this.props.auth.isDeleted){
-      toast('Your account has be successfully Deleted')
-    }
 
     fetch("http://localhost:5000/products")
       .then(res => res.json())
@@ -47,4 +39,4 @@ const mapStateToProps = state =>({
   error:state.error
 })
 
-export default connect(mapStateToProps,{})(Home);
+export default connect(mapStateToProps,{loadUser})(Home);
