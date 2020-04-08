@@ -15,8 +15,8 @@ export  class Wishlist extends Component {
     }
      //pull data from the backend (database)
     componentDidMount() {
-        fetch("http://localhost:5000/Wishlist")
-        .then(res => res.json())
+        axios.get("http://localhost:5000/Wishlist")
+        //.then(res => res.json())
         .then(data => this.setState({ wishlist: data.data }));
     }
     render() {

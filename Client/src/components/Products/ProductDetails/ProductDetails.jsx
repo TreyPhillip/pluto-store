@@ -20,14 +20,20 @@ import {loadUser} from '../../Actions/authAction'
     }
      //pull data from the backend (database)
      componentDidMount() {
+
+        console.log(this.props.user)
+
         let productId = this.props.location.pathname.split('/').pop();
         fetch("http://localhost:5000/products/" + productId)
         .then(res => res.json())
         .then(data => this.setState({ productDetails: data[0] }))
 
+        this.props.loadUser();
+
         //get the user id from redux
+
         if(this.props.user != null){
-        this.setState({user:this.props.decoded.user});
+            this.setState({user:this.props.user.decoded});
         }
     }
     
