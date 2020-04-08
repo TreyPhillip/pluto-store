@@ -35,7 +35,9 @@ import {connect} from 'react-redux';
 
         axios.post("http://localhost:5000/wishlist/add",{
             accountid:this.state.user.accountid,
-            productid:this.state.productDetails.productid
+            productid:this.state.productDetails.productid,
+            description:this.state.productDetails.description,
+            productname:this.state.productDetails.productname
         })
       }
 
