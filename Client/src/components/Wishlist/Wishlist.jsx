@@ -6,31 +6,27 @@ export  class Wishlist extends Component {
     constructor() {
         super();
         this.state = {
-            wishlistItems: JSON.parse(sessionStorage.getItem('wishlist')),
-			productDetails: [],
-			productId: this.props.itemID,
-			productName: this.props.itemName,
-			description: this.props.description,
-			price: this.props.price,
-			linePrice: 0
+            isAdd: false,
+            productDetails: [],
+            wishlistItems: []
         };
     }
      //pull data from the backend (database)
     componentDidMount() {
         fetch("http://localhost:5000/Wishlist")
         .then(res => res.json())
-        .then(data => this.setState({ wishlist: data }));
+        .then(data => this.setState({ wishlist: data.data }));
     }
     render() {
         return (
             <Container>
                 <ListGroup className="wishlist">
                     <ListGroupItem>
-                        <ListGroupItemHeading>{item.productName}</ListGroupItemHeading>
-                        <ListGroupItemText>{item.description}</ListGroupItemText>
+                        <ListGroupItemHeading>{this.state.productDetails.productname}</ListGroupItemHeading>
+                        <ListGroupItemText>{this.state.productDetails.description}</ListGroupItemText>
                     </ListGroupItem>
                 </ListGroup>
-                <Button color="danger" class="remove-product" onClick={() => { remove(item.itemID) }}>
+                <Button color="danger" class="remove-product" onClick={() => { remove(props.products.productId) }}>
                     Remove
                 </Button>
             </Container>

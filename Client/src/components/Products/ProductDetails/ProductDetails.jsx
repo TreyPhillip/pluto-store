@@ -20,7 +20,6 @@ export class ProductDetails extends Component {
         .then(res => res.json())
         .then(data => this.setState({ productDetails: data[0] }))
     }
-    
     render() {
         return (
             <Container className="productDetails">
@@ -148,7 +147,7 @@ function addElementToWishlist(product) {
 }
 export function addToDB(data) {
     //add to db
-    axios.post("https://localhost:5001/Wishlist/", data).then(res => {
+    axios.post("https://localhost:5000/Wishlist/", data).then(res => {
         console.log(res);
         console.log(res.data);
     });
