@@ -9,8 +9,7 @@ export class ProductDetails extends Component {
         super();
         this.state = {
             isAdd: false,
-            productDetails: [],
-            cartItems: []
+            productDetails: []
         };
     }
      //pull data from the backend (database)
