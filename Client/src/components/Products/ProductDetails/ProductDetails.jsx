@@ -25,7 +25,9 @@ import {connect} from 'react-redux';
         .then(data => this.setState({ productDetails: data[0] }))
 
         //get the user id from redux
-        this.setState({user:this.props.user});
+        if(this.props.user != null){
+        this.setState({user:this.props.decoded.user});
+        }
     }
     
     addElementToWishlist = event => {
@@ -64,8 +66,8 @@ import {connect} from 'react-redux';
 }
   //     <img src={Test} />
 
-const mapPropsToState = (state) =>({
-    user:state.auth.user.decoded
+  const mapPropsToState = (state) =>({
+    user:state.auth.user
 })
 
 export default connect(mapPropsToState)(ProductDetails);

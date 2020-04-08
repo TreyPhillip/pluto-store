@@ -8,7 +8,7 @@ export class Electronics extends Component {
     constructor() {
         super();
         this.state = {
-          products: [],
+          electronics: [],
         };
       }
     //pull data from the backend (database)
