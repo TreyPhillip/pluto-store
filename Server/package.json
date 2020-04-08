@@ -24,6 +24,7 @@
     "node-gyp": "^6.1.0",
     "node-serialize": "0.0.4",
     "nodemon": "^2.0.2",
+    "onedrive-api": "^0.3.4",
     "pg": "^7.18.1",
     "pg-hstore": "^2.3.3",
     "pg-promise": "^10.4.3",

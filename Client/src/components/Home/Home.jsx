@@ -16,7 +16,6 @@ import {connect} from 'react-redux';
   //pull data from the backend (database)
   componentDidMount() {
 
-
     if(this.props.isAuthenticated){
       //display toast!
         toast('Successfully Logged in');
@@ -28,9 +27,7 @@ import {connect} from 'react-redux';
       toast('Your account has be successfully Deleted')
     }
 
-
-   
-    fetch("http://localhost:5000/Products")
+    fetch("http://localhost:5000/products")
       .then(res => res.json())
       .then(data => this.setState({ products: data }));
   }
@@ -50,4 +47,4 @@ const mapStateToProps = state =>({
   error:state.error
 })
 
-export default connect(mapStateToProps,null)(Home);
+export default connect(mapStateToProps,{})(Home);

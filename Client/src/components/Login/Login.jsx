@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
-import { Container, Form, FormGroup, Label, Input, Button, Toast } from "reactstrap";
+import { Container, Form, FormGroup, Label, Input, Button,Toast,Alert } from "reactstrap";
 import Notification from "../Notification";
 import "./Login.css";
 //redux
@@ -12,6 +12,7 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      errors:"",
       email: "",
       password: "",
       validate: {
@@ -20,7 +21,16 @@ class Login extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
   }
+
   componentWillReceiveProps(nextProps){
+
+
+    if(this.props.error !== nextProps.error){
+      if(nextProps.error.id == "LOGIN_FAIL"){
+        this.setState({errors:nextProps.error.msg})
+      }
+    }
+
     if(this.props.isAuthenticated !== nextProps.isAuthenticated ){
         if(nextProps.isAuthenticated === true){
            this.props.history.push('/Home');
@@ -32,7 +42,14 @@ class Login extends Component {
     event.preventDefault();
     //validate the email and password before sending it 
     const{email,password} = this.state;
-    this.props.login(email,password);
+
+    if(email === '' || email === undefined && password === '' || password === undefined){
+      this.setState({errors: "Email and Password are required"})
+    }
+    else{
+      this.setState({errors:""});
+       this.props.login(email,password);
+    }
   };
 
   handleChange = async event => {
@@ -57,8 +74,10 @@ class Login extends Component {
 
   render() {
     const { email, password } = this.state;
+    console.log(this.state.errors)
     return (
       <Container className="login">
+        {this.state.errors ? <Alert color='danger' text-align="center">{this.state.errors}</Alert> : null}
         <h2>Login</h2>
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
@@ -96,7 +115,7 @@ class Login extends Component {
   }
 }
 //map stuff to the props
-const mapStateToProps = state =>({
+const mapStateToProps = (state) =>({
   isAuthenticated: state.auth.isAuthenticated,
   error:state.error
 })

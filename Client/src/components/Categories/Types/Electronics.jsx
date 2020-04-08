@@ -8,7 +8,7 @@ export class Electronics extends Component {
     constructor() {
         super();
         this.state = {
-          electronics: [],
+          products: [],
         };
       }
     //pull data from the backend (database)
@@ -17,14 +17,14 @@ export class Electronics extends Component {
       let id  = window.location.href.split('/')[4];
 
     //var token = cookie.load("token");
-    this.props.loadUser();
+    //this.props.loadUser();
     Axios.get("http://localhost:5000/getAllProductsByCategory/1")
       .then(data => this.setState({ electronics: data.data}));
     }
     render() {
         const {user} = this.props.auth;
         console.log(user)
-        console.log(this.state.electronics)
+        console.log(this.state.products)
 
         return (
           <div>

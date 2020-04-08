@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./list_product_style.css";
-import { Container, Form, FormGroup, Label, Input, Button,Toast } from "reactstrap";
+import { Container, Form, FormGroup, Label, Input, Button,Alert } from "reactstrap";
 import axios from "axios";
 
 import {connect} from 'react-redux';
@@ -18,7 +18,9 @@ import {toast} from 'react-toastify';
       categoryid: "",
       sellerid: "",
       price: "",
-      description: ""
+      description: "",
+      //error messages
+      empty_form_error:""
     };
     //Click Handler for the submit
 
@@ -55,34 +57,32 @@ import {toast} from 'react-toastify';
   };
 
   handleSubmit = event => {
-   // console.log(this.props.Auth.user.decoded.profileid)
-   console.log(this.state.price);
-    let product_obj ={};
-    if(this.validateForm(this.state.price) == true){
-      product_obj = {
-       productname: this.state.productName,
-       categoryid: this.category_sel.value,
-       sellerid: this.props.Auth.user.decoded.profileid,
-       price: parseInt(this.state.price),
-       description: this.state.description
-     };
-     CreateAProduct(product_obj);
+
+    event.preventDefault();
+    if(  this.state.productName !=="" && this.state.price !== "" && this.state.description !==""){
+        let product_obj ={};
+        if(this.validateForm(this.state.price) == true){
+          product_obj = {
+          productname: this.state.productName,
+          categoryid: this.category_sel.value,
+          sellerid: this.props.Auth.user.decoded.profileid,
+          price: parseInt(this.state.price),
+          description: this.state.description
+        };
+        CreateAProduct(product_obj);
+      }
     }
     else{
-   toast("Price needs to be a number");
- }
-
-    //validation------------
-    //----------------------
-
-    console.log(product_obj);
-    event.preventDefault();
+      this.setState({empty_form_error:"You must fill in the form to add a product"})   
+    }
   };
 
   render() {
     const { productName, category, price, description } = this.state;
     return (
       <Container className="product-form">
+        {this.state.empty_form_error ? <Alert color="danger" >{this.state.empty_form_error}</Alert> : null}
+
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
             <Label>Product Name: </Label>
@@ -92,14 +92,14 @@ import {toast} from 'react-toastify';
               id="productNameInput"
               value={productName}
               onChange={e => this.handleChange(e)}
-              required  />
+              />
           </FormGroup>
           <FormGroup>
             <Label>Product Category:</Label>
             <select
               className="form-control "
               ref={category_sel => (this.category_sel = category_sel)}
-              required  >
+              >
               {this.state.product_category.map(category => {
                 return (
                   <option key={category.categoryid} value={category.categoryid}>
@@ -117,7 +117,7 @@ import {toast} from 'react-toastify';
               id="priceInput"
               value={price}
               onChange={e => this.handleChange(e)}
-              required />
+               />
           </FormGroup>
           <FormGroup>
             <Label>Description: </Label><br></br>
@@ -128,7 +128,7 @@ import {toast} from 'react-toastify';
               id="descriptionId"
               value={description}
               onChange={e => this.handleChange(e)}
-           required />
+            />
           </FormGroup>
           <Button type="submit" color="info">Add Product</Button>
         </Form>

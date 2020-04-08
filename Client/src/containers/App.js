@@ -5,6 +5,7 @@ import  Home  from '../components/Home/Home';
 import  Login  from '../components/Login/Login';
 import Register from '../components/Register/Register';
 import Account from '../components/Account/Account';
+import {Wishlist} from '../components/Wishlist/Wishlist';
 
 import { Cart } from '../components/Cart/Cart';
 import './App.css';
@@ -18,7 +19,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {connect} from 'react-redux';
 import {loadUser} from '../components/Actions/authAction';
 //Account page
-import { ProductDetails } from '../components/Products/ProductDetails/ProductDetails';
+import  ProductDetails from '../components/Products/ProductDetails/ProductDetails';
 import PrivateRoute from '../components/PrivateRoutes';
 //Category Pages
 import { Categories } from '../components/Categories/Categories';
@@ -35,10 +36,11 @@ import Outdoors from '../components/Categories/Types/Outdoors';
 import Software from '../components/Categories/Types/Software';
 import Sports from '../components/Categories/Types/Sports';
 
+
+
 const history = createBrowserHistory();
-//only needs to be called once --- required for the toasts work
 toast.configure();
- 
+
  class App extends Component {
 	constructor(props) {
 		super(props);
@@ -47,11 +49,11 @@ toast.configure();
 			status: false
 		};
 	}
-	
+
 	static displayName = App.name;
 	//TODO: Solve Routing Problem in this file and NavMenu. (FINISHED)
 	render() {
-		const {isAuthenticated, user} = this.props.auth;
+		//const {isAuthenticated, user} = this.props.auth;
 		return(
 				<div>
 					<Router history={history}>
@@ -63,11 +65,11 @@ toast.configure();
 								<Route exact path="/" component={Home} />
 								<Route path="/Login" component={Login} />
 								<Route path="/Register" component={Register} />
-								<Route path="/Cart" component={Cart} />
+								
 								<Route path="/Categories" component={Categories} />
 								<Route path="/Details/:id" component={ProductDetails} />
 								{/* Category Routes */}
-								<Route path="/Applicances" component={Appliances} />
+								<Route path="/Appliances" component={Appliances} />
 								<Route path="/Automotive" component={Automotive} />
 								<Route path="/Books" component={Books} />
 								<Route path="/Electronics" component={Electronics} />
@@ -80,8 +82,11 @@ toast.configure();
 								<Route path="/Software" component={Software} />
 								<Route path="/Sports" component={Sports} />
 								
-								<PrivateRoute path="/AddProduct" isAuthenicated={this.state.status} component={AddProduct} />
-								<PrivateRoute path='/Account' isAuthenicated={this.state.status} component={Account} Account={this.state.account}/>
+
+								<PrivateRoute path="/Cart" component={Cart} exact={true} />
+								<PrivateRoute path="/Wishlist" component={Wishlist} exact={true}/>
+								<PrivateRoute path="/AddProduct"  component={AddProduct}  exact={true}/>
+								<PrivateRoute path='/Account'  component={Account} exact={true}/>
 							</Switch>
 						</div>
 					</Router>
@@ -93,5 +98,4 @@ const mapStateToProps = state =>({
 	auth: state.auth,
 	error:state.error
   })
-
-export default connect(mapStateToProps,{loadUser})(App);
+export default connect(mapStateToProps, {loadUser})(App);

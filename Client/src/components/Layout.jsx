@@ -14,13 +14,12 @@ import {loadUser} from './Actions/authAction';
   componentDidMount(){
       this.props.loadUser();
  }
-  render () {
-      
+  render () { 
     const{isAuthenticated, user} = this.props.auth;
       return (
           <div>
             { !isAuthenticated ?
-			      	<NavMenu/> :		
+			      	<NavMenu status={isAuthenticated}/> :		
               <PrivateMenu/>}
               
               <Container>

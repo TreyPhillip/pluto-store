@@ -5,5 +5,8 @@ import { Container } from "reactstrap";
 
 //Creates the product list using the card component
 export const ProductList = props => (
+<div>
     <Container className="product-list">{props.product.map((product) => <ProductCard key={product.productid} product={product} />)} </Container> 
+</div>
+
 );

@@ -2,15 +2,20 @@ import React, { Component } from 'react';
 import { Button, Container } from 'reactstrap';
 import axios from 'axios'
 import { ReviewForm } from '../../Review/ReviewForm';
-import Test from '../../../assets/318x180.svg'
+import {connect} from 'react-redux';
 
-export class ProductDetails extends Component {
+
+
+ class ProductDetails extends Component {
     constructor() {
         super();
         this.state = {
             isAdd: false,
-            productDetails: []
+            productDetails: [],
+            cartItems: [], 
+            user:[],
         };
+        this.addElementToWishlist = this.addElementToWishlist.bind(this);
     }
      //pull data from the backend (database)
      componentDidMount() {
@@ -18,19 +23,33 @@ export class ProductDetails extends Component {
         fetch("http://localhost:5000/products/" + productId)
         .then(res => res.json())
         .then(data => this.setState({ productDetails: data[0] }))
+
+        //get the user id from redux
+        this.setState({user:this.props.user});
     }
-    render() {
+    
+    addElementToWishlist = event => {
+        event.preventDefault();
+
+        axios.post("http://localhost:5000/wishlist/add",{
+            accountid:this.state.user.accountid,
+            productid:this.state.productDetails.productid
+        })
+      }
+
+        render() {
+            
         return (
             <Container className="productDetails">
                 <header>
                     <h1><u>Product Details</u></h1>
                 </header>
                 <div className="addToCart">
-                    <img src={Test} />
                     <p className='productinfo'>{this.state.productDetails.productname}</p>
                     <p className='productinfo'>${this.state.productDetails.price}</p>
-                    <Button className="btnAddToCart" color='success' onClick={() => { addElementToCart(this.state.productDetails) }}>Add to Cart</Button>
-                    <Button className="btnAddToWishlist" color='info' onClick={() => { addElementToWishlist(this.state.productDetails) }}>Add to Wishlist</Button>
+                    <Button className="btnAddToCart" color='success' onClick={() =>
+                        { addElementToCart(this.state.productDetails) }}>Add to Cart</Button>
+                    <Button className="btnAddToWishlist" color='info' onClick={this.addElementToWishlist}>Add to Wishlist</Button>
                 </div>
                 <br/>
                 <div className="description">
@@ -43,6 +62,13 @@ export class ProductDetails extends Component {
         )
     }
 }
+  //     <img src={Test} />
+
+const mapPropsToState = (state) =>({
+    user:state.auth.user.decoded
+})
+
+export default connect(mapPropsToState)(ProductDetails);
 
 function addElementToCart(product) {
     //create cartitem
@@ -86,75 +112,7 @@ function addElementToCart(product) {
         sessionStorage.setItem("cart", JSON.stringify(cartItems));
     }
 }
-function addElementToWishlist(product) {
-    //create the cart product 
-    let wishlist = [];
-    var product = {
-        wishlistId: getRandomInt(10000),
-        productId: product.productid,
-        productName: product.productname,
-        price: product.price
-    };
-    let identityAccount = document.cookie.match(new RegExp('(^| )' + 'userId' + '=([^;]+)'));
-    if (identityAccount == null) {
-        identityAccount = "anonymous";
-    }
-    else {
-        identityAccount = identityAccount[2].split(',');
-        identityAccount = identityAccount[0];
-    } 
 
-    var stringjson = JSON.stringify(product);
 
-    var Object = {
-        wishlistID: product.wishlistId,
-        accountID: identityAccount,
-        itemInfo: stringjson
-    }
-    var exist = false;
-
-    if (sessionStorage.getItem('wishlist')) {
-        wishlist = JSON.parse(sessionStorage.getItem('wishlist'));
-
-        for (var i = 0; i < wishlist.length; i++) {
-            if (wishlist[i].productId == product.productid) {
-                exist = true;
-                break;
-            }
-        }
-
-        if (exist) {
-            alert("Item is already in wishlist!");
-        }
-        else {
-            //add the current product onto the cart list.
-            wishlist.push(product);
-            //save the cart element to local storage where it can be extracted later
-            sessionStorage.setItem("wishlist", JSON.stringify(wishlist));
-            //Add to database
-            addToDB(Object);
-        }
-    }
-    else {
-        //add the current product onto the cart list.
-        wishlist.push(product);
-        //save the cart element to local storage where it can be extracted later
-        sessionStorage.setItem("wishlist", JSON.stringify(wishlist));
-        //Add to database
-        addToDB(Object);
-    }
-}
-export function addToDB(data) {
-    //add to db
-    axios.post("https://localhost:5000/Wishlist/", data).then(res => {
-        console.log(res);
-        console.log(res.data);
-    });
-}
-
-//get random number
-function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
-}
 
 

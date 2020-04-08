@@ -21,7 +21,7 @@ import './NavMenu.css';
 	}
 
 	componentDidMount(){
-		
+		console.log(this.props.status)
 	}
 
 	render() {

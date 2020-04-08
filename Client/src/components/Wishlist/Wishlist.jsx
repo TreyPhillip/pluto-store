@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { ListGroup, ListGroupItem, Button, ListGroupItemHeading, ListGroupItemText, Container } from 'reactstrap';
 import { ProductDetails } from '../Products/ProductDetails/ProductDetails';
+import axios from 'axios'
+
 
 export  class Wishlist extends Component {
     constructor() {
         super();
         this.state = {
-            isAdd: false,
-            productDetails: [],
-            wishlistItems: []
+           wishlist:[],
+			productDetails: [],
+	
         };
     }
      //pull data from the backend (database)
@@ -18,17 +20,16 @@ export  class Wishlist extends Component {
         .then(data => this.setState({ wishlist: data.data }));
     }
     render() {
+        console.log(this.state.wishlist)
         return (
             <Container>
                 <ListGroup className="wishlist">
                     <ListGroupItem>
-                        <ListGroupItemHeading>{this.state.productDetails.productname}</ListGroupItemHeading>
-                        <ListGroupItemText>{this.state.productDetails.description}</ListGroupItemText>
+                        <ListGroupItemHeading>{this.state.wishlist.productName}</ListGroupItemHeading>
+                        <ListGroupItemText>{this.state.wishlist.description}</ListGroupItemText>
                     </ListGroupItem>
                 </ListGroup>
-                <Button color="danger" class="remove-product" onClick={() => { remove(props.products.productId) }}>
-                    Remove
-                </Button>
+              
             </Container>
         );
     }
