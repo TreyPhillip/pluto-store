@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Container, Form, FormGroup, Label, Input, Button,Alert } from "reactstrap";
+import { Container, Form, FormGroup, Label, Input, Button,Alert, Col } from "reactstrap";
 import axios from "axios";
-
+import "./reviewstyles.css";
 import {connect} from 'react-redux';
 import {loadUser} from '../Actions/authAction'
 import {toast} from 'react-toastify';
@@ -115,6 +115,7 @@ calculateAverage() {
               </FormGroup>
               <FormGroup>
                 <Label>Rating: </Label>
+                <br />
                 <select className="rating" value={rating} onChange={this.RatingHandler, e => this.handleChange(e)}>
                     <option selected value='1'>1</option>
                     <option value='2'>2</option>
@@ -125,13 +126,16 @@ calculateAverage() {
               </FormGroup>
               <FormGroup>
                 <Label>Review: </Label>
-                <Input
-                  type="textArea"
-                  name="Review"
-                  id="reviewInput"
-                  value={reviewcomment}
-                  onChange={e => this.handleChange(e)}
-                   />
+                <Col sm={15}>
+                  <Input
+                    type="textarea"
+                    name="Review"
+                    id="reviewInput"
+                    value={reviewcomment}
+                    onChange={e => this.handleChange(e)}
+                    rows='5'
+                    />
+                   </Col>
               </FormGroup>
               <Button type="submit" color="info">Submit Review</Button>
             </Form>
