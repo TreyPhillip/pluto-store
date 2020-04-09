@@ -39,7 +39,7 @@ export class ReviewForm extends Component {
         });
     }
 
-    handleSubmission(event) {
+    handleSubmission = event => {
         event.preventDefault();
         
     //data being saved
@@ -109,7 +109,7 @@ calculateAverage() {
                     onChange={this.ReviewChangeHandler} rows='5' cols='50' required />
                     <br/>
                     <br/>
-                    <Button type='submit' id='submitReview' color='success'>Submit Review</Button>
+                    <Button type='submit' id='submitReview' color='success' onClick={this.handleSubmission}>Submit Review</Button>
                 </Form>
                 <div id='reviewList'>
                     <h3><u>Review</u></h3>
