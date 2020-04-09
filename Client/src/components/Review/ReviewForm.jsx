@@ -38,6 +38,10 @@ export class ReviewForm extends Component {
             Review: event.target.value
         });
     }
+    GetDate() {
+        var systemDate = new Date();
+        var date = systemDate.getDay() + '/' + systemDate.getMonth() + '/' + systemDate.getFullYear().toString().substr(2.2);
+    }
 
     handleSubmission = event => {
         event.preventDefault();
@@ -51,10 +55,11 @@ export class ReviewForm extends Component {
         profile = profile[2].split(',');
 
          data = {
-            AccountId: profile[0],
-            ProductId: this.props.productId,
-            ReviewInfo: this.state.Review,
-            RatingValue: parseInt(this.state.Rating)
+            accountid: profile[0],
+            productid: this.state.productid,
+            reviewcomment: this.state.reviewComment,
+            numberrating: parseInt(this.state.rating),
+            datereviewed: this.GetDate()
         };
     }
     else {
@@ -62,8 +67,8 @@ export class ReviewForm extends Component {
           
             AccountId: 'Guest',
             ProductId: this.props.productId,
-            ReviewInfo: this.state.Review,
-            RatingValue: parseInt(this.state.Rating)
+            ReviewInfo: this.state.reviewComment,
+            RatingValue: parseInt(this.state.rating)
         };
         console.log(data);
     }
