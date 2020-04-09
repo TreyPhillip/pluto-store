@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Container } from 'reactstrap';
 import axios from 'axios'
-import { ReviewForm } from '../../Review/ReviewForm';
+import { ReviewForm } from '../../Review/AddReview';
 import {connect} from 'react-redux';
 import { toast } from 'react-toastify'
 import {loadUser} from '../../Actions/authAction'
@@ -72,7 +72,6 @@ import {loadUser} from '../../Actions/authAction'
                     <p className="productDescription">{this.state.productDetails.description}</p>
                 </div>
                 <hr/>
-               <ReviewForm/>
             </Container>
         )
     }

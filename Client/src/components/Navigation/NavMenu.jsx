@@ -60,6 +60,11 @@ import './NavMenu.css';
 									Categories
 								</NavLink>
 							</NavItem>
+							<NavItem>
+								<NavLink href='/AddReview' className='text-white'>
+									Add a Seller Review
+								</NavLink>
+							</NavItem>
 						</Nav>
 					</Collapse>
 				</Navbar>

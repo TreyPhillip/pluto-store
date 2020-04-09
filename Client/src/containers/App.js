@@ -10,6 +10,8 @@ import {Wishlist} from '../components/Wishlist/Wishlist';
 import { Cart } from '../components/Cart/Cart';
 import './App.css';
 import {createBrowserHistory} from 'history';
+//Review Page
+import AddReview from '../components/Review/AddReview';
 //Add a product page
 import 	AddProduct  from '../components/Products/CreateProducts/product-listing-form';
 //notification
@@ -65,7 +67,7 @@ toast.configure();
 								<Route exact path="/" component={Home} />
 								<Route path="/Login" component={Login} />
 								<Route path="/Register" component={Register} />
-								
+								<Route path='/AddReview' component={AddReview} />
 								<Route path="/Categories" component={Categories} />
 								<Route path="/Details/:id" component={ProductDetails} />
 								{/* Category Routes */}
