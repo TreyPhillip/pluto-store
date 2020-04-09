@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Button, Container } from 'reactstrap';
+import { Button, Container, Toast } from 'reactstrap';
 import axios from 'axios'
 import { ReviewForm } from '../../Review/ReviewForm';
 import {connect} from 'react-redux';
-
+import {toast} from 'react-toastify';
 import {loadUser} from '../../Actions/authAction'
 
 
@@ -15,6 +15,10 @@ import {loadUser} from '../../Actions/authAction'
             productDetails: [],
             cartItems: [], 
             user:[],
+
+
+            wishlist:[],
+            addToWishlist:false
         };
         this.addElementToWishlist = this.addElementToWishlist.bind(this);
     }
@@ -30,23 +34,29 @@ import {loadUser} from '../../Actions/authAction'
 
         this.props.loadUser();
 
-        //get the user id from redux
 
+        //get the user id from redux
         if(this.props.user != null){
             this.setState({user:this.props.user.decoded});
+            axios.get("http://localhost:5000/wishlist")
+            .then(res => this.setState({wishlist:res}))
+            .catch(err => this.setState({wishlist:[]}))
         }
     }
     
     addElementToWishlist = event => {
         event.preventDefault();
+        console.log(typeof(this.state.wishlist.data));
+        for(const property in this.state.wishlist.data){
+            if(property == "productid"){
+                if(Object[property] != this.state.productDetails.productId){
+                    //safe to add the product to the wishlist
+                }
+            }
+        }
 
-        axios.post("http://localhost:5000/wishlist/add",{
-            accountid:this.state.user.accountid,
-            productid:this.state.productDetails.productid,
-           // description:this.state.productDetails.description,
-           // productname:this.state.productDetails.productname
-        })
-      }
+       
+    }
 
         render() {
             

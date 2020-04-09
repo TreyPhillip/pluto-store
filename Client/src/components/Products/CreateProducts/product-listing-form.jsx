@@ -19,8 +19,10 @@ import {toast} from 'react-toastify';
       sellerid: "",
       price: "",
       description: "",
+
       //error messages
-      empty_form_error:""
+      empty_form_error:"",
+      product_error:""
     };
     //Click Handler for the submit
 
@@ -57,25 +59,36 @@ import {toast} from 'react-toastify';
   };
 
   handleSubmit = event => {
-
     event.preventDefault();
-    if(  this.state.productName !=="" && this.state.price !== "" && this.state.description !==""){
-        let product_obj ={};
-        if(this.validateForm(this.state.price) == true){
-          product_obj = {
-          productname: this.state.productName,
-          categoryid: this.category_sel.value,
-          sellerid: this.props.Auth.user.decoded.profileid,
-          price: parseInt(this.state.price),
-          description: this.state.description
-        };
-        CreateAProduct(product_obj);
+
+      if(this.state.productName !=="" && this.state.price !== "" && this.state.description !==""){
+          let product_obj ={};
+            if(this.validateForm(this.state.price) == true){
+              product_obj = {
+              productname: this.state.productName,
+              categoryid: this.category_sel.value,
+              sellerid: this.props.Auth.user.decoded.accountid,
+              price: parseInt(this.state.price),
+              description: this.state.description
+            };
+
+            console.log(product_obj);
+            axios.post("http://localhost:5000/products/add", product_obj)  
+            .then(res => {
+                //successfully created the product.
+                //create a toast message
+                toast("Product successfully listed")
+            })
+            .catch(err =>{
+              //the product had an issues adding to the database
+                this.setState({product_error: err.response.data})
+            })
       }
     }
     else{
       this.setState({empty_form_error:"You must fill in the form to add a product"})   
     }
-  };
+}
 
   render() {
     const { productName, category, price, description } = this.state;
@@ -142,18 +155,4 @@ const mapStateToProps = state =>({
   error:state.error
 })
 
-
-export function CreateAProduct(data) {
-  const config = {
-    headers: {
-      "Content-Type": "application/json"
-    }
-  };
-
-  axios.post("http://localhost:5000/products/add", data, config).then(res => {
-    alert("Successfully listed your product");
-  });
-  //redirects the view to display the products
-  return window.location.reload();
-}
 export default connect(mapStateToProps, {loadUser})(AddProduct);

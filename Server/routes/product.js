@@ -44,6 +44,7 @@ router.post("/products/add", (request, response, next) => {
     price,
     description
   } = request.body;
+
   //insert statement to add products to the database
   db_connection.query(
     "INSERT INTO products (productname,categoryid,sellerid,price,description) VALUES($1,$2,$3,$4,$5)",
@@ -52,7 +53,7 @@ router.post("/products/add", (request, response, next) => {
       if (error) {
         //respond with an error if the insertion has failed.
         //Response.status(404).send('The product is missing details and could not be added');
-        return response.status(404).json('Product cannot be added');
+        return response.status(404).json('Product cannot be added ' + error.message);
       }
       //send a success full response to the client.
       return response.status(200).json("Product added successfully");

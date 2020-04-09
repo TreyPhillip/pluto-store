@@ -12,6 +12,29 @@ router.get('/wishlist', (request, response, next) => {
     });
 });
 
+
+//check if a product is on the wishlist
+router.post('/check_wishlist', (request,response) =>{
+    const {accountid, productid} = request.body;
+    db_connection.query('SELECT * FROM wishlist WHERE accountid=$1 AND productid=$2',
+    [accountid,productid],
+    (error,result) =>{
+        if(error){
+            return response.status(404).json("Err getting the item");
+        }
+        if(result.rows.length > 0) {
+            return response.status(301).json("product is already on the wishlist");
+        }
+        else{
+            return response.status(200).json("Product is not on the wishlist");
+        }
+    })
+})
+
+
+
+
+
 router.get('/wishlist/:id', (request, response, next) => {
     const id = parseInt(request.params.id)
     db_connection.query("SELECT * FROM wishlist WHERE wishlistid = $1", [id], (error, result) => {
