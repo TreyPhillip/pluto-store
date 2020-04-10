@@ -18,7 +18,7 @@ componentDidMount() {
 
 //var token = cookie.load("token");
 this.props.loadUser();
-Axios.get("http://localhost:5000/getAllProductsByCategory/1")
+Axios.get("http://localhost:5000/getAllProductsByCategory/11")
   .then(data => this.setState({ software: data.data}));
 }
 render() {

@@ -18,7 +18,7 @@ export class Electronics extends Component {
 
     //var token = cookie.load("token");
     //this.props.loadUser();
-    Axios.get("http://localhost:5000/getAllProductsByCategory/1")
+    Axios.get("http://localhost:5000/getAllProductsByCategory/4")
       .then(data => this.setState({ electronics: data.data}));
     }
     render() {
