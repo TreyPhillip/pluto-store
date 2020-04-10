@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Button, Container } from 'reactstrap';
+import { Button, Container, Toast, Alert } from 'reactstrap';
 import axios from 'axios'
 import { ReviewForm } from '../../Review/AddReview';
 import {connect} from 'react-redux';
 import { toast } from 'react-toastify'
 import {loadUser} from '../../Actions/authAction'
+import { Redirect } from 'react-router';
 
 
  class ProductDetails extends Component {
@@ -15,47 +16,71 @@ import {loadUser} from '../../Actions/authAction'
             productDetails: [],
             cartItems: [], 
             user:[],
+            wishlist:[],
+            addToWishlist:false,
+            //wishlist error
+            wishlist_error:""
         };
         this.addElementToWishlist = this.addElementToWishlist.bind(this);
     }
-     //pull data from the backend (database)
-     componentDidMount() {
+    
 
-        console.log(this.props.user)
+     componentDidMount() {
 
         let productId = this.props.location.pathname.split('/').pop();
         fetch("http://localhost:5000/products/" + productId)
         .then(res => res.json())
         .then(data => this.setState({ productDetails: data[0] }))
 
-        this.props.loadUser();
-
+        this.props.loaduser();
         //get the user id from redux
 
         if(this.props.user != null){
             this.setState({user:this.props.user.decoded});
+            fetch("http://localhost:5000/wishlist")
+            .then(response => response.json())
+            .then(data => this.setState({
+                wishlist: data.filter(item =>item.accountid == this.props.user.decoded.accountid)}))
+            
         }
     }
     
     addElementToWishlist = event => {
         event.preventDefault();
-        console.log(this.state.user.accountid + " " + this.state.productDetails.productid)
-        axios.post("http://localhost:5000/wishlist/add",{
-            accountid:this.state.user.accountid,
-            productid:this.state.productDetails.productid,
-           // description:this.state.productDetails.description,
-           // productname:this.state.productDetails.productname
-        }).then(res => {
-            toast(this.state.productDetails.productname + " has been added to your wishlist.")
-        }).catch(err =>{
-            alert("There was an error adding the item.")
-        })
-      }
+
+        if(this.props.user === null){
+            this.props.history.push('/login')
+        }
+        else{
+            const wishlist = this.state.wishlist;
+            let isTrue = false;
+            //loop through the wishlist to check if the product is already on the list.
+            for(let i = 0; i < wishlist.length; i++){
+                if(wishlist[i].productid === this.state.productDetails.productid){
+                    isTrue = true;
+                }
+            }
+            if(isTrue === true){
+                this.setState({wishlist_error:"The item is already on the wishlist"});
+            }
+            else{
+                this.setState({wishlist_error:""});
+                //safe to add item to wishlist
+                    axios.post("http://localhost:5000/wishlist/add",{
+                    accountid:this.state.user.accountid,
+                    productid:this.state.productDetails.productid,
+                })
+                .then(res =>{
+                    toast(this.state.productDetails.productname + " has been added to the wishlist")
+                })
+            }
+        }      
+    }
 
         render() {
-            
         return (
             <Container className="productDetails">
+            {this.state.wishlist_error ? <Alert color="danger" >{this.state.wishlist_error}</Alert> : null}
                 <header>
                     <h1><u>Product Details</u></h1>
                 </header>
@@ -78,11 +103,15 @@ import {loadUser} from '../../Actions/authAction'
 }
   //     <img src={Test} />
 
-  const mapPropsToState = (state) =>({
+const mapPropsToState = (state) =>({
     user:state.auth.user
-})
+});
 
-export default connect(mapPropsToState,{loadUser})(ProductDetails);
+const mapDispatchToProps ={
+    loaduser:loadUser
+};
+
+export default connect(mapPropsToState,mapDispatchToProps)(ProductDetails);
 
 function addElementToCart(product) {
     //create cartitem

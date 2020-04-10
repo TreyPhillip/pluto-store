@@ -77,17 +77,21 @@ router.put('/wishlist/update', (request, response, next) => {
 
 //delete purchase history
 router.delete('/wishlist/delete', (request, response, next) => {
-    const {
-        wishlistid
-    } = request.body;
+    const { wishlistid } = request.body;
 
-    db_connection.query('DELETE FROM wishlist WHERE wishlistid = $1', [wishlistid], (error, result) => {
+console.log(wishlistid);
+
+    db_connection.query('DELETE FROM wishlist WHERE wishlistid = $1',
+     [wishlistid],
+      (error, result) => {
         if (error) {
-            return response.status(401).json('Errors received while attempting to delete a wishlist record ');
+          return response.status(401).json('Errors received while attempting to delete a wishlist record ');
         }
-            return response.status(200).json('Successfully delete shipping address');
     });
+        return response.status(200).json('Successfully deleted wishlist item');
 });
+
+
 
 
 module.exports = router;

@@ -95,7 +95,15 @@ import {register, createProfile,uniqueUsernameCheck} from '../Actions/authAction
     event.preventDefault();
       const {errors} = this.state;
 
-      let newProfile_id = this.state.profile[0].profileid + 1;
+      let newProfile_id;
+    if(this.state.profile[0] === undefined)
+    {
+       newProfile_id = 0;
+    }
+    else{
+       newProfile_id = this.state.profile[0].profileid + 1;
+    }
+
       //state variables
       let username = this.state.userName;
       let email = this.state.email;

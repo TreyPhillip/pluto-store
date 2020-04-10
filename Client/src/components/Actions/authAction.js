@@ -110,11 +110,16 @@ export const register = (userName, email, password, isverified, profile_id) => d
     profileid: profile_id
 }
 
-    axios.post('http://localhost:5000/account/register', data).then(res => dispatch({
+    console.log(userName  + email + password + isverified + profile_id)
+
+    axios.post('http://localhost:5000/account/register', data,config)
+    
+        .then(res => dispatch({
             type: REGISTER_SUCCESS,
             payload: res.data
-        }))
+        }),config)
         .catch(err => {
+            console.log(err)
             dispatch(returnErrors(err.response.data, err.response.status, "REGISTER_FAIL"));
             dispatch({
                 type: REGISTER_FAIL

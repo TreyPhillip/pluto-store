@@ -27,16 +27,16 @@ router.post('/profile', (request, response, next) => {
                 return response.status(401).json('order failed to update');
 
             }
-            response.status(200).json(result.rows);
+                return response.status(200).json(result.rows);
         });
 });
 
 router.get('/lastRecord', (request, response, next) => {
     db_connection.query("SELECT * FROM profile ORDER BY profileid DESC LIMIT 1", (error, result) => {
         if (error) {
-            response.status(401).json("Error no records");
+           return response.status(401).json("Error no records");
         } else {
-            response.status(200).json(result.rows);
+            return response.status(200).json(result.rows);
         }
     });
 });
@@ -47,10 +47,10 @@ router.post('/profile/add', (request, response) => {
     db_connection.query("INSERT INTO profile (firstname,lastname,phonenumber) VALUES($1,$2,$3)",
         [firstname, lastname, phonenumber], (error, result) => {
             if (error) {
-                response.status(401).json("Adding profile failed");
+             return response.status(401).json("Adding profile failed");
             }
         });
-            response.status(200).json("Profile has been successfully created");  
+           return response.status(200).json("Profile has been successfully created");  
 });
 //update a profile.
 router.put('/profile/update', (request, response, next) => {
@@ -65,8 +65,7 @@ router.put('/profile/update', (request, response, next) => {
             if (error) {
                 return response.status(401).json('Profile failed to update');
             } else {
-                response.status(200).json("Profile has successfully been updated");
-                return;
+                return response.status(200).json("Profile has successfully been updated");
             }
         });
 });
@@ -81,8 +80,8 @@ router.delete('/profile/delete', (request, response, next) => {
         if (error) {
             return response.status(401).json('profile failed to be deleted');
         } else {
-            response.status(200).json("Profile successfully delete");
-            return;
+            return response.status(200).json("Profile successfully delete");
+            
         }
     });
 });

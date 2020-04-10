@@ -91,11 +91,9 @@ router.post("/account/register", (request, response, next) => {
     isverified,
     profileid
   } = request.body;
- // console.log('Username: ' + username + ' emailAddress: ' + emailaddress + ' userpassword: ' + userpassword + ' isverified: ' + isverified + ' profile: ' + profileid);
 
-  //response.setHeader('Content-type', 'application/json')
-
-  //encrypt the password
+  console.log(username + emailaddress + userpassword + isverified + profileid);
+  
   var hash = bcrypt.hashSync(userpassword, saltCount);
 
   db_connection.query(
@@ -103,11 +101,12 @@ router.post("/account/register", (request, response, next) => {
     [username, hash, emailaddress, isverified, profileid],
     (error, result) => {
       if (error) {
-        return response.status(400).json(error);
+        console.log(error)
+        return response.status(400).send(error);
       }
     }
   );
-    return response.status(200).json("Account has been registered successfully");
+    return response.status(200).send("Account has been registered successfully");
 });
 //update an account
 router.put("/account/update", (request, response, next) => {
@@ -150,7 +149,7 @@ router.delete("/account/delete", (request, response, next) => {
       }
     }
   );
-    return response.status(200).json("Account has been deleted");
+       return response.status(200).json("Account has been deleted");
 });
 
 
@@ -163,14 +162,14 @@ router.post("/account/uniqueUsername", (request, response) =>{
       [username],
       (error, results) => {
         if(error){
-          return response.status(404).send("Error attempting to extract username");
+          return response.status(404).json("Error attempting to extract username");
         }
        
         if(results.rows.length > 0){
-          return response.status(401).send("Username has already been taken");
+          return response.status(401).json("Username has already been taken");
         }
         else{
-          return response.status(200).send("The Username is not registered");
+          return response.status(200).json("The Username is not registered");
         }
       }
     );
