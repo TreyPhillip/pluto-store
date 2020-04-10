@@ -42,13 +42,14 @@ router.post("/products/add", (request, response, next) => {
     categoryid,
     sellerid,
     price,
-    description
+    description,
+    quantity
   } = request.body;
 
   //insert statement to add products to the database
   db_connection.query(
-    "INSERT INTO products (productname,categoryid,sellerid,price,description) VALUES($1,$2,$3,$4,$5)",
-    [productname, categoryid, sellerid, price, description],
+    "INSERT INTO products (productname,categoryid,sellerid,price,description,quantity) VALUES($1,$2,$3,$4,$5,$6)",
+    [productname, categoryid, sellerid, price, description, quantity],
     (error, results) => {
       if (error) {
         //respond with an error if the insertion has failed.
@@ -69,11 +70,12 @@ router.put("/products/update", (request, response, next) => {
     categoryid,
     sellerid,
     price,
-    description
+    description,
+    quantity
   } = request.body;
   db_connection.query(
-    "UPDATE products SET productname = $1, categoryid = $2, sellerid=$3, price=$4, description = $5 WHERE productid = $6",
-    [productname, categoryid, sellerid, price, description, productid],
+    "UPDATE products SET productname = $1, categoryid = $2, sellerid=$3, price=$4, description = $5, quantity = $6 WHERE productid = $7",
+    [productname, categoryid, sellerid, price, description, quantity, productid],
     (error, results) => {
       if (error) {
         return response.status(401).json('Updating product has failed');

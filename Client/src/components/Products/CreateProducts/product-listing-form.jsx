@@ -17,9 +17,9 @@ import {toast} from 'react-toastify';
       productName: "",
       categoryid: "",
       sellerid: "",
-      price: "",
+      price: "",    
       description: "",
-
+      quantity: "",
       //error messages
       empty_form_error:"",
       product_error:""
@@ -60,7 +60,6 @@ import {toast} from 'react-toastify';
 
   handleSubmit = event => {
     event.preventDefault();
-
       if(this.state.productName !=="" && this.state.price !== "" && this.state.description !==""){
           let product_obj ={};
             if(this.validateForm(this.state.price) == true){
@@ -69,7 +68,8 @@ import {toast} from 'react-toastify';
               categoryid: this.category_sel.value,
               sellerid: this.props.Auth.user.decoded.accountid,
               price: parseInt(this.state.price),
-              description: this.state.description
+              description: this.state.description,
+              quantity: parseInt(this.state.quantity)
             };
 
             console.log(product_obj);
@@ -91,7 +91,7 @@ import {toast} from 'react-toastify';
 }
 
   render() {
-    const { productName, category, price, description } = this.state;
+    const { productName, category, price, quantity, description } = this.state;
     return (
       <Container className="product-form">
         {this.state.empty_form_error ? <Alert color="danger" >{this.state.empty_form_error}</Alert> : null}
@@ -129,6 +129,16 @@ import {toast} from 'react-toastify';
               name="price"
               id="priceInput"
               value={price}
+              onChange={e => this.handleChange(e)}
+               />
+          </FormGroup>
+          <FormGroup>
+            <Label>quantity: </Label>
+            <Input
+              type="text"
+              name="quantity"
+              id="priceInput"
+              value={quantity}
               onChange={e => this.handleChange(e)}
                />
           </FormGroup>

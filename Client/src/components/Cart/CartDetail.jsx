@@ -37,11 +37,14 @@ export default class CartDetails extends Component {
             quantity: value,
             linePrice: this.state.price * value,            
         });
-        await this.setState({...this.state.cartItems, quantity: value});
-        this.state.cartItems.map((item) => {
-            subtotal += item.linePrice;
-            console.log("item.LinePrice " + item.linePrice)
-        });
+        console.log(this.state.cartItems)
+        await 
+        console.log(this.state.cartItems)
+
+        // this.state.cartItems.map((item) => {
+        //     subtotal += item.linePrice;
+        //     console.log("item.LinePrice " + item.linePrice)
+        // });
         // console.log(this.state.cartItems)
         // console.log(this.state.linePrice)
         console.log("subtotal " + subtotal)
