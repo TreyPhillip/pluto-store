@@ -18,6 +18,7 @@ import { Redirect } from 'react-router';
             user:[],
             wishlist:[],
             addToWishlist:false,
+
             //wishlist error
             wishlist_error:""
         };
@@ -25,9 +26,7 @@ import { Redirect } from 'react-router';
         this.addElementToWishlist = this.addElementToWishlist.bind(this);
     }
     
-
      componentDidMount() {
-
         let productId = this.props.location.pathname.split('/').pop();
         fetch("http://localhost:5000/products/" + productId)
         .then(res => res.json())
@@ -41,8 +40,7 @@ import { Redirect } from 'react-router';
             fetch("http://localhost:5000/wishlist")
             .then(response => response.json())
             .then(data => this.setState({
-                wishlist: data.filter(item =>item.accountid == this.props.user.decoded.accountid)}))
-            
+                wishlist: data.filter(item =>item.accountid == this.props.user.decoded.accountid)}))            
         }
     }
     
@@ -59,8 +57,7 @@ import { Redirect } from 'react-router';
         };
         console.log(product)
     
-        var exist = false
-    
+        var exist = false  
         if (sessionStorage.getItem('cart')) {
             cartItems = JSON.parse(sessionStorage.getItem('cart'));
     
@@ -69,16 +66,16 @@ import { Redirect } from 'react-router';
                     exist = true;
                     break;
                 }
-            }
-    
+            }    
             if (exist) {
-                alert("You already added this product on the list");
+                toast("this item is already in the cart")
             }
             else {
                 //add the current product onto the cart list.
                 cartItems.push(product);
                 //save the cart element to local storage where it can be extracted later
                 sessionStorage.setItem("cart", JSON.stringify(cartItems));
+                toast(this.state.productDetails.productname + " has been added to the cart")
             }
         }
         else {
@@ -86,6 +83,7 @@ import { Redirect } from 'react-router';
             cartItems.push(product);
             //save the cart element to local storage where it can be extracted later
             sessionStorage.setItem("cart", JSON.stringify(cartItems));
+            toast(this.state.productDetails.productname + " has been added to the cart")
         }
     }
 
@@ -132,7 +130,7 @@ import { Redirect } from 'react-router';
                     <p className='productinfo'>{this.state.productDetails.productname}</p>
                     <p className='productinfo'>${this.state.productDetails.price}</p>
                     <Button className="btnAddToCart" color='success' onClick={() =>
-                        { addElementToCart(this.state.productDetails) }}>Add to Cart</Button>
+                        { this.addElementToCart(this.state.productDetails) }}>Add to Cart</Button>
                     <Button className="btnAddToWishlist" color='info' onClick={this.addElementToWishlist}>Add to Wishlist</Button>
                 </div>
                 <br/>

@@ -52,7 +52,9 @@ router.post('/wishlist/add', (request, response, next) => {
         productid
     } = request.body;
 
-    db_connection.query('INSERT INTO wishlist (accountid, productid) VALUES($1,$2)', [accountid, productid], (error, result) => {
+    db_connection.query('INSERT INTO wishlist (accountid, productid) VALUES($1,$2)', 
+    [accountid, productid],
+     (error, result) => {
         if (error) {
             return response.status(401).json('Errors received while attempting to add a WishList record ');
         }
