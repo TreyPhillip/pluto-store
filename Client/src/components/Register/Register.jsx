@@ -224,6 +224,7 @@ import {register, createProfile,uniqueUsernameCheck} from '../Actions/authAction
               type="email"
               name="email"
               id="emailInput"
+              placeholder="example@email.com"
               value={email}
               valid={this.state.validate.emailState === "has-success"}
               invalid={this.state.validate.emailState === "has-danger"}
@@ -263,6 +264,7 @@ import {register, createProfile,uniqueUsernameCheck} from '../Actions/authAction
               type="text"
               name="firstName"
               id="firstNameInput"
+              placeholder="John"
               value={firstName}
               onChange={e => {
                 this.handleChange(e);
@@ -276,6 +278,7 @@ import {register, createProfile,uniqueUsernameCheck} from '../Actions/authAction
               type="text"
               name="lastName"
               id="lastNameInput"
+              placeholder="Smith"
               value={lastName}
               onChange={e => {
                 this.handleChange(e);
@@ -289,6 +292,7 @@ import {register, createProfile,uniqueUsernameCheck} from '../Actions/authAction
               type="text"
               name="address"
               id="addressInput"
+              placeholder="123 Main St."
               value={address}
               onChange={e => {
                 this.handleChange(e);
@@ -302,6 +306,7 @@ import {register, createProfile,uniqueUsernameCheck} from '../Actions/authAction
               type="text"
               name="phoneNumber"
               id="phoneNumberInput"
+              placeholder="123-456-7890"
               value={phoneNumber}
               onChange={e => {
                 this.handleChange(e);
