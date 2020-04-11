@@ -11,6 +11,16 @@ router.get('/reviews', (request,response,next) => {
         response.status(200).json(result.rows);
     });
 });
+//get all accounts for review
+router.get('/reviews/getaccounts', (request, response, next) => {
+    db_connection.query('SELECT accountid, username FROM account', (error, result) =>{
+        if(error){
+            response.status(404).json('no accounts found')
+        }
+        response.status(200).json(result.rows);
+    });
+});
+
 //get a review
     router.get('/reviews/:id',(request, response,next) =>{
         const id = parseInt(request.params.id)

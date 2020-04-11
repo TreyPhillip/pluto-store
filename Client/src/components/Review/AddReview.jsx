@@ -12,7 +12,8 @@ class AddReview extends Component {
         this.state = {
             rating: 1,
             reviewComment: '',
-            ReviewList:[]
+            reviewlist:[],
+            seller:[]
         };
         
         //click handlers.
@@ -31,6 +32,12 @@ class AddReview extends Component {
         .then(data => this.setState({
             ReviewList: data.filter(product => product.productId == productId)
         }));
+        fetch("http://localhost:5000/reviews/getaccounts")
+        .then(res => res.json())
+        .then(data => this.setState({ seller: data }));
+
+      this.props.loadUser();
+        
     }
     RatingHandler(event) {
         this.setState({
@@ -45,6 +52,7 @@ class AddReview extends Component {
     GetDate() {
         var systemDate = new Date();
         var date = systemDate.getDay() + '/' + systemDate.getMonth() + '/' + systemDate.getFullYear().toString().substr(2.2);
+        return date;
     }
     handleChange = async event => {
         const { target } = event;
@@ -62,10 +70,11 @@ class AddReview extends Component {
               let review_obj ={};
                 if(this.validateForm(this.state.rating) == true){
                   review_obj = {
-                  sellername: this.state.sellerName,
-                  sellerid: this.props.Auth.user.decoded.accountid,
+                  reviewerid: this.props.Auth.user.decoded.accountid,
+                  sellerid: this.seller_sel.value,
                   rating: parseInt(this.state.rating),
-                  reviewcomment: this.state.reviewComment
+                  reviewcomment: this.state.reviewcomment,
+                  reviewdate:this.GetDate()
                 };
     
                 console.log(review_obj);
@@ -105,13 +114,18 @@ calculateAverage() {
             <Form onSubmit={this.handleSubmit}>
               <FormGroup>
                 <Label>Seller Name: </Label>
-                <Input
-                  type="text"
-                  name="sellerName"
-                  id="sellerNameInput"
-                  value={sellerName}
-                  onChange={e => this.handleChange(e)}
-                  />
+                <select
+                  className="form-control "
+                  ref={seller_sel => (this.seller_sel = seller_sel)}
+                  >
+                  {this.state.seller.map(seller => {
+                    return (
+                      <option key={seller.accountid} value={seller.accountid}>
+                        {seller.username}
+                      </option>
+                    );
+                  })}
+                </select>
               </FormGroup>
               <FormGroup>
                 <Label>Rating: </Label>
