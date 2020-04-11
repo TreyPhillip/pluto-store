@@ -21,6 +21,7 @@ import { Redirect } from 'react-router';
             //wishlist error
             wishlist_error:""
         };
+        this.addElementToCart = this.addElementToCart.bind(this);
         this.addElementToWishlist = this.addElementToWishlist.bind(this);
     }
     
@@ -45,6 +46,49 @@ import { Redirect } from 'react-router';
         }
     }
     
+    addElementToCart = (product) => {
+        //create cartitem
+        let cartItems = [];
+        var product = {
+            productId: product.productid,
+            productName: product.productname,
+            price: product.price,
+            quantity: 1,
+            maxQuantity: product.quantity,
+            linePrice: product.price * 1
+        };
+        console.log(product)
+    
+        var exist = false
+    
+        if (sessionStorage.getItem('cart')) {
+            cartItems = JSON.parse(sessionStorage.getItem('cart'));
+    
+            for (var i = 0; i < cartItems.length; i++) {
+                if (cartItems[i].productId == product.productId) {
+                    exist = true;
+                    break;
+                }
+            }
+    
+            if (exist) {
+                alert("You already added this product on the list");
+            }
+            else {
+                //add the current product onto the cart list.
+                cartItems.push(product);
+                //save the cart element to local storage where it can be extracted later
+                sessionStorage.setItem("cart", JSON.stringify(cartItems));
+            }
+        }
+        else {
+            //add the current product onto the cart list.
+            cartItems.push(product);
+            //save the cart element to local storage where it can be extracted later
+            sessionStorage.setItem("cart", JSON.stringify(cartItems));
+        }
+    }
+
     addElementToWishlist = event => {
         event.preventDefault();
 
@@ -112,49 +156,6 @@ const mapDispatchToProps ={
 };
 
 export default connect(mapPropsToState,mapDispatchToProps)(ProductDetails);
-
-function addElementToCart(product) {
-    //create cartitem
-    let cartItems = [];
-    var product = {
-        productId: product.productid,
-        productName: product.productname,
-        price: product.price,
-        quantity: 1,
-        maxQuantity: product.quantity,
-        linePrice: product.price * 1
-    };
-    console.log(product)
-
-    var exist = false
-
-    if (sessionStorage.getItem('cart')) {
-        cartItems = JSON.parse(sessionStorage.getItem('cart'));
-
-        for (var i = 0; i < cartItems.length; i++) {
-            if (cartItems[i].productId == product.productId) {
-                exist = true;
-                break;
-            }
-        }
-
-        if (exist) {
-            alert("You already added this product on the list");
-        }
-        else {
-            //add the current product onto the cart list.
-            cartItems.push(product);
-            //save the cart element to local storage where it can be extracted later
-            sessionStorage.setItem("cart", JSON.stringify(cartItems));
-        }
-    }
-    else {
-        //add the current product onto the cart list.
-        cartItems.push(product);
-        //save the cart element to local storage where it can be extracted later
-        sessionStorage.setItem("cart", JSON.stringify(cartItems));
-    }
-}
 
 
 

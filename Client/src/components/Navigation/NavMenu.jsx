@@ -50,21 +50,13 @@ import './NavMenu.css';
 									Register
 								</NavLink>
 							</NavItem>
-							<NavItem>
-								<NavLink href="/AddProduct" className="text-white">
-									Add A Product
-								</NavLink>
-							</NavItem>
+							
 							<NavItem>
 								<NavLink href="/Categories" className="text-white">
 									Categories
 								</NavLink>
 							</NavItem>
-							<NavItem>
-								<NavLink href='/AddReview' className='text-white'>
-									Add a Seller Review
-								</NavLink>
-							</NavItem>
+							
 						</Nav>
 					</Collapse>
 				</Navbar>

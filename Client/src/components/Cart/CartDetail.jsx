@@ -7,7 +7,7 @@ export default class CartDetails extends Component {
 		super(props);
 		this.state = {
             cartItems: JSON.parse(sessionStorage.getItem('cart')),
-            productID: this.props.productID,
+            productId: this.props.productId,
             description: this.props.description,
             productName: this.props.productName,
             price: this.props.price,
@@ -20,15 +20,16 @@ export default class CartDetails extends Component {
     }
 	
 	remove = (productId) => {
-		var cart = JSON.parse(sessionStorage.getItem('cart'));
-	
-		for (var i = 0; i < cart.length; i++) {
-			if (cart[i].productID == productId) {
-				cart.splice(i, 1);
-			}
-		}
-		sessionStorage.setItem('cart', JSON.stringify(cart));
-		window.location.reload();
+        var cart = JSON.parse(sessionStorage.getItem('cart'));
+    
+        for (var i = 0; i < cart.length; i++) {
+            if (cart[i].productId == productId) {
+                cart.splice(i, 1);
+            }
+        }
+        sessionStorage.setItem('cart', JSON.stringify(cart));
+        window.location.reload();
+    
     }
     
     onQuantityChange = async (value) => {
@@ -74,9 +75,9 @@ export default class CartDetails extends Component {
                         max={this.state.maxQuantity}></input>
                         </div>
                         <div className="product-removal">
-                            <Button color="danger" className="remove-product" onClick={() => { this.remove(this.state.productID) }}>
+                            <button color="danger" className="remove-product" onClick={() => { this.remove(this.state.productId) }}>
                                 Remove
-                            </Button>
+                            </button>
                         </div>
                     <div className="product-line-price">{this.state.linePrice}</div>
                     </div>			
