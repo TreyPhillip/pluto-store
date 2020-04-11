@@ -1,22 +1,28 @@
 import React, { Component } from 'react';
 import './Cart.css';
 import { Container, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { toast } from 'react-toastify'
 
 export default class CartDetails extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-            cartItems: JSON.parse(sessionStorage.getItem('cart')),
+            cartItems: [],
             productId: this.props.productId,
             description: this.props.description,
             productName: this.props.productName,
             price: this.props.price,
-            quantity: 1,
+            quantity: this.props.quantity,
             maxQuantity: this.props.maxQuantity,
             linePrice: this.props.price * this.props.quantity
 		};
         this.remove  = this.remove.bind(this);
         this.onQuantityChange  = this.onQuantityChange.bind(this);
+    }
+    componentDidMount(){
+        this.setState({
+            cartItems: JSON.parse(sessionStorage.getItem('cart'))
+        })
     }
 	
 	remove = (productId) => {
@@ -28,27 +34,58 @@ export default class CartDetails extends Component {
             }
         }
         sessionStorage.setItem('cart', JSON.stringify(cart));
-        window.location.reload();
-    
+        window.location = window.location; 
     }
     
     onQuantityChange = async (value) => {
+        //adjust quantity and line price and log changes
         let subtotal = 0;
         await this.setState({
             quantity: value,
             linePrice: this.state.price * value,            
         });
-        console.log(this.state.cartItems)
-        await 
-        console.log(this.state.cartItems)
 
-        // this.state.cartItems.map((item) => {
-        //     subtotal += item.linePrice;
-        //     console.log("item.LinePrice " + item.linePrice)
-        // });
+        //remove the updated item from state cart
+        var cart = JSON.parse(sessionStorage.getItem('cart'));    
+        for (var i = 0; i < cart.length; i++) {
+            if (cart[i].productId == this.state.productId) {
+                cart.splice(i, 1);
+            }
+        }
+        sessionStorage.setItem('cart', JSON.stringify(cart));
+
+        let cartItems = [];
+        var product = {
+            productId: this.state.productId,
+            productName: this.state.productName,
+            price: this.state.price,
+            quantity: this.state.quantity,
+            maxQuantity: this.state.maxQuantity,
+            linePrice: this.state.price * this.state.quantity
+        };
+        cartItems = JSON.parse(sessionStorage.getItem('cart'));
+
+        //add the current product onto the cart list.
+        cartItems.push(product);
+        //save the cart element to local storage where it can be extracted later
+        sessionStorage.setItem("cart", JSON.stringify(cartItems));   
+        this.setState({
+            cartItems: JSON.parse(sessionStorage.getItem('cart'))
+        })
+
+        console.log(this.state.cartItems)
+        
+        this.state.cartItems.map((item) => {
+            subtotal += item.linePrice;
+        });
+        sessionStorage.setItem("subtotal", JSON.stringify(subtotal));  
+        console.log(subtotal)
+
+        window.location = window.location; 
+
         // console.log(this.state.cartItems)
-        // console.log(this.state.linePrice)
-        console.log("subtotal " + subtotal)
+        // console.log("state lineprice: " + this.state.linePrice)
+        // console.log("subtotal: " + subtotal)
     }
 
 	render() {

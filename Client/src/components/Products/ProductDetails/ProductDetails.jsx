@@ -18,6 +18,7 @@ import { Redirect } from 'react-router';
             user:[],
             wishlist:[],
             addToWishlist:false,
+            total: JSON.parse(sessionStorage.getItem('subtotal')),
 
             //wishlist error
             wishlist_error:""

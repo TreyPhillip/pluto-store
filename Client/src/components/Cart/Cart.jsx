@@ -7,8 +7,18 @@ export class Cart extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			cartItems: JSON.parse(sessionStorage.getItem('cart'))
+			cartItems: JSON.parse(sessionStorage.getItem('cart')),
+			subtotal: 0
 		};
+	}
+	componentDidMount(){
+		let subtotal = 0;
+		this.state.cartItems.map((item) => {
+            subtotal += item.linePrice;
+		});
+		this.setState({
+			subtotal: subtotal
+		})
 	}
 
 	render(){
@@ -36,21 +46,12 @@ export class Cart extends Component {
 				linePrice={item.linePrice}/>
 			))}
 			</div>
-			{/* <div className="totals">
-				{this.state.cartItems.map(item => item.linePrice).reduce((total, item) => item + total)};
-					<div className="totals-item">
-						<label>Subtotal</label>
-			<div className="totals-value" id="cart-subtotal">{this.state.cartItems.linePrice}</div>
-					</div>
+			<div className="totals">
 				<div className="totals-item">
-				<label>Shipping</label>
-				<div className="totals-value" id="cart-shipping">15.00</div>
+					<label>Total</label>
+					<div className="totals-value" id="cart-subtotal">{this.state.subtotal}</div>
 				</div>
-				<div className="totals-item totals-item-total">
-				<label>Grand Total</label>
-				<div className="totals-value" id="cart-total">114.00</div>
-				</div>
-			</div> */}
+			</div>
 			<Button color="success" className="checkout">Checkout</Button>
 		</div>
 		)
