@@ -101,7 +101,7 @@ calculateAverage() {
         return(
             <Container className="review-form">
             {this.state.empty_form_error ? <Alert color="danger" >{this.state.empty_form_error}</Alert> : null}
-    
+            <h2>Seller Review</h2>
             <Form onSubmit={this.handleSubmit}>
               <FormGroup>
                 <Label>Seller Name: </Label>

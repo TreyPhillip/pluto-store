@@ -95,7 +95,7 @@ import {toast} from 'react-toastify';
     return (
       <Container className="product-form">
         {this.state.empty_form_error ? <Alert color="danger" >{this.state.empty_form_error}</Alert> : null}
-
+        <h2>Add a Product</h2>
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
             <Label>Product Name: </Label>

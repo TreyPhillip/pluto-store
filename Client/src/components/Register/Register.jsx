@@ -213,7 +213,7 @@ import {register, createProfile,uniqueUsernameCheck} from '../Actions/authAction
 
     return (
     
-      <Container className="register">
+      <Container className="registration-form">
           {this.state.errors.empty_form ? <Alert color="danger" >{this.state.errors.empty_form}</Alert> : null}          
         <h2>Register</h2>
         <p>* indicates a required field</p>
