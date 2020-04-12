@@ -57,7 +57,7 @@ class AddReview extends Component {
             Review: event.target.value
         });
     }
-    GetDate() {
+    GetReviewDate() {
         var systemDate = new Date();
         var date = systemDate.getDate() + '/' + systemDate.getMonth() + '/' + systemDate.getFullYear().toString().substr(2.2);
         return date;
@@ -82,7 +82,7 @@ class AddReview extends Component {
                   reviewedid: this.seller_sel.value,
                   numberrating: parseInt(this.state.rating),
                   reviewcomment: this.state.reviewcomment,
-                  datereviewed:this.GetDate()
+                  datereviewed:this.GetReviewDate()
                 };
     
                 console.log(review_obj);
