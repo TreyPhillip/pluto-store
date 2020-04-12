@@ -3,9 +3,7 @@ var express = require("express");
 var router = express.Router();
 var db_connection = require("../database/database_connection");
 
-
-
-
+//----------------------------------------
 //get all products
 router.get("/products", (request, response, next) => {
   db_connection.query("SELECT * FROM products", (error, results) => {
@@ -15,7 +13,6 @@ router.get("/products", (request, response, next) => {
       return response.status(200).json(results.rows);
   });
 });
-
 //get a product by Id
 router.get("/products/:id", (request, response, next) => {
   const id = parseInt(request.params.id);
@@ -33,7 +30,6 @@ router.get("/products/:id", (request, response, next) => {
     }
   );
 });
-
 //add a product
 router.post("/products/add", (request, response, next) => {
   //values that are expected within the request body.
@@ -43,13 +39,14 @@ router.post("/products/add", (request, response, next) => {
     sellerid,
     price,
     description,
-    quantity
+    quantity,
+    image
   } = request.body;
 
   //insert statement to add products to the database
   db_connection.query(
-    "INSERT INTO products (productname,categoryid,sellerid,price,description,quantity) VALUES($1,$2,$3,$4,$5,$6)",
-    [productname, categoryid, sellerid, price, description, quantity],
+    "INSERT INTO products (productname,categoryid,sellerid,price,description,quantity,image) VALUES($1,$2,$3,$4,$5,$6,$7)",
+    [productname, categoryid, sellerid, price, description, quantity, image],
     (error, results) => {
       if (error) {
         //respond with an error if the insertion has failed.
@@ -61,7 +58,6 @@ router.post("/products/add", (request, response, next) => {
     }
   );
 });
-
 //update a product
 router.put("/products/update", (request, response, next) => {
   const {

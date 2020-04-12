@@ -155,14 +155,11 @@ var moment = require('moment');
         creditcardnumber: this.state.creditCardNumber
       })
       .then(res =>{
-         this.setState({isRegistered:true})
+         this.setState({isRegistered:true, creditCardNumber_err:""})
       })
       .catch(err => {
-         this.setState({isRegistered:false})
+         this.setState({isRegistered:false, creditCardNumber_err:"Credit Card Number is already Registered"})
       })
-
-      console.log(this.state.isRegistered);
-   // console.log(this.state.creditCardNumber_err);
 
     //cardholder validation
     if(this.state.creditCardHolderName.length < 5){
@@ -199,17 +196,31 @@ var moment = require('moment');
       cvcode: this.state.cvCode
     }
 
-    console.log(this.state.cardValidation_code);
+    console.log(this.state.isRegistered);
 
 
     if(this.state.cvCode_err === "" && 
        this.state.creditCardHolderName_err ==="" 
        && this.state.creditCardNumber_err === "" 
        && this.state.expirationDate_err ===""
-       && this.state.cardValidation_code !== 200)
+       && this.state.isRegistered === true)
         {
-          console.log('HI')
-        }
+                //create the new payment 
+         axios.post("http://localhost:5000/payment/add",{
+            accountid: this.props.auth.user.decoded.accountid,
+            creditcardnumber:this.state.creditCardNumber,
+            cardholdername: this.state.creditCardHolderName,
+            expirationdate: this.state.expirationDate,
+            cvcode: this.state.cvCode
+          })
+          .then(res =>{
+              toast('Successfully added payment option')
+          })
+          .then(this.toggle)
+          .catch(err =>{
+              console.log(err);
+          })
+     }
   }
 
   onSubmit = event =>{
@@ -283,7 +294,6 @@ var moment = require('moment');
   onDelete = event =>{
       //delete account
       event.preventDefault();
-
       //TODO confirm the choice / cancel
       //Need to delete the profile
       try{
@@ -291,7 +301,6 @@ var moment = require('moment');
         this.props.deleteProfile(this.state.account.profileid);
       }
       catch(error){
-        //display errors
       }
   }
 
@@ -319,7 +328,6 @@ var moment = require('moment');
           shipping_streetAddress,
           shipping_city,
           shipping_country,
-
         } = this.state;
 
         return (
@@ -530,17 +538,4 @@ function creditCardValidator(cardNumber){
      sum += d;
    }
    return (sum % 10) == 0;
-}
-//check if a credit card already is being used
- function duplicationCards(cardNum){
-
-  let status = true;
-
-   axios.post("http://localhost:5000/payment/validateCreditNumber", {
-    creditcardnumber: cardNum
-  })
-  .then(res => status = true)
-  .catch(err => status = false)
-  //console.log(status);
-  return status;
 }

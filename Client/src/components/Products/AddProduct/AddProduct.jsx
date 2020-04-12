@@ -7,6 +7,8 @@ import {connect} from 'react-redux';
 import {loadUser} from '../../Actions/authAction'
 import {toast} from 'react-toastify';
 
+//image imports
+import {storage} from '../../../firebase-config';
 
  class AddProduct extends Component {
   constructor(props) {
@@ -22,10 +24,14 @@ import {toast} from 'react-toastify';
       quantity: "",
       //error messages
       empty_form_error:"",
-      product_error:""
+      product_error:"",
+      //image state
+      imageAsFile:null,
+      imageUrl:null,
+      imagePreview:null,
+
     };
     //Click Handler for the submit
-
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.validateForm  = this.validateForm.bind(this);
@@ -61,28 +67,57 @@ import {toast} from 'react-toastify';
   handleSubmit = event => {
     event.preventDefault();
       if(this.state.productName !=="" && this.state.price !== "" && this.state.description !==""){
-          let product_obj ={};
-            if(this.validateForm(this.state.price) == true){
-              product_obj = {
-              productname: this.state.productName,
-              categoryid: this.category_sel.value,
-              sellerid: this.props.Auth.user.decoded.accountid,
-              price: parseInt(this.state.price),
-              description: this.state.description,
-              quantity: parseInt(this.state.quantity)
-            };
+            //IMAGE------------------------------------
+            if(this.state.imageAsFile === '' ) {
+              console.error(`not an image, the image file is a ${typeof(imageAsFile)}`)
+            }
 
-            console.log(product_obj);
-            axios.post("http://localhost:5000/products/add", product_obj)  
-            .then(res => {
-                //successfully created the product.
-                //create a toast message
-                toast("Product successfully listed")
+            let product_obj ={};
+            if(this.validateForm(this.state.price) == true){
+            const uploadTask = storage.ref(`/images/${this.state.imageAsFile.name}`).put(this.state.imageAsFile)
+            //Uploading file to firebase storage
+            uploadTask.on('state_changed', 
+            (snapShot) => {
+              //takes a snap shot of the process as it is happening
+              console.log(snapShot)
+            }, (err) => {
+              //catches the errors
+              console.log(err)
+            }, () => {
+              // gets the functions from storage refences the image storage in firebase by the children
+              // gets the download url then sets the image from firebase as the value for the imgUrl key:
+              storage.ref('images').child(this.state.imageAsFile.name).getDownloadURL()
+              .then(fireBaseUrl => {
+                this.setState({imageUrl: fireBaseUrl})
+                //setImageAsUrl(prevObject => ({...prevObject, imgUrl: fireBaseUrl}))
             })
-            .catch(err =>{
-              //the product had an issues adding to the database
-                this.setState({product_error: err.response.data})
-            })
+            .then(save =>{
+                    
+                  product_obj = {
+                      productname: this.state.productName,
+                      categoryid: this.category_sel.value,
+                      sellerid: this.props.Auth.user.decoded.accountid,
+                      price: parseInt(this.state.price),
+                      description: this.state.description,
+                      quantity: parseInt(this.state.quantity),
+                      image: this.state.imageUrl
+                    };
+                          //save product to the database
+                    axios.post("http://localhost:5000/products/add", product_obj)  
+                    .then(res => {
+                      //sucess
+                      toast("Product successfully listed")
+                      window.setTimeout(function(){
+                        window.location.href = "/Home";
+                      }, 3000)
+                    })
+                    .catch(err =>{
+                    //the product had an issues adding to the database
+                    this.setState({product_error: err.response.data})
+                }) 
+                console.log(product_obj)
+            }) 
+        })
       }
     }
     else{
@@ -92,6 +127,24 @@ import {toast} from 'react-toastify';
 
   render() {
     const { productName, category, price, quantity, description } = this.state;
+    
+      const  handleImageAsFile = async (e) => {
+
+          const image = e.target.files[0]
+          this.setState({imageAsFile: image})
+
+          console.log(image);
+
+        if(image === undefined){
+          this.setState({imagePreview: null});
+        }
+
+        if(image != undefined){
+          if(!this.state.imageAsFile){
+              this.setState({imagePreview: URL.createObjectURL(image)})
+          }
+        } 
+      }
     return (
       <Container className="product-form">
         {this.state.empty_form_error ? <Alert color="danger" >{this.state.empty_form_error}</Alert> : null}
@@ -159,11 +212,10 @@ import {toast} from 'react-toastify';
             />
           </FormGroup>
           <FormGroup>
-            <Label>File: </Label>
-            <Input type="file" name="file" accept="image/png, image/jpeg"/>
-            <FormText color="muted">
-              Upload an image for your product.
-            </FormText>
+             <input type="file" className="Process__Upload_btn" 
+                onChange={handleImageAsFile}></input>
+             <img src={this.state.imagePreview} style={styles} alt="upload image" className="upload_image"
+             />
           </FormGroup>
           <Button type="submit" color="info">Add Product</Button>
         </Form>
@@ -176,5 +228,10 @@ const mapStateToProps = state =>({
   Auth: state.auth,
   error:state.error
 })
+
+const styles = {
+  weight: '200px',
+  height: '200px'
+}
 
 export default connect(mapStateToProps, {loadUser})(AddProduct);

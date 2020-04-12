@@ -132,6 +132,7 @@ import { Redirect } from 'react-router';
                     <h1><u>Product Details</u></h1>
                 </header>
                 <div className="addToCart">
+                    <img style={style} src={this.state.productDetails.image}/>
                     <p className='productinfo'>{this.state.productDetails.productname}</p>
                     <p className='productinfo'>${this.state.productDetails.price}</p>
                     <Button className="btnAddToCart" color='success' onClick={() =>
@@ -147,6 +148,11 @@ import { Redirect } from 'react-router';
             </Container>
         )
     }
+}
+
+const style={
+    width:"200px",
+    height:"200px"
 }
 
 const mapPropsToState = (state) =>({
