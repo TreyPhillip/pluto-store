@@ -41,17 +41,15 @@ router.post("/authentication", (request, response, next) => {
                 expiresIn: '1h'
               });
               //send the token back to the frontned as a cookie
-              response.status(200).json({
-                sucess: true,
-                token: `${token}`
-              })
+               return response.status(200).json({sucess: true, token: `${token}`})
               //response.cookie('token', token,{httpOnly:true}).sendStatus(200);
             } else {
               //else send invalid password/email
               return response.status(401).json("Invalid password or email");
             }
           });
-        } else {
+        } 
+        else {
           return response.status(401).json("Invalid Password or Email");
         }
       });
@@ -68,18 +66,14 @@ router.post("/checkToken", (request, response, next) => {
   jwt.verify(tokenString, secert, function (err, decoded) {
     if (err) {
       //if it doesn't validate, then the token is invalid.
-      response.status(403).json('invaild token');
-    } else {
+      return response.status(403).json('invaild token');
+    } 
       //check if the emails match.
       request.email = decoded.email;
       //send a message, status of 200 and the decoded object.
-      response.status(200).json({
-        message: 'Successfully valided',
-        //send back the decoded object.
-        decoded
-      });
+      return response.status(200).json({ message: 'Successfully valided', decoded });
     }
-  });
+  );
 });
 ///=======================================================
 //Add a new account
@@ -102,11 +96,11 @@ router.post("/account/register", (request, response, next) => {
     (error, result) => {
       if (error) {
         console.log(error)
-        return response.status(400).send(error);
+        return response.status(400).json(error);
       }
     }
   );
-    return response.status(200).send("Account has been registered successfully");
+    return response.status(200).json("Account has been registered successfully");
 });
 //update an account
 router.put("/account/update", (request, response, next) => {
@@ -130,8 +124,9 @@ router.put("/account/update", (request, response, next) => {
       }
     );
        return response.status(200).json("Account information has been updated");
-  } else {
-       return response.status(301).json("All fields are required");
+  } 
+  else {
+      return response.status(301).json("All fields are required");
   }
 
 });
@@ -163,12 +158,12 @@ router.post("/account/uniqueUsername", (request, response) =>{
       (error, results) => {
         if(error){
           return response.status(404).json("Error attempting to extract username");
-        }
-       
+        }      
         if(results.rows.length > 0){
           return response.status(401).json("Username has already been taken");
         }
-        else{
+        else
+        {
           return response.status(200).json("The Username is not registered");
         }
       }

@@ -24,27 +24,11 @@ import {
     PROFILE_FAILED,
     CREATE_PROFILE_SUCCESS,
     CREATE_PROFILE_FAIL,
-    //----------------------
-
-    //Notifications
-TURNON_LOGIN_NOTIFICATION ,
-TURNOFF_LOGIN_NOTIFICATION ,
-//reg------
-TURNON_REGISTER_NOTIFICATION, 
-TURNOFF_REGISTER_NOTIFICATION ,
-//ANewProduct------
-TURNON_ADDPRODUCT_NOTIFICATION ,
-TURNOFF_ADDPRODUCT_NOTIFICATION ,
-//Update-----
-TURNON_UPDATE_NOTIFICATION ,
-TURNOFF_UPDATE_NOTIFICATION ,
-//Delete-----
-TURNON_DELETE_NOTIFICATION,
-TURNOFF_DELETE_NOTIFICATION 
-
-    //modify accounts
 } from '../Actions/types';
 import cookie from 'react-cookies';
+
+
+
 
 const initialState = {
     token: cookie.load('token'),
@@ -52,25 +36,24 @@ const initialState = {
     isLoading: false,
     isLoggedIn: false,
     isDeleted: false,
-    isRegistered: false,
+   // isRegistered: false,
     isUpdate: false,
     user: null,
 
-    usernameTaken: false,
+    //usernameTaken: false,
 
     //profile
     profileUpdate: false,
     profileUpdateFail: false,
-
     profile_loaded:false,
     profile_fail:false,
     profile_record: null,
-    profile_added_success:false,
-
+   // profile_added_success:false,
     profileDeleteSuccess: false,
     profileDeleteFail: false,
 
 }
+
 export default function (state = initialState, action) {
     switch (action.type) {
         case USER_LOADING:
@@ -85,125 +68,95 @@ export default function (state = initialState, action) {
                  user:action.payload,
                  isLoading:false
             };
-            case LOGIN_SUCCESS:
-                cookie.save('token', action.payload.token);
+        case LOGIN_SUCCESS:
+            cookie.save('token', action.payload.token);
+            return {
+                ...state,
+                ...action.payload,
+                isAuthenticated: true,
+                isLoading: false,
+                isDeleted: false,
+                isUpdate: false
+        };
+        case UPDATE_SUCCESS:
+            return {
+                 ...state,
+                isUpdate: true
+             }
+        case UPDATE_FAIL:
+             return {
+                ...state,
+                isUpdate: false
+            }
+         case DELETE_SUCCESS:
+            cookie.remove('token');
+            return {
+                ...state,
+                token: null,
+                user: null,
+                isAuthenticated: false,
+                isRegistered: false,
+                isLoading: false,
+                isDeleted: true,
+        };
+        case DELETE_FAIL:
+            return {
+                ...state,
+                isDeleted: false,
+            }
+
+         //profile!   
+         case UPDATE_PROFILE_SUCCESS:
+            return {
+                ...state,
+                profileUpdate: true,
+                profileUpdateFail: false
+            }
+        case UPDATE_PROFILE_FAIL:
+             return {
+            ...state,
+            profileUpdate: false,
+            profileUpdateFail: true
+        }
+        case DELETE_PROFILE_FAIL:
+            return {
+                ...state,
+                profileDeleteSuccess: false,
+                profileDeleteFail: true
+            }
+        case DELETE_PROFILE_SUCCESS:
+            return {
+                ...state,
+                profileDeleteSuccess: true,
+                profileDeleteFail: false
+            }
+        case PROFILE_LOADED:
+            return{
+                ...state,
+                profile:action.payload,
+                profile_loaded:true
+            }
+        case PROFILE_FAILED:
+            return{
+             ...state,
+            profile:null,
+            profile_loaded:false
+        }
+        case AUTH_ERROR:
+        case LOGIN_FAIL:
+        case LOGOUT_SUCCESS:
+            cookie.remove('token');
                 return {
-                    ...state,
-                    ...action.payload,
-                       isAuthenticated: true,
-                       isLoading: false,
-                        isDeleted: false,
-                        isUpdate: false
-                    };
-            case REGISTER_SUCCESS:
-                return {
-                     ...state,
-                     ...action.payload,
-                     isRegistered: true,
-                }
-            case UPDATE_SUCCESS:
-                return {
-                     ...state,
-                    isUpdate: true
-                 }
-            case UPDATE_FAIL:
-                 return {
-                    ...state,
-                    isUpdate: false
-                }
-             case DELETE_SUCCESS:
-                cookie.remove('token');
-                return {
-                    ...state,
-                     token: null,
-                     user: null,
-                     isAuthenticated: false,
-                    isRegistered: false,
-                    isLoading: false,
-                    isDeleted: true,
-                };
-                case DELETE_FAIL:
-                return {
-                    ...state,
-                     isDeleted: false,
-                 }
-                case USERNAME_AVAILABLE:{
-                    return {
-                        ...state,
-                        usernameTaken:true
-                    }
-                }
-                case USERNAME_TAKEN:{
-                    return {
-                        ...state,
-                        usernameTaken:false
-                    }
-                }
-        //profile actions ------------------------------------------------
-                case CREATE_PROFILE_SUCCESS:
-                    return{
-                        ...state,
-                        profile_added_success:true,
-                    }
-                case UPDATE_PROFILE_SUCCESS:
-                    return {
-                        ...state,
-                        profileUpdate: true,
-                        profileUpdateFail: false
-                    }
-                case UPDATE_PROFILE_FAIL:
-                     return {
-                        ...state,
-                        profileUpdate: false,
-                        profileUpdateFail: true
-                }
-                case DELETE_PROFILE_FAIL:
-                return {
-                        ...state,
-                        profileDeleteSuccess: false,
-                         profileDeleteFail: true
-                 }
-                case DELETE_PROFILE_SUCCESS:
-                 return {
-                         ...state,
-                        profileDeleteSuccess: true,
-                        profileDeleteFail: false
-                }
-                case PROFILE_LOADED:
-                    return{
-                        ...state,
-                        profile:action.payload,
-                        profile_loaded:true
-                    }
-                case PROFILE_FAILED:
-                    return{
-                        ...state,
-                        profile:null,
-                        profile_loaded:false
-                    }
-                //Profile failure
-                case CREATE_PROFILE_FAIL:
-                    return{
-                    ...state,
-                    profile_added_success:false,
-                }
-                //Account failure
-                case AUTH_ERROR:
-                case LOGIN_FAIL:
-                case LOGOUT_SUCCESS:
-                case REGISTER_FAIL:
-                 cookie.remove('token');
-                return {
-                    ...state,
-                    token: null,
-                    profile:null,
-                    user: null,
-                    isAuthenticated: false,
-                    isRegistered: false,
-                    isLoading: false,
-                    profile_loaded:false
-                 };
-                default:
-                return state
+                ...state,
+                token: null,
+                profile:null,
+                user: null,
+                isAuthenticated: false,
+                isLoading: false,
+                profile_loaded:false
+            };
+
+        default:
+        return state
     }
 }

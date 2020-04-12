@@ -35,13 +35,12 @@ router.get('/reviews/getaccounts', (request, response, next) => {
 //add a review
     router.post('/reviews/add', (request,response, next) => {
     const{reviewerid,reviewedid,numberrating,reviewcomment,datereviewed} = request.body;
-
     db_connection.query('INSERT INTO reviews (reviewerid,reviewedid,numberrating,reviewcomment,datereviewed) VALUES($1,$2,$3,$4,$5)',
     [reviewerid,reviewedid,numberrating,reviewcomment,datereviewed],(error,results) =>{
         if(error){
-            response.status(401).json('issues adding reviews');
+           return response.status(401).json('issues adding reviews');
         }
-        response.status(200).json("Review has successfully been added");
+          return response.status(200).json("Review has successfully been added");
     });
  });
 

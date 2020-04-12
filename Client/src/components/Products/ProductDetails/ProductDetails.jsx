@@ -93,38 +93,37 @@ import { Redirect } from 'react-router';
         }
     }
 
-    addElementToWishlist = event => {
-        event.preventDefault();
+        addElementToWishlist = event => {
+            event.preventDefault();
 
-        if(this.props.user === null){
-            this.props.history.push('/login')
-        }
-        else{
-            const wishlist = this.state.wishlist;
-            let isTrue = false;
-            //loop through the wishlist to check if the product is already on the list.
-            for(let i = 0; i < wishlist.length; i++){
-                if(wishlist[i].productid === this.state.productDetails.productid){
-                    isTrue = true;
-                }
-            }
-            if(isTrue === true){
-                this.setState({wishlist_error:"The item is already on the wishlist"});
+            if(this.props.user === null){
+                this.props.history.push('/login')
             }
             else{
-                this.setState({wishlist_error:""});
-                //safe to add item to wishlist
-                    axios.post("http://localhost:5000/wishlist/add",{
-                    accountid:this.state.user.accountid,
-                    productid:this.state.productDetails.productid,
-                })
-                .then(res =>{
-                    toast(this.state.productDetails.productname + " has been added to the wishlist")
-                })
-            }
-        }      
-    }
+                const wishlist = this.state.wishlist;
+                let isTrue = false;
+                //loop through the wishlist to check if the product is already on the list.
+                if(wishlist.some(item => item.productid === this.state.productDetails.productid)){
+                    isTrue = true;
+                }
 
+                console.log(isTrue)
+                if(isTrue === true){
+                    this.setState({wishlist_error:"The item is already on the wishlist"});
+                }
+                else{
+                    this.setState({wishlist_error:""});
+                    //safe to add item to wishlist
+                        axios.post("http://localhost:5000/wishlist/add",{
+                        accountid:this.state.user.accountid,
+                        productid:this.state.productDetails.productid,
+                    })
+                    .then(res =>{
+                        toast(this.state.productDetails.productname + " has been added to the wishlist")
+                    })
+                }
+            }      
+        }
         render() {
         return (
             <Container className="productDetails">
@@ -149,7 +148,6 @@ import { Redirect } from 'react-router';
         )
     }
 }
-  //     <img src={Test} />
 
 const mapPropsToState = (state) =>({
     user:state.auth.user
@@ -160,6 +158,48 @@ const mapDispatchToProps ={
 };
 
 export default connect(mapPropsToState,mapDispatchToProps)(ProductDetails);
+
+function addElementToCart(product) {
+    //create cartitem
+    let cartItems = [];
+    var product = {
+        productId: product.productid,
+        productName: product.productname,
+        price: product.price,
+        quantity: 1,
+        maxQuantity: product.quantity,
+        linePrice: product.price * 1
+    };
+    console.log(product)
+
+    var exist = false
+
+    if (sessionStorage.getItem('cart')) {
+        cartItems = JSON.parse(sessionStorage.getItem('cart'));
+
+        for (var i = 0; i < cartItems.length; i++) {
+            if (cartItems[i].productId == product.productId) {
+                exist = true;
+                break;
+            }
+        }
+        if (exist) {
+            alert("You already added this product on the list");
+        }
+        else {
+            //add the current product onto the cart list.
+            cartItems.push(product);
+            //save the cart element to local storage where it can be extracted later
+            sessionStorage.setItem("cart", JSON.stringify(cartItems));
+        }
+    }
+    else {
+        //add the current product onto the cart list.
+        cartItems.push(product);
+        //save the cart element to local storage where it can be extracted later
+        sessionStorage.setItem("cart", JSON.stringify(cartItems));
+    }
+}
 
 
 
