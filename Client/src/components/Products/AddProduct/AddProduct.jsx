@@ -182,7 +182,7 @@ import {storage} from '../../../firebase-config';
               <InputGroupText>$</InputGroupText>
             </InputGroupAddon>
             <Input
-              type="text"
+              type="number"
               name="price"
               id="priceInput"
               value={price}
