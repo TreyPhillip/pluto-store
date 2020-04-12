@@ -59,7 +59,7 @@ class AddReview extends Component {
     }
     GetDate() {
         var systemDate = new Date();
-        var date = systemDate.getDay() + '/' + systemDate.getMonth() + '/' + systemDate.getFullYear().toString().substr(2.2);
+        var date = systemDate.getDate() + '/' + systemDate.getMonth() + '/' + systemDate.getFullYear().toString().substr(2.2);
         return date;
     }
     handleChange = async event => {
