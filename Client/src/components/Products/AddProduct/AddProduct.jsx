@@ -155,7 +155,7 @@ import {toast} from 'react-toastify';
           </FormGroup>
           <FormGroup>
             <Label>File: </Label>
-            <Input type="file" name="file"/>
+            <Input type="file" name="file" accept="image/png, image/jpeg"/>
             <FormText color="muted">
               Upload an image for your product.
             </FormText>
