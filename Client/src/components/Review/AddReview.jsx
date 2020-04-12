@@ -11,7 +11,7 @@ class AddReview extends Component {
         super(props);
         this.state = {
             rating: 1,
-            reviewComment: '',
+            reviewcomment: '',
             reviewlist:[],
             seller:[]
         };
@@ -74,15 +74,15 @@ class AddReview extends Component {
     handleSubmit = event => {
         event.preventDefault();
     
-          if(this.state.sellerid !=="" && this.state.rating !== "" && this.state.reviewcomment !==""){
+          if(this.state.reviewedid !=="" && this.state.numberrating !== "" && this.state.reviewcomment !==""){
               let review_obj ={};
                 if(this.validateForm(this.state.reviewcomment) == true){
                   review_obj = {
                   reviewerid: this.props.Auth.user.decoded.accountid,
-                  sellerid: this.seller_sel.value,
-                  rating: parseInt(this.state.rating),
+                  reviewedid: this.seller_sel.value,
+                  numberrating: parseInt(this.state.rating),
                   reviewcomment: this.state.reviewcomment,
-                  reviewdate:this.GetDate()
+                  datereviewed:this.GetDate()
                 };
     
                 console.log(review_obj);
@@ -114,7 +114,7 @@ calculateAverage() {
 }
 
     render() {
-      const { sellerName, rating, reviewcomment } = this.state;
+      const { reviewedid, numberrating, reviewcomment } = this.state;
         return(
             <Container className="review-form">
             {this.state.empty_form_error ? <Alert color="danger" >{this.state.empty_form_error}</Alert> : null}
@@ -151,8 +151,8 @@ calculateAverage() {
                 <Col sm={15}>
                   <Input
                     type="textarea"
-                    name="Review"
-                    id="reviewInput"
+                    name="reviewcomment"
+                    id="reviewcomment"
                     value={reviewcomment}
                     onChange={e => this.handleChange(e)}
                     rows='5'
