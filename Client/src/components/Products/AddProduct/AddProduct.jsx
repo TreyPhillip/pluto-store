@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./AddProduct.css";
-import { Container, Form, FormGroup, Label, Input, Button,Alert } from "reactstrap";
+import { Container, Form, FormGroup, Label, Input, Button, Alert, FormText } from "reactstrap";
 import axios from "axios";
 
 import {connect} from 'react-redux';
@@ -152,6 +152,13 @@ import {toast} from 'react-toastify';
               value={description}
               onChange={e => this.handleChange(e)}
             />
+          </FormGroup>
+          <FormGroup>
+            <Label>File: </Label>
+            <Input type="file" name="file"/>
+            <FormText color="muted">
+              Upload an image for your product.
+            </FormText>
           </FormGroup>
           <Button type="submit" color="info">Add Product</Button>
         </Form>
