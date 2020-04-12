@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./AddProduct.css";
-import { Container, Form, FormGroup, Label, Input, Button, Alert, FormText } from "reactstrap";
+import { Container, Form, FormGroup, Label, Input, Button, Alert, FormText, InputGroup, InputGroupAddon, InputGroupText } from "reactstrap";
 import axios from "axios";
 
 import {connect} from 'react-redux';
@@ -124,6 +124,10 @@ import {toast} from 'react-toastify';
           </FormGroup>
           <FormGroup>
             <Label>Price: </Label>
+            <InputGroup>
+            <InputGroupAddon addonType="prepend">
+              <InputGroupText>$</InputGroupText>
+            </InputGroupAddon>
             <Input
               type="text"
               name="price"
@@ -131,6 +135,7 @@ import {toast} from 'react-toastify';
               value={price}
               onChange={e => this.handleChange(e)}
                />
+               </InputGroup>
           </FormGroup>
           <FormGroup>
             <Label>Quantity: </Label>
