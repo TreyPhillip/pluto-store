@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {loadUser} from '../Actions/authAction'
 import {toast} from 'react-toastify';
 
-class AddReview extends Component {
+class Reviews extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -169,4 +169,4 @@ calculateAverage() {
       Auth: state.auth,
       error:state.error
     })
-export default connect(mapStateToProps, {loadUser})(AddReview);
+export default connect(mapStateToProps, {loadUser})(Reviews);

@@ -78,7 +78,7 @@ import {logout} from '../Actions/authAction';
                   <NavLink href="/Wishlist" className="text-white">Wishlist</NavLink>
                 </NavItem>
                 <NavItem>
-								<NavLink href='/AddReview' className='text-white'>Add a Seller Review</NavLink>
+								<NavLink href='/Reviews' className='text-white'>Seller Feedback</NavLink>
 							</NavItem>
               </Nav>
             </Collapse>

@@ -25,7 +25,6 @@ import './NavMenu.css';
 	}
 
 	render() {
-
 		return (
 			<header>
 				<Navbar color="primary" dark>

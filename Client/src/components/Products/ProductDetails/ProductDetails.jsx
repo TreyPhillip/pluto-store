@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Container, Toast, Alert } from 'reactstrap';
 import axios from 'axios'
-import { ReviewForm } from '../../Review/AddReview';
+import { ReviewForm } from '../../Review/Reviews';
 import {connect} from 'react-redux';
 import { toast } from 'react-toastify'
 import {loadUser} from '../../Actions/authAction'
