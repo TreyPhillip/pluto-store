@@ -29,8 +29,7 @@ import { toast } from 'react-toastify';
                removeindex = i;
             }
         }
-       wishlist.splice(removeindex,1);
-
+        wishlist.splice(removeindex,1);
         this.setState({productDetails:wishlist});
         //removes the product from the database
         const headers = {
@@ -51,7 +50,6 @@ import { toast } from 'react-toastify';
     }
 
     componentDidMount() {
-        
         fetch("http://localhost:5000/wishlist")
             .then(response => response.json())
             .then(data => {

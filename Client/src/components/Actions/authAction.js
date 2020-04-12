@@ -1,50 +1,19 @@
 import axios from 'axios';
-import {
-    returnErrors
-} from './errorAction';
+import { returnErrors} from './errorAction';
 import cookie from 'react-cookies';
 import {
     //Account
-    USER_LOADED,
-    USER_LOADING,
-    AUTH_ERROR,
-    LOGIN_SUCCESS,
-    LOGIN_FAIL,
-    LOGOUT_SUCCESS,
-    REGISTER_FAIL,
-    REGISTER_SUCCESS,
-    UPDATE_SUCCESS,
-    UPDATE_FAIL,
-    DELETE_FAIL,
+    USER_LOADED, USER_LOADING, AUTH_ERROR,
+    LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_SUCCESS,
+    //REGISTER_FAIL, REGISTER_SUCCESS,
+    UPDATE_SUCCESS,  UPDATE_FAIL, DELETE_FAIL,
     DELETE_SUCCESS,
-    USERNAME_TAKEN,
-    USERNAME_AVAILABLE,
+    //USERNAME_TAKEN,USERNAME_AVAILABLE,
     //Profile
-    DELETE_PROFILE_SUCCESS,
-    DELETE_PROFILE_FAIL,
-    UPDATE_PROFILE_SUCCESS,
-    UPDATE_PROFILE_FAIL,
-    PROFILE_LOADED,
-    PROFILE_FAILED,
-    CREATE_PROFILE_SUCCESS,
-    CREATE_PROFILE_FAIL,
-
-    //Notifications
-    TURNON_LOGIN_NOTIFICATION ,
-    TURNOFF_LOGIN_NOTIFICATION ,
-    //reg------
-    TURNON_REGISTER_NOTIFICATION, 
-    TURNOFF_REGISTER_NOTIFICATION ,
-    //ANewProduct------
-    TURNON_ADDPRODUCT_NOTIFICATION ,
-    TURNOFF_ADDPRODUCT_NOTIFICATION ,
-    //Update-----
-    TURNON_UPDATE_NOTIFICATION ,
-    TURNOFF_UPDATE_NOTIFICATION ,
-    //Delete-----
-    TURNON_DELETE_NOTIFICATION,
-    TURNOFF_DELETE_NOTIFICATION, 
-  
+    DELETE_PROFILE_SUCCESS, DELETE_PROFILE_FAIL, UPDATE_PROFILE_SUCCESS,
+    UPDATE_PROFILE_FAIL,PROFILE_LOADED, PROFILE_FAILED,
+    //CREATE_PROFILE_SUCCESS,
+    //CREATE_PROFILE_FAIL,
 } from './types';
 
 //header
@@ -54,13 +23,10 @@ const config = {
     }
 };
 
-
 //Check Token
 export const loadUser = () => (dispatch, getState) => {
-  
     //get token from cookie
     const token = getState().auth.token;
-
     axios.post("http://localhost:5000/checkToken", {
             tokenString: token
         },config)
@@ -99,33 +65,7 @@ export const logout = () => {
         type: LOGOUT_SUCCESS
     };
 };
-export const register = (userName, email, password, isverified, profile_id) => dispatch => {
 
- const data = {
-    
-    username: userName,
-    emailaddress: email,
-    userpassword: password,
-    isverified: isverified,
-    profileid: profile_id
-}
-
-    console.log(userName  + email + password + isverified + profile_id)
-
-    axios.post('http://localhost:5000/account/register', data,config)
-    
-        .then(res => dispatch({
-            type: REGISTER_SUCCESS,
-            payload: res.data
-        }),config)
-        .catch(err => {
-            console.log(err)
-            dispatch(returnErrors(err.response.data, err.response.status, "REGISTER_FAIL"));
-            dispatch({
-                type: REGISTER_FAIL
-            })
-        })
-};
 export const deleteAccount = (account_id) => dispatch => {
 
     const headers = {
@@ -134,7 +74,6 @@ export const deleteAccount = (account_id) => dispatch => {
     const data = {
         accountid: account_id
     };
-
 
     axios.delete('http://localhost:5000/account/delete', {
             headers,
@@ -146,10 +85,11 @@ export const deleteAccount = (account_id) => dispatch => {
         .catch(err => {
             dispatch(returnErrors(err.response.data, err.response.status,"DELETE_FAIL"));
             dispatch({
-                type: DELETE_FAIL
-            })
+            type: DELETE_FAIL
         })
+    })
 };
+
 export const updateAccount = (username, userpassword, emailaddress, isverified, profile_id) => dispatch => {
     axios.put('http://localhost:5000/account/update', {
             username: username,
@@ -164,27 +104,10 @@ export const updateAccount = (username, userpassword, emailaddress, isverified, 
         .catch(err => {
             dispatch(returnErrors(err.response.data, err.response.status, "UPDATE_FAIL"));
             dispatch({
-                type: UPDATE_FAIL
-            })
+            type: UPDATE_FAIL
         })
-};
-
-//check for unique username
-export const uniqueUsernameCheck = (userName) => dispatch => {
-    axios.post("http://localhost:5000/account/uniqueUsername", {
-        username:userName
     })
-    .then(res=> dispatch({
-        type:USERNAME_AVAILABLE
-    }))
-    .catch(err =>{
-        dispatch(returnErrors(err.response.data, err.response.status, "USERNAME_TAKEN"));
-        dispatch({
-            type: USERNAME_TAKEN
-        });
-    });
 };
-
 
 //profile actions
 export const getProfile = (id) => (dispatch) =>{
@@ -201,25 +124,7 @@ export const getProfile = (id) => (dispatch) =>{
         });
     })
 }
-export const createProfile = (firstName, lastName,phoneNumber) => dispatch =>{
 
-    axios.post('http://localhost:5000/profile/add',{
-        firstname:firstName,
-        lastname:lastName,
-        phonenumber:phoneNumber
-    })
-    .then(res => dispatch({
-        type: CREATE_PROFILE_SUCCESS
-    }))  
-    .catch(err =>{
-
-        console.log(err);
-        dispatch(returnErrors(err.response.data, err.response.status, "CREATE_PROFILE_FAIL"));
-        dispatch({
-            type:CREATE_PROFILE_FAIL,
-        });
-    });
-}
 export const deleteProfile = (profile_id) => dispatch => {
     axios.delete('http://localhost:5000/profile/delete', {
             profileid: profile_id
@@ -234,6 +139,7 @@ export const deleteProfile = (profile_id) => dispatch => {
             })
         })
 }
+
 export const updateProfile = (firstname, lastname, phonenumber, profile_id) => dispatch => {
     axios.put('http://localhost:5000/profile/update', {
             firstname: firstname,

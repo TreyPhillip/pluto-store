@@ -35,9 +35,9 @@ router.get('/lastRecord', (request, response, next) => {
     db_connection.query("SELECT * FROM profile ORDER BY profileid DESC LIMIT 1", (error, result) => {
         if (error) {
            return response.status(401).json("Error no records");
-        } else {
-            return response.status(200).json(result.rows);
         }
+    
+        return response.status(200).json(result.rows);
     });
 });
 //add a profile
@@ -69,7 +69,6 @@ router.put('/profile/update', (request, response, next) => {
             }
         });
 });
-
 //delete a profile
 router.delete('/profile/delete', (request, response, next) => {
     const {

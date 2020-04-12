@@ -33,6 +33,26 @@ router.get('/payment/:id', (request, response, next) => {
                 return response.status(200).json(result.rows);
         });
 });
+
+router.post('/payment/validateCreditNumber', (request, response) =>{
+    const {creditcardnumber} = request.body;
+
+    db_connection.query("SELECT exists(select 1 from payment where creditcardNumber=$1)", [creditcardnumber], (error, result) =>{
+        if(error){
+            return response.status(404).json('Error finding Credit Card Number');
+        }
+        console.log(result.rows[0].exists);
+        if(result.rows[0].exists === true){
+            return response.status(404).json("Credit Card is registered already ");
+        }
+        else
+        {
+           return response.status(200).json("The credit card is not taken");
+        }
+    });
+})
+
+
 //Add a new account
 router.post('/payment/add', (request, response, next) => {
     const {
@@ -49,7 +69,7 @@ router.post('/payment/add', (request, response, next) => {
                 return response.status(401).json('payment failed to be added');
             }
         });
-            return  response.status(200).send('Payment has been successfully added');
+                return response.status(200).send('Payment has been successfully added');
 });
 //update an account
 router.put('/payment/update', (request, response, next) => {

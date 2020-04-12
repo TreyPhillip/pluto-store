@@ -9,10 +9,10 @@ import storage from 'redux-persist/lib/storage' //defaults to localstorage
 const initialState = {};
 const middleware =[thunk];
 
-
-const persistConfig ={
+const persistConfig = {
     key:rootReducer,
     storage,
+    blacklist:['reg','reg_err']
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
