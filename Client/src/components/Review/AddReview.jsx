@@ -40,7 +40,6 @@ class AddReview extends Component {
         
     }
     validateForm = (comment) => {
-      var comment = " "
       if (comment != null){
           return true
       }
@@ -48,12 +47,12 @@ class AddReview extends Component {
         return false;     
       }
     }
-    RatingHandler(event) {
+    RatingHandler = (event) => {
         this.setState({
             rating: event.target.value
         });
     }
-    ReviewChangeHandler(event) {
+    ReviewChangeHandler = (event) => {
         this.setState({
             Review: event.target.value
         });
