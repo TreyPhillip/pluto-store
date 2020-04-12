@@ -133,11 +133,11 @@ import {toast} from 'react-toastify';
                />
           </FormGroup>
           <FormGroup>
-            <Label>quantity: </Label>
+            <Label>Quantity: </Label>
             <Input
-              type="text"
+              type="number"
               name="quantity"
-              id="priceInput"
+              id="quantity"
               value={quantity}
               onChange={e => this.handleChange(e)}
                />
