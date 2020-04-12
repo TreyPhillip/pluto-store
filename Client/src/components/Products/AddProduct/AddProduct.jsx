@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./list_product_style.css";
+import "./AddProduct.css";
 import { Container, Form, FormGroup, Label, Input, Button,Alert } from "reactstrap";
 import axios from "axios";
 

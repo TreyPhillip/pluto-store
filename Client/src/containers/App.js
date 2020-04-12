@@ -13,7 +13,7 @@ import {createBrowserHistory} from 'history';
 //Review Page
 import Reviews from '../components/Review/Reviews';
 //Add a product page
-import 	AddProduct  from '../components/Products/CreateProducts/product-listing-form';
+import 	AddProduct  from '../components/Products/AddProduct/AddProduct';
 //notification
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
