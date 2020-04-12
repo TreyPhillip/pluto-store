@@ -35,6 +35,7 @@ import {logout} from '../Actions/authAction';
   logoutHandler =event =>{
     console.log('hi')
     event.preventDefault();
+    sessionStorage.clear();
     this.props.logout();
     toast('Successfully Logged Out');
   }
