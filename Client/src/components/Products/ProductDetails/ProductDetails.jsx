@@ -46,6 +46,11 @@ import { Redirect } from 'react-router';
     }
     
     addElementToCart = (product) => {
+        
+        if(this.props.user === null){
+            this.props.history.push('/login')
+        }
+        
         //create cartitem
         let cartItems = [];
         var product = {
