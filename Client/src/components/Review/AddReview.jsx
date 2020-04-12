@@ -39,9 +39,18 @@ class AddReview extends Component {
       this.props.loadUser();
         
     }
+    validateForm = (comment) => {
+      var comment = " "
+      if (comment != null){
+          return true
+      }
+      else {
+        return false;     
+      }
+    }
     RatingHandler(event) {
         this.setState({
-            Rating: event.target.value
+            rating: event.target.value
         });
     }
     ReviewChangeHandler(event) {
@@ -66,9 +75,9 @@ class AddReview extends Component {
     handleSubmit = event => {
         event.preventDefault();
     
-          if(this.state.sellerName !=="" && this.state.rating !== "" && this.state.reviewComment !==""){
+          if(this.state.sellerid !=="" && this.state.rating !== "" && this.state.reviewcomment !==""){
               let review_obj ={};
-                if(this.validateForm(this.state.rating) == true){
+                if(this.validateForm(this.state.reviewcomment) == true){
                   review_obj = {
                   reviewerid: this.props.Auth.user.decoded.accountid,
                   sellerid: this.seller_sel.value,
@@ -130,8 +139,8 @@ calculateAverage() {
               <FormGroup>
                 <Label>Rating: </Label>
                 <br />
-                <select className="rating" value={rating} onChange={this.RatingHandler, e => this.handleChange(e)}>
-                    <option selected value='1'>1</option>
+                <select className="rating" onChange={this.RatingHandler}>
+                    <option value='1'>1</option>
                     <option value='2'>2</option>
                     <option value='3'>3</option>
                     <option value='4'>4</option>
