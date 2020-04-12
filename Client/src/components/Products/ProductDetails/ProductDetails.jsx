@@ -132,7 +132,7 @@ import { Redirect } from 'react-router';
                     <h1><u>Product Details</u></h1>
                 </header>
                 <div className="addToCart">
-                    <img style={style} src={this.state.productDetails.image}/>
+                    <img style={style} src={this.state.productDetails.imageurl}/>
                     <p className='productinfo'>{this.state.productDetails.productname}</p>
                     <p className='productinfo'>${this.state.productDetails.price}</p>
                     <Button className="btnAddToCart" color='success' onClick={() =>

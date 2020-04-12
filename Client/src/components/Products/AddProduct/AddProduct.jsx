@@ -100,7 +100,7 @@ import {storage} from '../../../firebase-config';
                       price: parseInt(this.state.price),
                       description: this.state.description,
                       quantity: parseInt(this.state.quantity),
-                      image: this.state.imageUrl
+                      imageurl: this.state.imageUrl
                     };
                           //save product to the database
                     axios.post("http://localhost:5000/products/add", product_obj)  

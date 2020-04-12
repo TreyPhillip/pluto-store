@@ -40,13 +40,13 @@ router.post("/products/add", (request, response, next) => {
     price,
     description,
     quantity,
-    image
+    imageurl
   } = request.body;
 
   //insert statement to add products to the database
   db_connection.query(
-    "INSERT INTO products (productname,categoryid,sellerid,price,description,quantity,image) VALUES($1,$2,$3,$4,$5,$6,$7)",
-    [productname, categoryid, sellerid, price, description, quantity, image],
+    "INSERT INTO products (productname,categoryid,sellerid,price,description,quantity,imageurl) VALUES($1,$2,$3,$4,$5,$6,$7)",
+    [productname, categoryid, sellerid, price, description, quantity, imageurl],
     (error, results) => {
       if (error) {
         //respond with an error if the insertion has failed.

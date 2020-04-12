@@ -11,7 +11,7 @@ export const ProductCard = props => {
     return (
         <Link to={"/Details/" + props.product.productid} className="text-dark">
             <Card outline color="primary">
-                <CardImg top width="100%" src={props.product.image} alt="Card image cap" />
+                <CardImg style={style} src={props.product.imageurl} alt="Card image cap" />
                 <CardBody>
                 <CardTitle className="text-dark">{props.product.productname}</CardTitle>
                 <CardSubtitle className="text-dark">${props.product.price}</CardSubtitle> 
@@ -27,3 +27,7 @@ export const ProductCard = props => {
 //</div>
 //</Link>
 
+const style ={
+    width:'100%',
+    height:'200px'
+}
