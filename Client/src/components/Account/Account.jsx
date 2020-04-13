@@ -485,6 +485,7 @@ var moment = require('moment');
                               type="number"
                               name="cvCode"
                               id="cvCode"
+                              min="0"
                               value={cvCode}
                               onChange={e =>{
                                 this.handlePaymentChange(e);
