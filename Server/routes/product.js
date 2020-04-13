@@ -67,13 +67,15 @@ router.put("/products/update", (request, response, next) => {
     sellerid,
     price,
     description,
-    quantity
+    quantity,
+    imageurl
   } = request.body;
   db_connection.query(
-    "UPDATE products SET productname = $1, categoryid = $2, sellerid=$3, price=$4, description = $5, quantity = $6 WHERE productid = $7",
-    [productname, categoryid, sellerid, price, description, quantity, productid],
+    "UPDATE products SET productname = $1, categoryid = $2, sellerid=$3, price=$4, description = $5, quantity = $6, imageurl = $7 WHERE productid = $8",
+    [productname, categoryid, sellerid, price, description, quantity, imageurl, productid],
     (error, results) => {
       if (error) {
+        console.log(error)
         return response.status(401).json('Updating product has failed');
       }
       return response.status(200).json(`Product modified with ID: ${productid}`);
@@ -85,7 +87,7 @@ router.delete("/products/delete", (request, response, next) => {
   const {
     productid
   } = request.body;
-
+  console.log(productid)
   db_connection.query(
     "DELETE FROM products WHERE productid = $1",
     [productid],

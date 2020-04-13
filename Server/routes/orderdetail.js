@@ -12,20 +12,6 @@ router.get("/order/detail", (request, response, next) => {
       return response.status(200).json(result.rows);
   });
 });
-//get an order detail by id
-router.get("/order/detail/:id", (request, response, next) => {
-  const id = parseInt(request.params.id);
-  db_connection.query(
-    "SELECT * FROM orderdetail WHERE orderdetailid=$1",
-    [id],
-    (error, result) => {
-      if (error) {
-        return response.status(401).json('order does not exist')
-      }
-        return response.status(200).json(result.rows);
-    }
-  );
-});
 
 //Add new order detail
 router.post("/order/detail/add", (request, response, next) => {

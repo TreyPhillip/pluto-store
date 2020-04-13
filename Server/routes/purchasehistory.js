@@ -33,9 +33,18 @@ router.post('/purchasehistory/add', (request, response, next) => {
         productprice,
         quantity
     } = request.body;
+    console.log(
+    buyerid + " " + 
+    sellerid + " " + 
+    shippingaddressid + " " + 
+    productid + " " +
+    datepurchased + " " + 
+    productprice + " " +
+    quantity)
     db_connection.query('INSERT INTO purchasehistory (buyerid, sellerid, shippingaddressid, productid, datepurchased, productprice, quantity) VALUES($1,$2,$3,$4,$5,$6,$7)',
         [buyerid, sellerid, shippingaddressid, productid, datepurchased, productprice, quantity], (error, result) => {
             if (error) {
+                //console.log(error)
                 return response.status(401).json('Errors received while attempting to add a purchase history record ');
             }
             response.status(200).json('Successfully added to purchase history');

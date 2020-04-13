@@ -9,7 +9,9 @@ export default class CartDetails extends Component {
 		this.state = {
             cartItems: [],
             productId: this.props.productId,
+            imageurl: this.props.imageurl,
             description: this.props.description,
+            categoryId: this.props.categoryId,
             productName: this.props.productName,
             price: this.props.price,
             quantity: this.props.quantity,
@@ -57,6 +59,9 @@ export default class CartDetails extends Component {
         let cartItems = [];
         var product = {
             productId: this.state.productId,
+            imageurl: this.state.imageurl,
+            description: this.state.description,
+            categoryid: this.state.categoryId,
             productName: this.state.productName,
             price: this.state.price,
             quantity: this.state.quantity,
@@ -94,7 +99,7 @@ export default class CartDetails extends Component {
                 <div>
                     <div className="product">
                         <div className="product-image">
-                            <img src="https://homepages.cae.wisc.edu/~ece533/images/watch.png"></img>
+                            <img src={this.state.imageurl}></img>
                         </div>
                         <div className="product-details">
                             <div className="product-title">{this.state.productName}</div>

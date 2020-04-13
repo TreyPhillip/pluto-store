@@ -11,16 +11,7 @@ router.get('/orders', (request, response, next) => {
         response.status(200).json(result.rows);
     });
 });
-//get an order detail by id
-router.get('/orders/:id', (request, response, next) => {
-    const id = parseInt(request.params.id)
-    db_connection.query('SELECT * FROM orders WHERE orderid=$1', [id], (error, result) => {
-        if (error) {
-            return response.status(401).json('Order is not exist');
-        }
-        response.status(200).json(result.rows);
-    });
-});
+
 //Add new order detail
 router.post('/orders/add', (request, response, next) => {
     const {
@@ -65,6 +56,16 @@ router.delete('/orders/delete', (request, response, next) => {
 
         }
         response.status(200).json("Successfully deleted order detail");
+    });
+});
+
+router.get('/orders/lastRecord', (request, response, next) => {
+    db_connection.query("SELECT orderid FROM orders ORDER BY orderid DESC LIMIT 1", (error, result) => {
+        if (error) {
+           return response.status(401).json("Error no records");
+        }
+    
+        return response.status(200).json(result.rows);
     });
 });
 

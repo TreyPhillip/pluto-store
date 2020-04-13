@@ -37,6 +37,7 @@ import Office from '../components/Categories/Types/Office';
 import Outdoors from '../components/Categories/Types/Outdoors';
 import Software from '../components/Categories/Types/Software';
 import Sports from '../components/Categories/Types/Sports';
+import Checkout from '../components/Checkout/Checkout';
 
 
 
@@ -68,6 +69,7 @@ toast.configure();
 								<Route path="/Login" component={Login} />
 								<Route path="/Register" component={Register} />
 								<Route path='/Reviews' component={Reviews} />
+								<Route path='/Checkout' component={Checkout} />
 								<Route path="/Categories" component={Categories} />
 								<Route path="/Details/:id" component={ProductDetails} />
 								{/* Category Routes */}

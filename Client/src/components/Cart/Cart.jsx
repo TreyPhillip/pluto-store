@@ -10,8 +10,24 @@ export class Cart extends Component {
 			cartItems: JSON.parse(sessionStorage.getItem('cart')),
 			subtotal: 0
 		};
-	}
+		this.handleSubmit = this.handleSubmit.bind(this);
+    }  
+    handleSubmit = () => {
+        if(this.props.user === null){
+            this.props.history.push('/login')
+		}
+		var subtotal = 0;
+		this.state.cartItems.map((item) => {
+            subtotal += item.linePrice;
+        });
+        sessionStorage.setItem("subtotal", JSON.stringify(subtotal));  
+		console.log(subtotal)
+		
+		this.props.history.push('/Checkout')
+    }
+
 	componentDidMount(){
+		if(this.state.cartItems != null && this.state.cartItems.length > 0){
 		let subtotal = 0;
 		this.state.cartItems.map((item) => {
             subtotal += item.linePrice;
@@ -20,40 +36,58 @@ export class Cart extends Component {
 			subtotal: subtotal
 		})
 	}
+	else{
+		this.props.history.push('/Cart')
+	}
+	}
 
 	render(){
-		return(
-		<div>
-			<div className="shopping-cart">
-				<div className="column-labels">
-					<label className="product-image">Image</label>
-					<label className="product-details">Product</label>
-					<label className="product-price">Price</label>
-					<label className="product-quantity">Quantity</label>
-					<label className="product-removal">Remove</label>
-					<label className="product-line-price">Line Total</label>
+		if(this.state.cartItems != null && this.state.cartItems.length > 0){
+			return(
+			<Form onSubmit={this.handleSubmit}>
+				<div className="shopping-cart">
+					<div className="column-labels">
+						<label className="product-image">Image</label>
+						<label className="product-details">Product</label>
+						<label className="product-price">Price</label>
+						<label className="product-quantity">Quantity</label>
+						<label className="product-removal">Remove</label>
+						<label className="product-line-price">Line Total</label>
+					</div>
 				</div>
-			</div>
-			<div>
-			{this.state.cartItems.map((item) => (	
-				<CartDetail 
-				key={item.productId} 
-				productId={item.productId} 
-				productName={item.productName} 
-				price={item.price} 
-				quantity={item.quantity}
-				maxQuantity={item.maxQuantity}
-				linePrice={item.linePrice}/>
-			))}
-			</div>
-			<div className="totals">
-				<div className="totals-item">
-					<label>Total</label>
-					<div className="totals-value" id="cart-subtotal">{this.state.subtotal}</div>
+				<div>
+				{this.state.cartItems.map((item) => (	
+					<CartDetail 
+					key={item.productId} 
+					productId={item.productId} 
+					sellerId={item.sellerId}
+					imageurl={item.imageurl}
+					description={item.description}
+            		categoryid={item.categoryId}
+					productName={item.productName} 
+					price={item.price} 
+					quantity={item.quantity}
+					maxQuantity={item.maxQuantity}
+					linePrice={item.linePrice}/>
+				))}
 				</div>
-			</div>
-			<Button color="success" className="checkout">Checkout</Button>
-		</div>
-		)
-	}		
-}
+				<div className="totals">
+					<div className="totals-item">
+						<label>Total</label>
+						<div className="totals-value" id="cart-subtotal">{this.state.subtotal}</div>
+					</div>
+				</div>
+				<Button type="submit" color="success" className="checkout">Checkout</Button>
+			</Form>
+			)
+		}
+		else{
+			return(
+				<Form onSubmit={this.handleSubmit}>
+				<h3>Your cart is empty. Add some stuff!</h3>
+				</Form>
+			)
+			
+		}
+	}	
+}	

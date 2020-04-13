@@ -108,7 +108,7 @@ class Login extends Component {
           <Button className="btn btn-primary" color="primary" dark onClick={this.validateForm, <Notification {...email}/> } type="submit">
             Login
           </Button>
-		<p>Don't have an account?<Link className="btn btn-link" to='/Register'>Register Here</Link></p>
+		      <p>Don't have an account?<Link className="btn btn-link" to='/Register'>Register Here</Link></p>
         </Form>
       </Container>
     );

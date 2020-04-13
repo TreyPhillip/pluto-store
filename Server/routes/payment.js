@@ -23,9 +23,10 @@ router.get('/payment', (request, response, next) => {
         response.status(200).json(result.rows);
     });
 });
-router.get('/payment/:id', (request, response, next) => {
-    const id = parseInt(request.params.id);
-    db_connection.query('SELECT * FROM payment WHERE paymentid=$1', [id],
+
+router.post('/payment/getUserPayment', (request, response, next) => {
+    const {accountid} = request.body;
+    db_connection.query('SELECT * FROM payment WHERE accountid=$1', [accountid],
         (error, result) => {
             if (error) {
                 return response.status(401).json('A payment does not exist with that id');
@@ -33,6 +34,8 @@ router.get('/payment/:id', (request, response, next) => {
                 return response.status(200).json(result.rows);
         });
 });
+
+
 
 router.post('/payment/validateCreditNumber', (request, response) =>{
     const {creditcardnumber} = request.body;

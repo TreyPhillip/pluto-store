@@ -19,9 +19,7 @@ class Reviews extends Component {
         //click handlers.
         this.handleSubmit = this.handleSubmit.bind(this);
         this.RatingHandler = this.RatingHandler.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-
-        
+        this.handleChange = this.handleChange.bind(this);       
     }
     //get reviews from database
     componentDidMount() {
@@ -36,8 +34,7 @@ class Reviews extends Component {
         .then(res => res.json())
         .then(data => this.setState({ seller: data }));
 
-      this.props.loadUser();
-        
+      this.props.loadUser();     
     }
     validateForm = (comment) => {
       if (comment != null){
@@ -47,21 +44,25 @@ class Reviews extends Component {
         return false;     
       }
     }
+
     RatingHandler = (event) => {
         this.setState({
             rating: event.target.value
         });
     }
+
     ReviewChangeHandler = (event) => {
         this.setState({
             Review: event.target.value
         });
     }
+
     GetReviewDate() {
         var systemDate = new Date();
         var date = systemDate.getDate() + '/' + (systemDate.getMonth() + 1) + '/' + systemDate.getFullYear().toString().substr(2.2);
         return date;
     }
+
     handleChange = async event => {
         const { target } = event;
         const value = target.type === "checkbox" ? target.checked : target.value;
