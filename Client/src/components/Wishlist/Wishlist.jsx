@@ -73,17 +73,21 @@ import { toast } from 'react-toastify';
     }
     render() {
         return (
+            <Container className="wishlist-form">
+                <h2>Your Wishlist</h2>
             <ListGroup>
                  {this.state.productDetails.map(item =>
                     (
                      <ListGroupItem>
-                        <ListGroupItemHeading>{item.productName}</ListGroupItemHeading>
+                        <ListGroupItemHeading>{item.productname}</ListGroupItemHeading>
                         <ListGroupItem>{item.description}</ListGroupItem>
-                        <ListGroupItem>{item.price}</ListGroupItem>
-                        <button className="remove-item" onClick={this.removeItem.bind(this, item.productid)}>Remove</button>       
+                        <ListGroupItem>${item.price}</ListGroupItem>
+                        <br/>
+                        <Button className="remove-item" color="danger" onClick={this.removeItem.bind(this, item.productid)}>Remove</Button>       
                      </ListGroupItem>
                     ))}       
             </ListGroup>
+            </Container>
         );
     }
 }
