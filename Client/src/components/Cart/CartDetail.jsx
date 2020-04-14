@@ -117,9 +117,9 @@ export default class CartDetails extends Component {
                         max={this.state.maxQuantity}></input>
                         </div>
                         <div className="product-removal">
-                            <button color="danger" className="remove-product" onClick={() => { this.remove(this.state.productId) }}>
+                            <Button color="danger" className="remove-product" onClick={() => { this.remove(this.state.productId) }}>
                                 Remove
-                            </button>
+                            </Button>
                         </div>
                     <div className="product-line-price">{this.state.linePrice}</div>
                     </div>			

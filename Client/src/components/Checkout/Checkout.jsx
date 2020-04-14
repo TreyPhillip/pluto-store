@@ -139,7 +139,7 @@ class Checkout extends Component {
 
         })
         sessionStorage.clear();
-        toast("Order success!")
+        toast("Order successful!")
         this.props.history.push('/Home');
     }
     else{
