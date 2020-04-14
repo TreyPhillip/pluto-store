@@ -271,7 +271,7 @@ class Checkout extends Component {
                     </FormGroup>
                         
                     <Button color="info" onClick={() => { this.props.history.goBack()}}>Back</Button>
-                    <Button type="submit" color="info">Confirm Order</Button>                  
+                    <Button type="submit" color="success">Confirm Order</Button>                  
                 </Form>
             </Container>
         )
