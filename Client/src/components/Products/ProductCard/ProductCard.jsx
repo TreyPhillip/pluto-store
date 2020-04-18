@@ -5,15 +5,16 @@ import {
     CardTitle, CardSubtitle  } from 'reactstrap';
 
 import './ProductCard.css';
+import Test from '../../../assets/318x180.svg'
 
 export const ProductCard = props => {
     return (
-        <Link to={"/Details/" + props.product.productid}>
-            <Card>
-                <CardImg top width="50%" alt="Card image cap" />
+        <Link to={"/Details/" + props.product.productid} className="text-dark">
+            <Card outline color="primary">
+                <CardImg style={style} src={props.product.imageurl} alt="Card image cap" />
                 <CardBody>
-                <CardTitle>{props.product.productname}</CardTitle>
-                <CardSubtitle>${props.product.price}</CardSubtitle> 
+                <CardTitle className="text-dark">{props.product.productname}</CardTitle>
+                <CardSubtitle className="text-dark">${props.product.price}</CardSubtitle> 
                 </CardBody>
             </Card>
         </Link>
@@ -26,3 +27,7 @@ export const ProductCard = props => {
 //</div>
 //</Link>
 
+const style ={
+    width:'100%',
+    height:'200px'
+}

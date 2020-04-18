@@ -21,11 +21,10 @@ import './NavMenu.css';
 	}
 
 	componentDidMount(){
-		
+		console.log(this.props.status)
 	}
 
 	render() {
-
 		return (
 			<header>
 				<Navbar color="primary" dark>
@@ -50,26 +49,13 @@ import './NavMenu.css';
 									Register
 								</NavLink>
 							</NavItem>
-							<NavItem>
-								<NavLink href="/AddProduct" className="text-white">
-									Add A Product
-								</NavLink>
-							</NavItem>
+							
 							<NavItem>
 								<NavLink href="/Categories" className="text-white">
 									Categories
 								</NavLink>
 							</NavItem>
-							<NavItem>
-								<NavLink href="/Cart" className="text-white">
-									Cart
-								</NavLink>
-							</NavItem>
-							<NavItem>
-								<NavLink href="/Wishlist" className="text-white">
-									Wishlist
-								</NavLink>
-							</NavItem>
+							
 						</Nav>
 					</Collapse>
 				</Navbar>

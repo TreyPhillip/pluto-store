@@ -6,7 +6,7 @@ var router = express.Router();
 router.get("/shippingaddress", (request, response, next) => {
   db_connection.query("SELECT * FROM shippingaddress", (error, result) => {
     if (error) {
-      return next(error);
+      return response.status(401).json('Experiencing error while attempting to get all shipping addresses ');
     }
     response.status(200).json(result.rows);
   });
@@ -19,7 +19,7 @@ router.get("/shippingaddress/:id", (request, response, next) => {
     [id],
     (error, result) => {
       if (error) {
-        return next(error);
+        return response.status(401).json('Errors received while attempting to add a purchase history record ');
       }
       response.status(200).json(result.rows);
     }
@@ -42,7 +42,7 @@ router.post("/shippingaddress/add", (request, response, next) => {
     [accountid, firstname, lastname, streetaddress, city, country],
     (error, result) => {
       if (error) {
-        return next(error);
+        return response.status(401).json('Errors received while attempting to add a shipping address record ');
       }
       response.status(200).json("Successfully added to purchase history");
     }
@@ -74,7 +74,7 @@ router.put("/shippingaddress/update", (request, response, next) => {
     ],
     (error, result) => {
       if (error) {
-        return next(error);
+        return response.status(401).json('Errors received while attempting to update a shipping address record ');
       }
       response.status(200).json("Successfully updated shipping address");
     }
@@ -83,13 +83,15 @@ router.put("/shippingaddress/update", (request, response, next) => {
 
 //delete purchase history
 router.delete("/shippingaddress/delete", (request, response, next) => {
-  const { shippingaddressid } = request.body;
+  const {
+    shippingaddressid
+  } = request.body;
   db_connection.query(
     "DELETE FROM shippingaddress WHERE shippingaddressid = $1",
     [shippingaddressid],
     (error, result) => {
       if (error) {
-        return next(error);
+        return response.status(401).json('Errors received while attempting to delete a shipping address record ');
       }
       response.status(200).json("Successfully delete shipping address");
     }

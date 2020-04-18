@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import ProductList from '../../Products/ProductList/ProductList'
-import { Container } from 'reactstrap';
+import Axios from 'axios';
+import { ProductList } from '../../Products/ProductList/ProductList'
+import {loadUser} from '../../Actions/authAction';
+import { connect } from 'react-redux';
 
 export class Electronics extends Component {
     constructor() {
@@ -11,32 +13,30 @@ export class Electronics extends Component {
       }
     //pull data from the backend (database)
     componentDidMount() {
-    var token = cookie.load("token");
-    fetch("http://localhost:5000/Electronics")
-      .then(res => res.json())
-      .then(data => this.setState({
-        ItemList: data.filter(product => product.productid == productid)}));
-    }
+      const {user} = this.props.auth;
+      let id  = window.location.href.split('/')[4];
 
-    saveData(){
-      let data = {};
-      data = {
-        productId: this.props.productid                              
-      }
-      //config the header
-      const config = {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-      };
-    }    
+    //var token = cookie.load("token");
+    //this.props.loadUser();
+    Axios.get("http://localhost:5000/getAllProductsByCategory/4")
+      .then(data => this.setState({ electronics: data.data}));
+    }
     render() {
+        const {user} = this.props.auth;
+        console.log(user)
+        console.log(this.state.products)
+
         return (
-          <Container>
-            {this.state.Electronics.map(electronics => (
-              <ProductList key={product.productId} product={product} />
-            ))}
-          </Container>
+          <div>
+             <ProductList product={this.state.electronics} />
+          </div>
         )
     }
 }
+
+const mapStateToProps = state =>({
+	auth: state.auth,
+	error:state.error
+  })
+
+export default connect(mapStateToProps, {loadUser})(Electronics);

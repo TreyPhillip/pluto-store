@@ -1,0 +1,18 @@
+h3 {
+    text-align: center;
+}
+
+.shipment {
+    float: right;
+    border: 0;
+    background-color: #6b6;
+    color: #fff;
+    border-radius: 3px;
+}
+
+.backOrder {
+    float: left;
+    background-color: deepskyblue;
+    color: #fff;
+    border: 0;
+}

@@ -35,6 +35,7 @@ import {logout} from '../Actions/authAction';
   logoutHandler =event =>{
     console.log('hi')
     event.preventDefault();
+    sessionStorage.clear();
     this.props.logout();
     toast('Successfully Logged Out');
   }
@@ -60,6 +61,9 @@ import {logout} from '../Actions/authAction';
                   <NavLink href="/Home" className="text-white">Home</NavLink>
                 </NavItem>
                 <NavItem>
+                  <NavLink onClick={this.logoutHandler} className="text-white">Logout</NavLink>
+                </NavItem>
+                <NavItem>
                 <NavLink href="/AddProduct" className="text-white">Add A Product</NavLink>
                 </NavItem>
                 <NavItem>
@@ -75,8 +79,8 @@ import {logout} from '../Actions/authAction';
                   <NavLink href="/Wishlist" className="text-white">Wishlist</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink onClick={this.logoutHandler} className="text-white">Logout</NavLink>
-                </NavItem>
+								<NavLink href='/Reviews' className='text-white'>Seller Feedback</NavLink>
+							</NavItem>
               </Nav>
             </Collapse>
         </Navbar>

@@ -7,37 +7,28 @@ var router = express.Router();
 router.get("/order/detail", (request, response, next) => {
   db_connection.query("SELECT * FROM orderdetail", (error, result) => {
     if (error) {
-      return next(error);
+      return response.status(401).json('Error returning the orders details')
     }
-    response.status(200).json(result.rows);
+      return response.status(200).json(result.rows);
   });
-});
-//get an order detail by id
-router.get("/order/detail/:id", (request, response, next) => {
-  const id = parseInt(request.params.id);
-  db_connection.query(
-    "SELECT * FROM orderdetail WHERE orderdetailid=$1",
-    [id],
-    (error, result) => {
-      if (error) {
-        return next(error);
-      }
-      response.status(200).json(result.rows);
-    }
-  );
 });
 
 //Add new order detail
 router.post("/order/detail/add", (request, response, next) => {
-  const { productid, orderid, quantity, peritemprice } = request.body;
+  const {
+    productid,
+    orderid,
+    quantity,
+    peritemprice
+  } = request.body;
   db_connection.query(
     "INSERT INTO orderdetail (productid, orderid, quantity, peritemprice) VALUES($1,$2,$3,$4)",
     [productid, orderid, quantity, peritemprice],
     (error, result) => {
       if (error) {
-        return next(error);
+        return response.status(401).json('Adding Order detail failed');
       }
-      response.status(200).json("Successfully added a order detail");
+        return response.status(200).json("Successfully added a order detail");
     }
   );
 });
@@ -56,23 +47,25 @@ router.put("/order/detail/update", (request, response, next) => {
     [productid, orderid, quantity, peritemprice, orderdetailid],
     (error, result) => {
       if (error) {
-        return next(error);
+        return response.status(401).json('Update Order detail failed');
       }
-      response.status(200).json("Successfully updated orderdetail");
+        return response.status(200).json("Successfully updated orderdetail");
     }
   );
 });
 //delete order detail
 router.delete("/order/detail/delete", (request, response, next) => {
-  const { orderdetailid } = request.body;
+  const {
+    orderdetailid
+  } = request.body;
   db_connection.query(
     "DELETE FROM orderdetail WHERE orderdetailid=$1",
     [orderdetailid],
     (error, result) => {
       if (error) {
-        return next(error);
+        return response.status(401).json('Failed to delete the order detail');
       }
-      response.status(200).json("Successfully delete order detail");
+        return  response.status(200).json("Successfully delete order detail");
     }
   );
 });

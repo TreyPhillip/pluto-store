@@ -119,11 +119,11 @@
  .checkout {
 	 float: right;
 	 border: 0;
-	 margin-top: 20px;
-	 padding: 6px 25px;
-	 background-color: #6b6;
+	 padding: 4px 8px;
+	 background-color: green;
 	 color: #fff;
-	 font-size: 25px;
+	 font-family: 'HelveticaNeue-Medium', 'Helvetica Neue Medium';
+	 font-size: 12px;
 	 border-radius: 3px;
 }
  .checkout:hover {
