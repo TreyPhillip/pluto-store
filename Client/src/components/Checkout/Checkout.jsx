@@ -15,56 +15,53 @@ class Checkout extends Component {
             cartItems: JSON.parse(sessionStorage.getItem("cart")),
             subtotal: JSON.parse(sessionStorage.getItem("subtotal")),
             payment: [],   
-            orderid: 0
+            orderid: []
 
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.addToOrder = this.addToOrder.bind(this);
+        this.addToDetails = this.addToDetails.bind(this);
+        this.addToPurchaseHistory = this.addToPurchaseHistory.bind(this);
+        this.adjustQuantity = this.adjustQuantity.bind(this);
     }  
-    
+    addToOrder = async (item) => {
+        let orders_obj = {};
+        orders_obj = {
+            buyerid: parseInt(this.props.user.decoded.accountid),
+            sellerid: parseInt(item.sellerId),    
+            orderdate: moment().format("YYYY-MM-DD"),
+            };
+            //save order to the database
+            await axios.post("http://localhost:5000/orders/add", orders_obj)
+            .then(res => {
+            //sucess
+            })
+            .catch(err =>{
+            //the product had an issues adding to the database
+            console.log(err)           
+        }) 
+    }
 
-    handleSubmit = async (event) => {
-    event.preventDefault();
-    if(this.props.user === null){
-        this.props.history.push('/login')
-    }        
-    let orders_obj = {};
-    let orderdetails_obj = {};
-    let purchasehistory_obj = {};
-    let productToLower_obj = {};
-    let productToDelete_obj = {};
-    if(this.state.FirstName !=="" 
-    && this.state.LastName !== ""
-    && this.state.StreetAddress !==""
-    && this.state.City !==""
-    && this.state.Country !==""){
-
-         await this.state.cartItems.map( async (item) => {
-            orders_obj = {
-                buyerid: parseInt(this.props.user.decoded.accountid),
-                sellerid: parseInt(item.sellerId),    
-                orderdate: moment().format("YYYY-MM-DD"),
-                };
-                //save order to the database
-                await axios.post("http://localhost:5000/orders/add", orders_obj)
-                .then(res => {
-                //sucess
-                })
-                .catch(err =>{
-                //the product had an issues adding to the database
-                console.log(err)           
+    addToDetails = async (item) => {
+        let orderdetails_obj = {};
+        await axios.get('http://localhost:5000/orders/lastRecord')
+            .then( json => this.setState({orderid: json.data[0].orderid}))
+            // await fetch('http://localhost:5000/orders/lastRecord')
+            // .then(res => res.json())
+            // .then(data => {
+            //     let tempId = data
+            //     console.log('Order ID: ' + tempId[0].orderid)
+            //     that.setState({orderid: tempId[0].orderid})
+            // });
+            .then(next => {
+                orderdetails_obj = {
+                    productid: parseInt(item.productId),
+                    orderid: parseInt(this.state.orderid),
+                    quantity: parseInt(item.quantity),
+                    peritemprice: parseInt(item.price),
+                    };
             }) 
-
-            await axios.get('http://localhost:5000/orders/lastRecord')
-            .then(json => this.setState({orderid: json.data[0].orderid}));
-            //console.log(json[0])
-            //this.setState({orderid: json.data[0].orderid}
-            orderdetails_obj = {
-                productid: parseInt(item.productId),
-                orderid: parseInt(this.state.orderid),
-                quantity: parseInt(item.quantity),
-                peritemprice: parseInt(item.price),
-                };
                 //save order to the database
                 await axios.post("http://localhost:5000/order/detail/add", orderdetails_obj)
                 .then(res => {
@@ -74,18 +71,45 @@ class Checkout extends Component {
                 //the product had an issues adding to the database
                 console.log(err)
             })
-            
-            purchasehistory_obj = {
-                buyerid: parseInt(this.props.user.decoded.accountid),
+    }
+
+    addToPurchaseHistory = async (item) => {
+        let purchasehistory_obj = {};
+        purchasehistory_obj = {
+            buyerid: parseInt(this.props.user.decoded.accountid),
+            sellerid: parseInt(item.sellerId),
+            shippingaddressid: parseInt('1'),
+            productid: parseInt(item.productId),
+            datepurchased: moment().format("YYYY-MM-DD"),
+            productprice: parseInt(item.price),
+            quantity: parseInt(item.quantity),
+            };
+            //save order to the database
+            await axios.post("http://localhost:5000/purchasehistory/add", purchasehistory_obj)
+            .then(res => {
+            //sucess
+            })
+            .catch(err =>{
+            //the product had an issues adding to the database
+            console.log(err)
+        })
+    }
+
+    adjustQuantity = async (item) => {
+        var newQuantity = item.maxQuantity - item.quantity;          
+        if(newQuantity > 0) {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json'
+                }}
+                await axios.put("http://localhost:5000/products/update", {productname: item.productName,
+                categoryid: parseInt(item.categoryId),
                 sellerid: parseInt(item.sellerId),
-                shippingaddressid: parseInt('1'),
+                price: parseInt(item.price),
+                description: item.description,
+                quantity: parseInt(newQuantity),
                 productid: parseInt(item.productId),
-                datepurchased: moment().format("YYYY-MM-DD"),
-                productprice: parseInt(item.price),
-                quantity: parseInt(item.quantity),
-                };
-                //save order to the database
-                await axios.post("http://localhost:5000/purchasehistory/add", purchasehistory_obj)
+                imageurl: item.imageurl}, config )
                 .then(res => {
                 //sucess
                 })
@@ -93,50 +117,42 @@ class Checkout extends Component {
                 //the product had an issues adding to the database
                 console.log(err)
             })
-
-            var newQuantity = item.maxQuantity - item.quantity;          
-            if(newQuantity > 0) {
-                const config = {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }}
-                    console.log(productToLower_obj)
-                    console.log(this.state.cartItems)
-
-                    axios.put("http://localhost:5000/products/update", {productname: item.productName,
-                    categoryid: parseInt(item.categoryId),
-                    sellerid: parseInt(item.sellerId),
-                    price: parseInt(item.price),
-                    description: item.description,
-                    quantity: parseInt(newQuantity),
-                    productid: parseInt(item.productId),
-                    imageurl: item.imageurl}, config )
-                    .then(res => {
-                    //sucess
-                    })
-                    .catch(err =>{
-                    //the product had an issues adding to the database
-                    console.log(err)
+        }
+        else{
+            const headers = {
+                'Authorization': 'Bearer paperboy'
+            };
+            const data = {
+                productid: item.productId
+            };
+                //save order to the database
+                await axios.delete("http://localhost:5000/products/delete", {headers, data})
+                .then(res => {
+                //sucess
                 })
-            }
-            else{
-                const headers = {
-                    'Authorization': 'Bearer paperboy'
-                };
-                const data = {
-                    productid: item.productId
-                };
-                    //save order to the database
-                    await axios.delete("http://localhost:5000/products/delete", {headers, data})
-                    .then(res => {
-                    //sucess
-                    })
-                    .catch(err =>{
-                    //the product had an issues adding to the database
-                    console.log(err)
-                })
-            }
+                .catch(err =>{
+                //the product had an issues adding to the database
+                console.log(err)
+            })
+        }
+    }
+    
+    handleSubmit = async (event) => {
+    event.preventDefault();
+    if(this.props.user === null){
+        this.props.history.push('/login')
+    }        
+    if(this.state.FirstName !=="" 
+    && this.state.LastName !== ""
+    && this.state.StreetAddress !==""
+    && this.state.City !==""
+    && this.state.Country !==""){
 
+         await this.state.cartItems.map( async (item) => {
+            await this.addToOrder(item);
+            await this.addToDetails(item);
+            await this.addToPurchaseHistory(item);
+            await this.adjustQuantity(item);
         })
         sessionStorage.clear();
         toast("Order successful!")

@@ -22,6 +22,8 @@ router.post('/orders/add', (request, response, next) => {
     db_connection.query('INSERT INTO orders (buyerid,sellerid,orderdate) VALUES($1,$2,$3)',
         [buyerid, sellerid, orderdate], (error, result) => {
             if (error) {
+                console.log("BuyerID: "+ buyerid + "SellerID: "+ sellerid + "orderdate: "+ orderdate);
+                console.log(error);
                 return response.status(401).json('order failed to be added');
             }
             response.status(200).json("Successfully added a order");

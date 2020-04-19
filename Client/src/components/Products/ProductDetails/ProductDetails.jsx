@@ -45,11 +45,11 @@ import { Redirect } from 'react-router';
         }
     }
     
-    addElementToCart = (product) => {
-        
+    addElementToCart = (product) => {       
         if(this.props.user === null){
             this.props.history.push('/login')
         }
+        else{
         
         //create cartitem
         let cartItems = [];
@@ -96,6 +96,7 @@ import { Redirect } from 'react-router';
             toast(this.state.productDetails.productname + " has been added to the cart")
         }
     }
+}
 
         addElementToWishlist = event => {
             event.preventDefault();

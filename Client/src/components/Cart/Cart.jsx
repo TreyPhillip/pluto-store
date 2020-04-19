@@ -21,7 +21,6 @@ export class Cart extends Component {
             subtotal += item.linePrice;
         });
         sessionStorage.setItem("subtotal", JSON.stringify(subtotal));  
-		console.log(subtotal)
 		
 		this.props.history.push('/Checkout')
     }
@@ -83,7 +82,7 @@ export class Cart extends Component {
 		}
 		else{
 			return(
-				<Form onSubmit={this.handleSubmit}>
+				<Form>
 				<h3>Your cart is empty. Add some stuff!</h3>
 				</Form>
 			)
