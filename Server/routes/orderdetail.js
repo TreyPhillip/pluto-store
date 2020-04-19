@@ -26,7 +26,7 @@ router.post("/order/detail/add", (request, response, next) => {
     [productid, orderid, quantity, peritemprice],
     (error, result) => {
       if (error) {
-        console.log("productID: "+ productid + "OrderID: " + orderid + "quantity: "+ quantity + "peritemprice: "+ peritemprice);
+        console.log("productID: "+ productid + " OrderID: " + orderid + " quantity: "+ quantity + " peritemprice: "+ peritemprice);
         console.log(error);
         return response.status(401).json('Adding Order detail failed');
       }
