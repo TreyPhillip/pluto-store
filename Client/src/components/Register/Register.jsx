@@ -1,3 +1,9 @@
+/**
+ * Name: Register.jsx
+ * Purpose: To Display the Registeration form, handle the validation, and server requests.
+ * Last updated on April 16, 2020 By Kevin Lucas
+ *  */ 
+
 import React, { Component } from "react";
 import { Container, Form, FormGroup, Label, Input, Button, Alert } from "reactstrap";
 import "./Register.css";
@@ -5,7 +11,8 @@ import {toast} from 'react-toastify';
 
 import axios from 'axios';
 import {connect} from 'react-redux';
-import {register, createProfile,uniqueUsernameCheck} from '../Actions/registerAction';
+import {register, createProfile,uniqueUsernameCheck,uniqueEmailCheck} from '../Actions/registerAction';
+import {getLastRecord} from '../Actions/authAction';
 
  class Register extends Component {
   constructor(props) {
@@ -30,21 +37,17 @@ import {register, createProfile,uniqueUsernameCheck} from '../Actions/registerAc
       lastName: "",
       phoneNumber: "",
       address: "",
+      profileId:0,
       validate: {
         emailState: ""
       },
       profile:[],
+      newestProfileId:0,
       status:false,
       isUnique:false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentDidMount(){
-    fetch('http://localhost:5000/lastRecord')
-   .then(res =>res.json())
-   .then(json => this.setState({profile: json}));
   }
 
   componentWillReceiveProps(nextProps){
@@ -55,6 +58,16 @@ import {register, createProfile,uniqueUsernameCheck} from '../Actions/registerAc
             toast.success("Successfully the user");
           }
       }
+
+
+       if(this.props.reg.emailTaken !== nextProps.reg.emailTaken){
+         if(nextProps.reg.emailTaken === false){
+            this.state.errors.email_error = ""
+         }
+         if(nextProps.reg.emailTaken === true){
+           this.state.errors.email_error = "The Email Has already been registered"
+         }
+       } 
 
       if(this.props.reg.usernameTaken !== nextProps.reg.usernameTaken){
         console.log(nextProps.reg.usernameTaken);
@@ -89,23 +102,15 @@ import {register, createProfile,uniqueUsernameCheck} from '../Actions/registerAc
       this.setState({errors})
   }
 
-  handleSubmit = event => {
+  handleSubmit = async event => {
     event.preventDefault();
     const {errors} = this.state;
-    let newProfile_id;
-    if(this.state.profile[0] === undefined)
-    {
-       newProfile_id = 1;
-    }
-    else{
-       newProfile_id = this.state.profile[0].profileid + 1;
-    }
+  
       //state variables
       let username = this.state.userName;
       let email = this.state.email;
       let password = this.state.password;
       let isverified = true
-      let profileid = newProfile_id
       //regex constants
       const phoneRegex =new RegExp(/\d?(\s?|-?|\+?|\.?)((\(\d{1,4}\))|(\d{1,3})|\s?)(\s?|-?|\.?)((\(\d{1,3}\))|(\d{1,3})|\s?)(\s?|-?|\.?)((\(\d{1,3}\))|(\d{1,3})|\s?)(\s?|-?|\.?)\d{3}(-|\.|\s)\d{4}/);
       const passwordRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
@@ -113,12 +118,11 @@ import {register, createProfile,uniqueUsernameCheck} from '../Actions/registerAc
       
     //make sure the form is filled.    
       if(this.state.firstName !== "" && this.state.lastname  !== ""  && this.state.phoneNumber  !== "" && 
-      this.state.userName !=="" && this.state.lastName !== "" && this.state.userpassword !== "" && newProfile_id !== "")
+      this.state.userName !=="" && this.state.lastName !== "" && this.state.userpassword !== "")
       {
         //form is filled -- empty the empty_form state
         this.state.errors.empty_form = "";
         this.setState({errors});
-
         //firstname, lastname, and phonenumber -----------------------------------------------------------------
         if(this.state.firstName.length > 50 || this.state.firstName.length < 2){
           this.state.errors.first_name_error = "First name must be between 2 and 50 characters long";
@@ -133,7 +137,6 @@ import {register, createProfile,uniqueUsernameCheck} from '../Actions/registerAc
         else{
           this.state.errors.last_name_error = "";
         }
-
         if(!phoneRegex.test(this.state.phoneNumber)){
           this.state.errors.phone_number_error = "Invalid Phone number";
         }
@@ -150,25 +153,47 @@ import {register, createProfile,uniqueUsernameCheck} from '../Actions/registerAc
 
         //check if the username is already taken
           this.props.uniqueUsernameCheck(this.state.userName);
+        //check if the email is already registered
+
+          this.props.uniqueEmailCheck(this.state.email);
+        //save errors to state
           this.setState({errors});
 
         //check if there is any profile errors
         if(this.state.errors.phone_number_error === "" && this.state.errors.last_name_error === "" &&
          this.state.errors.first_name_error ===""){
              //check account errors
-            if(this.state.errors.password_error === "" && this.state.errors.user_name_error === ""){
-              this.props.createProfile(this.state.firstName,this.state.lastName,this.state.phoneNumber);
-               //check if the profile request was successful
+            if(this.state.errors.password_error === "" && this.state.errors.user_name_error === ""
+             && this.state.errors.email_error === ""){
 
+              //Add profile if there are no errors
+              this.props.createProfile(this.state.firstName,this.state.lastName,this.state.phoneNumber);
+
+             //if no errors, add the Profile to the database
               if(this.state.errors.profile_submission_error === "" && this.state.errors.user_name_error === "" 
-              && this.props.reg.usernameTaken === false){
-                this.props.register(username,email,password,isverified,profileid);   
-              }                                      
-            }                     
-          }  
+              && this.props.reg.usernameTaken === false && this.state.errors.email_error === ""){
+                  //post request --- pull the last record --- default value of 1 if the database is empty.
+
+                  //get the newly added record
+                  await axios.get('http://localhost:5000/lastRecord')
+                  .then( data =>{
+                  this.setState({profile: data.data});
+                  });
+
+                  let recentlyAddRecord = 0;
+                  if(this.state.profile.length <= 0){
+                    recentlyAddRecord = 1;
+                  }
+                  else{
+                    recentlyAddRecord = this.state.profile[0].profileid;
+                  }
+                  this.props.register(username,email,password,isverified, recentlyAddRecord); 
+              }           
+            }                                 
+         }  
       }
       else{
-        this.state.errors.empty_form = "You must filled out the form to register for an account";
+        this.state.errors.empty_form = "You must fill out the form to register for an account";
         this.setState({errors});
       }
 };
@@ -223,6 +248,7 @@ import {register, createProfile,uniqueUsernameCheck} from '../Actions/registerAc
                 this.handleChange(e);
               }}
             />
+            {this.state.errors.email_error ? <Alert color='danger'>{this.state.errors.email_error}</Alert> : null}
           </FormGroup>
           <FormGroup>
             <Label for="passwordInput">Password *</Label>
@@ -319,4 +345,6 @@ import {register, createProfile,uniqueUsernameCheck} from '../Actions/registerAc
     reg_err:state.reg_err
     })
 
-  export default connect(mapStateToProps, {register, createProfile,uniqueUsernameCheck})(Register);
+  export default connect(mapStateToProps, {register, createProfile,uniqueUsernameCheck,uniqueEmailCheck, getLastRecord})(Register);
+
+  

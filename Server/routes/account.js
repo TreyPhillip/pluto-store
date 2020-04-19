@@ -85,8 +85,6 @@ router.post("/account/register", (request, response, next) => {
     isverified,
     profileid
   } = request.body;
-
-  console.log(username + emailaddress + userpassword + isverified + profileid);
   
   var hash = bcrypt.hashSync(userpassword, saltCount);
 
@@ -95,7 +93,6 @@ router.post("/account/register", (request, response, next) => {
     [username, hash, emailaddress, isverified, profileid],
     (error, result) => {
       if (error) {
-        console.log(error)
         return response.status(400).json(error);
       }
     }
@@ -147,7 +144,6 @@ router.delete("/account/delete", (request, response, next) => {
        return response.status(200).json("Account has been deleted");
 });
 
-
 //account route to check if an username is already taken;
 router.post("/account/uniqueUsername", (request, response) =>{
     const {username} = request.body;
@@ -170,6 +166,26 @@ router.post("/account/uniqueUsername", (request, response) =>{
     );
 })
 
+//Unique Email
+router.post("/account/uniqueEmail", (request, response) =>{
+  const {emailaddress} = request.body;
 
+  db_connection.query(
+    "SELECT * FROM ACCOUNT WHERE emailaddress=$1",
+    [emailaddress],
+    (error, results) => {
+      if(error){
+        return response.status(404).json("Error attempting to extract username");
+      }      
+      if(results.rows.length > 0){
+        return response.status(401).json("Email is already registered");
+      }
+      else
+      {
+        return response.status(200).json("Email has not be registered");
+      }
+    }
+  );
+})
 
 module.exports = router;

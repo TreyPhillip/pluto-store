@@ -78,11 +78,7 @@ import {storage} from '../../../firebase-config';
             //Uploading file to firebase storage
             uploadTask.on('state_changed', 
             (snapShot) => {
-              //takes a snap shot of the process as it is happening
-              console.log(snapShot)
             }, (err) => {
-              //catches the errors
-              console.log(err)
             }, () => {
               // gets the functions from storage refences the image storage in firebase by the children
               // gets the download url then sets the image from firebase as the value for the imgUrl key:
@@ -110,13 +106,12 @@ import {storage} from '../../../firebase-config';
                       toast("Product successfully listed")
                       window.setTimeout(function(){
                         window.location.href = "/Home";
-                      }, 3000)
+                      }, 1200)
                     })
                     .catch(err =>{
                     //the product had an issues adding to the database
                     this.setState({product_error: err.response.data})
                 }) 
-                console.log(product_obj)
             }) 
         })
       }
@@ -133,8 +128,6 @@ import {storage} from '../../../firebase-config';
 
           const image = e.target.files[0]
           this.setState({imageAsFile: image})
-
-          console.log(image);
 
         if(image === undefined){
           this.setState({imagePreview: null});

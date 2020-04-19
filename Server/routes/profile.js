@@ -36,7 +36,7 @@ router.get('/lastRecord', (request, response, next) => {
         if (error) {
            return response.status(401).json("Error no records");
         }
-    
+       console.log(result.rows)
         return response.status(200).json(result.rows);
     });
 });

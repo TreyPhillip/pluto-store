@@ -20,10 +20,10 @@ router.get('/payment', (request, response, next) => {
         if (error) {
             return response.status(401).json('No payments exist');
         }
-        response.status(200).json(result.rows);
+        return response.status(200).json(result.rows);
     });
 });
-
+//get payments for a user
 router.post('/payment/getUserPayment', (request, response, next) => {
     const {accountid} = request.body;
     db_connection.query('SELECT * FROM payment WHERE accountid=$1', [accountid],
@@ -34,19 +34,15 @@ router.post('/payment/getUserPayment', (request, response, next) => {
                 return response.status(200).json(result.rows);
         });
 });
-
-
-
+//check if a payment has been already registered
 router.post('/payment/validateCreditNumber', (request, response) =>{
     const {creditcardnumber} = request.body;
-
     db_connection.query("SELECT exists(select 1 from payment where creditcardNumber=$1)", [creditcardnumber], (error, result) =>{
         if(error){
             return response.status(404).json('Error finding Credit Card Number');
         }
-        console.log(result.rows[0].exists);
         if(result.rows[0].exists === true){
-            return response.status(404).json("Credit Card is registered already ");
+            return response.status(404).json("Credit Card is registered already");
         }
         else
         {
@@ -54,8 +50,6 @@ router.post('/payment/validateCreditNumber', (request, response) =>{
         }
     });
 })
-
-
 //Add a new account
 router.post('/payment/add', (request, response, next) => {
     const {
@@ -94,18 +88,15 @@ router.put('/payment/update', (request, response, next) => {
         });
                 return response.status(200).send('payment information has been updated');
 });
-
 //delete an account
 router.delete('/payment/delete', (request, response, next) => {
-    const {
-        paymentid
-    } = request.body;
-    db_connection.query('DELETE from payment WHERE paymentid = $1', [paymentid], (error, result) => {
+    const { paymentid } = request.body;
+    db_connection.query("DELETE from payment WHERE paymentid = $1", [paymentid], (error, result) => {
         if (error) {
-            return response.status(401).json('payment failed to be deleted');
+         return response.status(401).json('payment failed to be deleted');
         }
     });
-            return response.status(200).send('Payment has been deleted');
+        return response.status(200).send('Payment has been deleted');
 });
 
 module.exports = router;

@@ -75,8 +75,9 @@ class Checkout extends Component {
                 //the product had an issues adding to the database
                 console.log(err)
             })
-    }) 
-    }
+        })
+    } 
+    
 
     addToPurchaseHistory = async (item) => {
         let purchasehistory_obj = {};

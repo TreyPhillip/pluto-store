@@ -26,7 +26,7 @@
 require('dotenv').config();
 const Pool = require('pg').Pool;
 const pool = new Pool({
-	user: 'postgres',
+	user: 'Kevin',
 	host: 'localhost',
 	database: 'PlutoDB',
 	password: 'password123',

@@ -126,6 +126,9 @@ import { Redirect } from 'react-router';
                     .then(res =>{
                         toast(this.state.productDetails.productname + " has been added to the wishlist")
                     })
+                    .catch(err =>{
+                        console.log(err)
+                    })
                 }
             }      
         }

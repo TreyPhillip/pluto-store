@@ -1,16 +1,19 @@
-import React, { Component, useState } from "react";
+/*
+ * Purpose: to Handle modification to the profie, credit card manipulation,  
+ * Create By Kevin Lucas 
+ */
+import React, { Component} from "react";
 import { Container, Form, FormGroup, Label, Input, Button, Alert, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 import cookie from 'react-cookies';
 import axios from 'axios';
-
 import {toast} from 'react-toastify';
 //redux
 import {connect} from 'react-redux';
 import {deleteAccount,updateAccount,loadUser,getProfile,updateProfile,deleteProfile} from '../Actions/authAction';
-//Tab inports
+//Tab imports
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-
+import './account.css';
 var moment = require('moment');
 
   class Account extends Component{
@@ -49,6 +52,7 @@ var moment = require('moment');
       cvCode : 0,
       //payment errors
       isRegistered: false,
+      paymentOption:[],
       cardValidation_code: [],
       creditCardNumber_err:"",
       creditCardHolderName_err:"",
@@ -80,7 +84,6 @@ var moment = require('moment');
   }
 
   componentDidMount(){
-
     var token = cookie.load("token");
     axios.post("http://localhost:5000/checkToken",{
       tokenString:token
@@ -93,8 +96,14 @@ var moment = require('moment');
       })
         .then(res => this.setState({firstName:res.data[0].firstname, lastName:res.data[0].lastname, phoneNumber:res.data[0].phonenumber, profileid:res.data[0].profileid}))
       })
-      //payment stuff
-      fetch('http://localhost:5000/')
+      //payment stuff --- load all the payments
+       fetch('http://localhost:5000/payment')
+       .then(response => response.json())
+       .then(data => 
+        {
+          //save the payment stuff
+          this.setState({paymentOption: data.filter(item => item.accountid == this.props.auth.user.decoded.accountid)})
+        })
   };
 
   handleChange = async event => {
@@ -127,10 +136,11 @@ var moment = require('moment');
     }
     this.setState({ validate });
   };
-//----------------------------------------------
+//------------Validation and Payment Server Call-----------------
    submitPayment = async event =>{
     event.preventDefault();
 
+    //Variables
     var selectedDate = moment(this.state.expirationDate,"YYYY/MM/DD")
     let now = moment(new Date(),"YYYY/MM/DDD"); //take the current year
     let isValid = true;
@@ -140,18 +150,17 @@ var moment = require('moment');
         this.setState({creditCardNumber_err:"InValid CreditCard Number"});
     }
     else{
-       //this.setState({creditCardNumber_err:""});
+        // validate if card number is validate (Check Digit)
        let result = creditCardValidator(this.state.creditCardNumber);
        if(result === true){
-         // valid
          this.setState({creditCardNumber_err:""})
        }    
        else{
          this.setState({creditCardNumber_err:"Invalid Credit Card"})
        }    
     }
-
-       await axios.post("http://localhost:5000/payment/validateCreditNumber", {
+    //Send request to the server to check if the name is registered or not
+     await axios.post("http://localhost:5000/payment/validateCreditNumber", {
         creditcardnumber: this.state.creditCardNumber
       })
       .then(res =>{
@@ -160,7 +169,6 @@ var moment = require('moment');
       .catch(err => {
          this.setState({isRegistered:false, creditCardNumber_err:"Credit Card Number is already Registered"})
       })
-
     //cardholder validation
     if(this.state.creditCardHolderName.length < 5){
       this.setState({creditCardHolderName_err:"CardholdName must be longer than 5 characters"});
@@ -169,14 +177,12 @@ var moment = require('moment');
     else{
       this.setState({creditCardHolderName_err:""});
     }
-
     //validation for date
     if (selectedDate.isAfter(now)) {
       this.setState({expirationDate_err:""})
     } else {
       this.setState({expirationDate_err:"The Card is Expired"})
       isValid = false;
-
     }
 
     //validate the cvcode
@@ -196,9 +202,6 @@ var moment = require('moment');
       cvcode: this.state.cvCode
     }
 
-    console.log(this.state.isRegistered);
-
-
     if(this.state.cvCode_err === "" && 
        this.state.creditCardHolderName_err ==="" 
        && this.state.creditCardNumber_err === "" 
@@ -217,12 +220,25 @@ var moment = require('moment');
               toast('Successfully added payment option')
           })
           .then(this.toggle)
+          .then(() =>{
+             
+            //pull the payment list to be rendered to the screen
+            fetch('http://localhost:5000/payment')
+            .then(response => response.json())
+            .then(data => 
+            {
+              this.setState({paymentOption: data.filter(item => item.accountid == this.props.auth.user.decoded.accountid)})
+            })
+
+            //reset the form data
+            this.setState({creditCardNumber:0,creditCardHolderName:"", expirationDate: moment().format("YYYY-MM-DD"), cvCode:0})
+          })
           .catch(err =>{
               console.log(err);
           })
+          
      }
   }
-
   onSubmit = event =>{
     event.preventDefault();
     const{errors} = this.state;
@@ -303,12 +319,40 @@ var moment = require('moment');
       catch(error){
       }
   }
+  //remove payment
+  removePayment = async (payment_id) =>{
 
-  //payment stuff
-   toggle = () => this.setState({addPayment:!this.state.addPayment})
+    console.log(payment_id)
 
+    const headers = {
+      'Authorization': 'Bearer paperboy'
+    };
+    const data = {
+      paymentid:payment_id
+    };
 
+   await axios.delete('http://localhost:5000/payment/delete',{
+      headers,
+      data
+    })
+    .then( res =>{
+        toast("Successfully deleted payment")
+    })
+    .then(final =>{
+        //pull the payments to get the update payment list
+        fetch('http://localhost:5000/payment')
+        .then(response => response.json())
+        .then(data => 
+        {
+          this.setState({paymentOption: data.filter(item => item.accountid == this.props.auth.user.decoded.accountid)})
+        })
+    })
+  }
+
+  //--- Close the payment modal
+  toggle = () => this.setState({addPayment:!this.state.addPayment})
   render() {
+    console.log(this.state.paymentOption)
         const {
           email,
           password,
@@ -322,12 +366,6 @@ var moment = require('moment');
           expirationDate,
           cvCode,
           addPayment,
-          //shipping
-          shipping_firstname,
-          shipping_lastname,
-          shipping_streetAddress,
-          shipping_city,
-          shipping_country,
         } = this.state;
 
         return (
@@ -335,7 +373,6 @@ var moment = require('moment');
            <TabList>
               <Tab>Account</Tab>
               <Tab>Payment</Tab>
-              <Tab>Shipping</Tab>
             </TabList>
            <TabPanel>
               <Container className="register">
@@ -501,15 +538,36 @@ var moment = require('moment');
                       <Button onClick={this.submitPayment} color='success'>Add</Button>
                     </ModalFooter>
                 </Modal>
-           </TabPanel>
-           <TabPanel>
-             <h3>Shipping Information</h3>
+            <table>
+              {this.state.paymentOption.length !== 0 ? 
+                <thead>
+                  <tr>
+                    <th>Your Credit Card</th>
+                    <th>Name On Card</th>
+                    <th>Expiry Date</th>
+                  </tr>
+                </thead>
+                : null }
+                  {this.state.paymentOption.map(item =>
+                      (
+                      <tbody key={item.paymentid}>     
+                          <tr>
+                            <td>{hideCreditCardNumber(item.creditcardnumber)}</td>
+                            <td>{item.cardholdername}</td>
+                            <td>{item.expirationDate}</td>
+                            <td>
+                            <button className="btn_payment" id="btn_update">Update</button>
+                            <button className="btn_payment" id="btn_remove" onClick={this.removePayment.bind(this,item.paymentid)}>Remove</button> 
+                            </td>
+                          </tr>
+                        </tbody>
+                      ))}                          
+                  </table>
            </TabPanel>
           </Tabs>
         );
     }
 };
-
 
 const mapStateToProps = state =>({
   isDeleted: state.auth.isDeleted,
@@ -521,7 +579,6 @@ const mapStateToProps = state =>({
 });
 
 export default connect(mapStateToProps, {deleteAccount,deleteProfile,getProfile,loadUser,updateAccount,updateProfile})(Account);
-
 
 //using the luhn algorithm to calculate the check digit
 function creditCardValidator(cardNumber){
@@ -539,4 +596,8 @@ function creditCardValidator(cardNumber){
      sum += d;
    }
    return (sum % 10) == 0;
+}
+
+function hideCreditCardNumber(cardNumber){
+  return  cardNumber.toString().replace(/\d(?=\d{4})/g, 'X');
 }

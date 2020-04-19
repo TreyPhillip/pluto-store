@@ -21,6 +21,7 @@ router.post("/order/detail/add", (request, response, next) => {
     quantity,
     peritemprice
   } = request.body;
+  
   db_connection.query(
     "INSERT INTO orderdetail (productid, orderid, quantity, peritemprice) VALUES($1,$2,$3,$4)",
     [productid, orderid, quantity, peritemprice],

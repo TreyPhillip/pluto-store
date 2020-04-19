@@ -1,3 +1,8 @@
+/***
+ * Purpose: To Display Redux Errors from the AuthAction File 
+ * Created By Kevin Lucas
+ * 
+ */
 import {GET_ERRORS, CLEAR_ERRORS} from '../Actions/types';
 
 const initialState ={

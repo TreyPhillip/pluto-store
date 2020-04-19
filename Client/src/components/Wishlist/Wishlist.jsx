@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { ListGroup, ListGroupItem, Button, ListGroupItemHeading, ListGroupItemText, Container } from 'reactstrap';
-import { ProductDetails } from '../Products/ProductDetails/ProductDetails';
 import axios from 'axios'
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -14,7 +13,6 @@ import { toast } from 'react-toastify';
            productDetails: [],
            wishlist_error:"",
         };
-      //  this.removeItem = this.removeItem.bind(this);
     }
 
     removeItem = (productid) => {
@@ -50,11 +48,14 @@ import { toast } from 'react-toastify';
     }
 
     componentDidMount() {
+        //get the wishlist
         fetch("http://localhost:5000/wishlist")
             .then(response => response.json())
             .then(data => {
+                //Filter by accountid
                let wishlist = data.filter(item =>item.accountid == this.props.user.decoded.accountid)
                let productData = [];
+               //Get products information for each product on the wishlist
                fetch('http://localhost:5000/products')
                .then(response => response.json())
                .then(data =>{                    

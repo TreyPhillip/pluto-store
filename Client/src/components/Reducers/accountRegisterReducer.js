@@ -8,11 +8,21 @@ const initialState ={
     isRegistered: false,
     usernameTaken: false,
     profile_added_success:false,
+    emailTaken:false,
 }
-
 export default function (state = initialState, action) {
     switch (action.type) {
-        
+      
+    case "EMAIL_AVAILABLE" :
+        return{
+            ...state,
+            emailTaken:false
+        }
+    case "EMAIL_TAKEN":
+        return {
+            ...state,
+            emailTaken:true
+        }
     case REGISTER_SUCCESS:
         return{
          ...state,
