@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Container, Form, FormGroup, Label, Input, Button,Alert, Col } from "reactstrap";
+import { Container, Form, FormGroup, Label, Input, Button,Alert, Col, ListGroup, ListGroupItem, ListGroupItemHeading } from "reactstrap";
 import axios from "axios";
 import "./reviewstyles.css";
+import { ReviewList } from "./ReviewList";
 import {connect} from 'react-redux';
 import {loadUser} from '../Actions/authAction'
 import {toast} from 'react-toastify';
@@ -162,6 +163,11 @@ calculateAverage() {
               </FormGroup>
               <Button type="submit" color="info">Submit Review</Button>
             </Form>
+            {/* <ListGroup>
+              <ListGroupItem>
+                <ListGroupItemHeading>{this.seller_sel.value}</ListGroupItemHeading>
+              </ListGroupItem>
+            </ListGroup> */}
             </Container>
         );
       }

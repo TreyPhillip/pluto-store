@@ -7,12 +7,12 @@ export const ReviewList = props => {
             <ListGroup>
                 <ListGroupItem>
                     <ListGroupItemHeading>
-                        <p>User: {props.ratings.accountId}</p>
+                        <p>User: {props.seller_sel.value}</p>
                         <hr/>
-                        <p id='rating'>Rating: {props.ratings.ratingValue}/5</p>
+                        <p id='rating'>Rating: {props.ratings.numberrating}/5</p>
                     </ListGroupItemHeading>
                     <ListGroupItemText id='review'>
-                        {props.ratings.reviewInfo} 
+                        {props.ratings.reviewcomment} 
                     </ListGroupItemText>
                 </ListGroupItem>
             </ListGroup>
