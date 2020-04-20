@@ -50,6 +50,15 @@ import {getLastRecord} from '../Actions/authAction';
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount(){
+    //check if the user is already logged in redirect the page to home.
+    if(this.props.auth.user != null){
+      //redirect to homepage
+      this.props.history.push('/Home')
+
+    }
+  }
+
   componentWillReceiveProps(nextProps){
       const{errors} = this.state;
       if(this.props.reg.isRegistered !== nextProps.reg.isRegistered ){
@@ -76,7 +85,6 @@ import {getLastRecord} from '../Actions/authAction';
           this.state.errors.user_name_error = "";
         }
         if(nextProps.reg.usernameTaken === true){
-          
           this.setState({isUnique: false});
           this.state.errors.user_name_error = nextProps.reg_err.msg;
         }

@@ -98,7 +98,7 @@ import { Redirect } from 'react-router';
     }
 }
 
-        addElementToWishlist = event => {
+        addElementToWishlist = async event => {
             event.preventDefault();
 
             if(this.props.user === null){
@@ -119,12 +119,17 @@ import { Redirect } from 'react-router';
                 else{
                     this.setState({wishlist_error:""});
                     //safe to add item to wishlist
-                        axios.post("http://localhost:5000/wishlist/add",{
+                      axios.post("http://localhost:5000/wishlist/add",{
                         accountid:this.state.user.accountid,
                         productid:this.state.productDetails.productid,
                     })
                     .then(res =>{
                         toast(this.state.productDetails.productname + " has been added to the wishlist")
+                        //get the wishlist again
+                        fetch("http://localhost:5000/wishlist")
+                        .then(response => response.json())
+                        .then(data => this.setState({
+                            wishlist: data.filter(item =>item.accountid == this.props.user.decoded.accountid)})) 
                     })
                     .catch(err =>{
                         console.log(err)

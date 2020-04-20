@@ -74,7 +74,6 @@ class Login extends Component {
 
   render() {
     const { email, password } = this.state;
-    console.log(this.state.errors)
     return (
       <Container className="login">
         {this.state.errors ? <Alert color='danger' text-align="center">{this.state.errors}</Alert> : null}

@@ -10,6 +10,7 @@ import {toast} from 'react-toastify';
 //redux
 import {connect} from 'react-redux';
 import {deleteAccount,updateAccount,loadUser,getProfile,updateProfile,deleteProfile} from '../Actions/authAction';
+import {uniqueUsernameCheck} from'../Actions/registerAction';
 //Tab imports
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
@@ -28,6 +29,8 @@ var moment = require('moment');
       firstName: "",
       lastName: "",
       phoneNumber: "",
+      oldUserName:"",
+      isUnique :false,
       validate: {
         emailState: ""
       }, 
@@ -83,12 +86,31 @@ var moment = require('moment');
     this.toggle = this.toggle.bind(this);
   }
 
+  componentWillReceiveProps(nextProps){
+    const{errors} = this.state;
+  
+    if(this.props.reg.usernameTaken !== nextProps.reg.usernameTaken){
+      if(nextProps.reg.usernameTaken === false){
+        this.setState({isUnique: true});
+        this.state.errors.user_name_error = "";
+      }
+      if(nextProps.reg.usernameTaken === true){
+        this.setState({isUnique: false});
+        this.state.errors.user_name_error = nextProps.reg_err.msg;
+      }
+    }
+
+    this.setState({errors})
+}
+
   componentDidMount(){
     var token = cookie.load("token");
+
     axios.post("http://localhost:5000/checkToken",{
       tokenString:token
     }).then((res) =>{
-        this.setState({account:res.data.decoded, email:res.data.decoded.emailaddress, userName:res.data.decoded.username });
+        this.setState({account:res.data.decoded, 
+          email:res.data.decoded.emailaddress, userName:res.data.decoded.username, oldUserName:res.data.decoded.username });
     }).then(data =>{
       this.props.getProfile(this.state.account.profileid);
       axios.post('http://localhost:5000/profile/',{
@@ -146,29 +168,33 @@ var moment = require('moment');
     let isValid = true;
 
     //credit number validation
-    if(this.state.creditCardNumber === 0){
-        this.setState({creditCardNumber_err:"InValid CreditCard Number"});
+
+    if((this.state.creditCardNumber === 0) === false){
+      if(this.state.creditCardNumber  >= 1){
+        // validate if card number is validate (Check Digit)
+        let result = creditCardValidator(this.state.creditCardNumber);
+        if(result === true){
+          this.setState({creditCardNumber_err:""})
+          
+            //Send request to the server to check if the card is registered or not
+            await axios.post("http://localhost:5000/payment/validateCreditNumber", {
+              creditcardnumber: this.state.creditCardNumber
+            })
+            .then(res =>{
+              this.setState({isRegistered:true, creditCardNumber_err:""})
+            })
+            .catch(err => {
+              this.setState({isRegistered:false, creditCardNumber_err:"Credit Card Number is already Registered"})
+            })
+        }    
+        else{
+          this.setState({creditCardNumber_err:"Invalid Credit Card"})
+        }      
+      } 
     }
     else{
-        // validate if card number is validate (Check Digit)
-       let result = creditCardValidator(this.state.creditCardNumber);
-       if(result === true){
-         this.setState({creditCardNumber_err:""})
-       }    
-       else{
-         this.setState({creditCardNumber_err:"Invalid Credit Card"})
-       }    
+      this.setState({creditCardNumber_err:"Invalid Credit Cardnumber"})
     }
-    //Send request to the server to check if the name is registered or not
-     await axios.post("http://localhost:5000/payment/validateCreditNumber", {
-        creditcardnumber: this.state.creditCardNumber
-      })
-      .then(res =>{
-         this.setState({isRegistered:true, creditCardNumber_err:""})
-      })
-      .catch(err => {
-         this.setState({isRegistered:false, creditCardNumber_err:"Credit Card Number is already Registered"})
-      })
     //cardholder validation
     if(this.state.creditCardHolderName.length < 5){
       this.setState({creditCardHolderName_err:"CardholdName must be longer than 5 characters"});
@@ -254,6 +280,8 @@ var moment = require('moment');
       let password = this.state.password;
       let isverified = true
       let profileid = newProfile_id
+
+      let UniqueUsername = false;
       //regex constants
       const phoneRegex =new RegExp(/\d?(\s?|-?|\+?|\.?)((\(\d{1,4}\))|(\d{1,3})|\s?)(\s?|-?|\.?)((\(\d{1,3}\))|(\d{1,3})|\s?)(\s?|-?|\.?)((\(\d{1,3}\))|(\d{1,3})|\s?)(\s?|-?|\.?)\d{3}(-|\.|\s)\d{4}/);
       const passwordRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
@@ -285,18 +313,29 @@ var moment = require('moment');
         else{
           this.state.errors.password_error = "";
         }
-        //check if the username is already taken
+        
+
+        //check if the username is different from the old username... check if another account has the same username
+        if(this.state.oldUserName !== this.state.userName){
           this.props.uniqueUsernameCheck(this.state.userName);
+        }
 
           if(this.state.isUnique){
             //display an error message
+            this.state.errors.user_name_error = "Username is already in use";
+          }
+          else{
+            this.state.errors.user_name_error = "";
           }
       
           this.setState({errors});
       try{
-        this.props.updateProfile(this.state.firstName,this.state.lastName, this.state.phoneNumber, this.state.account.profileid);
-        this.props.updateAccount(this.state.userName,this.state.password,this.state.email,true,this.state.account.profileid);
-        this.props.history.push('/Home');
+        if(this.state.errors.password_error === ""  && this.state.errors.phone_number_error === "" && this.state.errors.first_name_error === ""
+        && this.state.errors.last_name_error === "" && this.state.errors.user_name_error === ""){
+          this.props.updateProfile(this.state.firstName,this.state.lastName, this.state.phoneNumber, this.state.account.profileid);
+          this.props.updateAccount(this.state.userName,this.state.password,this.state.email,true,this.state.account.profileid);
+          this.props.history.push('/Home');
+        }
       }
       catch(err){
         //display errors
@@ -315,6 +354,10 @@ var moment = require('moment');
       try{
         this.props.deleteAccount(this.state.account.accountid); 
         this.props.deleteProfile(this.state.account.profileid);
+        toast("Account has been successfully delete")
+        window.setTimeout(function(){
+            window.location.href = "/Home";
+        }, 900)
       }
       catch(error){
       }
@@ -337,8 +380,6 @@ var moment = require('moment');
     })
     .then( res =>{
         toast("Successfully deleted payment")
-    })
-    .then(final =>{
         //pull the payments to get the update payment list
         fetch('http://localhost:5000/payment')
         .then(response => response.json())
@@ -346,13 +387,12 @@ var moment = require('moment');
         {
           this.setState({paymentOption: data.filter(item => item.accountid == this.props.auth.user.decoded.accountid)})
         })
-    })
+    })  
   }
 
   //--- Close the payment modal
   toggle = () => this.setState({addPayment:!this.state.addPayment})
   render() {
-    console.log(this.state.paymentOption)
         const {
           email,
           password,
@@ -575,10 +615,12 @@ const mapStateToProps = state =>({
   isUpdate: state.auth.isUpdate,
   auth: state.auth,
   profile:state.auth.profile,
-  error:state.error
+  error:state.error,
+  reg_err:state.reg_err,
+  reg:state.reg
 });
 
-export default connect(mapStateToProps, {deleteAccount,deleteProfile,getProfile,loadUser,updateAccount,updateProfile})(Account);
+export default connect(mapStateToProps, {deleteAccount,deleteProfile,getProfile,loadUser,updateAccount,updateProfile,uniqueUsernameCheck})(Account);
 
 //using the luhn algorithm to calculate the check digit
 function creditCardValidator(cardNumber){

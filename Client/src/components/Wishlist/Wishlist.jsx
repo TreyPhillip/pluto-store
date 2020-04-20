@@ -3,6 +3,7 @@ import { ListGroup, ListGroupItem, Button, ListGroupItemHeading, ListGroupItemTe
 import axios from 'axios'
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
+import './Wishlist.css';
 
 
   class Wishlist extends Component {
@@ -37,13 +38,36 @@ import { toast } from 'react-toastify';
             wishlistid: wishlist_id
         };
 
-        console.log(wishlist_id)
         axios.delete('http://localhost:5000/wishlist/delete', {
             headers,
             data
         }).then(res =>{
-            console.log(res);
+        
             toast('The product was successfully removed from the wishlist');
+            
+            //update the wishlist ---- by getting the data from the database table
+            fetch("http://localhost:5000/wishlist")
+            .then(response => response.json())
+            .then(data => {
+                //Filter by accountid
+               let wishlist = data.filter(item =>item.accountid == this.props.user.decoded.accountid)
+               let productData = [];
+               //Get products information for each product on the wishlist
+               fetch('http://localhost:5000/products')
+               .then(response => response.json())
+               .then(data =>{                    
+                    // gather only the product id to display.....
+                    for(let i = 0; i < wishlist.length; i++){
+                        for(let k = 0; k < data.length; k++){
+                            if(wishlist[i].productid == data[k].productid){
+                                data[k]["wishlistid"] = wishlist[i].wishlistid;
+                                productData.push(data[k]);
+                            }
+                        }
+                    }
+                    this.setState({productDetails:productData, wishlist:wishlist});
+               })
+            })
         }).catch(err => console.log(err));   
     }
 
@@ -80,6 +104,7 @@ import { toast } from 'react-toastify';
                  {this.state.productDetails.map(item =>
                     (
                      <ListGroupItem>
+                         <img src={item.imageurl}/>
                         <ListGroupItemHeading>{item.productname}</ListGroupItemHeading>
                         <ListGroupItem>{item.description}</ListGroupItem>
                         <ListGroupItem>${item.price}</ListGroupItem>

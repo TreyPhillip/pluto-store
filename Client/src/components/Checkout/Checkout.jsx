@@ -16,7 +16,6 @@ class Checkout extends Component {
             subtotal: JSON.parse(sessionStorage.getItem("subtotal")),
             payment: [],   
             orderid: 0
-
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -149,6 +148,7 @@ class Checkout extends Component {
     if(this.props.user === null){
         this.props.history.push('/login')
     }        
+    console.log(this.state.FirstName)
     if(this.state.FirstName !=="" 
     && this.state.LastName !== ""
     && this.state.StreetAddress !==""

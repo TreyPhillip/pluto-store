@@ -38,7 +38,7 @@ router.post("/authentication", (request, response, next) => {
               };
               //signs the payload with the secert and sets the expiry date for 1 hour
               const token = jwt.sign(payload, secert, {
-                expiresIn: '1h'
+                expiresIn: '3h'
               });
               //send the token back to the frontned as a cookie
                return response.status(200).json({sucess: true, token: `${token}`})
@@ -56,7 +56,7 @@ router.post("/authentication", (request, response, next) => {
   }
 });
 
-//verify token======================================= check if a use has
+//verify token======================================= 
 router.post("/checkToken", (request, response, next) => {
   const {
     tokenString

@@ -33,11 +33,15 @@ import {logout} from '../Actions/authAction';
 
   //click handler for logout
   logoutHandler =event =>{
-    console.log('hi')
     event.preventDefault();
     sessionStorage.clear();
     this.props.logout();
     toast('Successfully Logged Out');
+
+    window.setTimeout(function(){
+      window.location.href = "/Home";
+    }, 1200)
+    
   }
   //Toggle for navbar collapsing
   toggleNavbar() {
