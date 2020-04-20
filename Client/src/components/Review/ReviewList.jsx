@@ -14,6 +14,7 @@ export default class Reviewlist extends Component {
   render() {
     if (this.state.reviewlist.length > 1) {
       return(
+        <Container>
         <ListGroup>
           <ListGroupItem>
             <ListGroupItemText>{this.state.rating}</ListGroupItemText>
@@ -21,6 +22,7 @@ export default class Reviewlist extends Component {
             <ListGroupItemText>{this.state.datereviewed}</ListGroupItemText>
           </ListGroupItem>
         </ListGroup>
+        </Container>
       ) 
     }
     else {
