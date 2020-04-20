@@ -171,6 +171,7 @@ calculateAverage() {
             </Container>
               {this.state.reviewlist.map((review) => (
                 <ReviewList
+                  key={review.reviewid}
                   rating={review.rating}
                   reviewcomment={review.reviewcomment}
                   datereviewed={review.datereviewed}
