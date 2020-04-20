@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Container, Form, FormGroup, Label, Input, Button,Alert, Col, ListGroup, ListGroupItem, ListGroupItemHeading } from "reactstrap";
+import { Container, Form, FormGroup, Label, Input, Button,Alert, Col, ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText } from "reactstrap";
 import axios from "axios";
 import "./reviewstyles.css";
-import { ReviewList } from "./ReviewList";
+import ReviewList from "./ReviewList";
 import {connect} from 'react-redux';
 import {loadUser} from '../Actions/authAction'
 import {toast} from 'react-toastify';
@@ -20,22 +20,25 @@ class Reviews extends Component {
         //click handlers.
         this.handleSubmit = this.handleSubmit.bind(this);
         this.RatingHandler = this.RatingHandler.bind(this);
-        this.handleChange = this.handleChange.bind(this);       
+        this.handleChange = this.handleChange.bind(this);     
+        this.fetchReviews = this.fetchReviews.bind(this);  
     }
     //get reviews from database
     componentDidMount() {
         let productId = window.location.href.split('/')[4];
 
-        fetch("http://localhost:5000/reviews")
-        .then(response => response.json())
-        .then(data => this.setState({
-            ReviewList: data.filter(product => product.productId == productId)
-        }));
         fetch("http://localhost:5000/reviews/getaccounts")
         .then(res => res.json())
         .then(data => this.setState({ seller: data }));
-
       this.props.loadUser();     
+    }
+    fetchReviews = () => {
+      let reviewAccountID = this.seller_sel.value
+      console.log(reviewAccountID)
+      fetch("http://localhost:5000/reviews/getforaccount/" + reviewAccountID)
+        .then(response => response.json())
+        .then(data => console.log(data));
+        console.log(this.state.reviewlist)
     }
     validateForm = (comment) => {
       if (comment != null){
@@ -118,16 +121,18 @@ calculateAverage() {
     render() {
       const { reviewedid, numberrating, reviewcomment } = this.state;
         return(
+          <div>
             <Container className="review-form">
             {this.state.empty_form_error ? <Alert color="danger" >{this.state.empty_form_error}</Alert> : null}
             <h2>Seller Review</h2>
             <Form onSubmit={this.handleSubmit}>
               <FormGroup>
                 <Label>Seller Name: </Label>
-                <select
+                <select onChange={this.fetchReviews}
                   className="form-control "
                   ref={seller_sel => (this.seller_sel = seller_sel)}
                   >
+                  <option value="" disabled selected>Select seller</option>
                   {this.state.seller.map(seller => {
                     return (
                       <option key={seller.accountid} value={seller.accountid}>
@@ -163,12 +168,17 @@ calculateAverage() {
               </FormGroup>
               <Button type="submit" color="info">Submit Review</Button>
             </Form>
-            {/* <ListGroup>
-              <ListGroupItem>
-                <ListGroupItemHeading>{this.seller_sel.value}</ListGroupItemHeading>
-              </ListGroupItem>
-            </ListGroup> */}
             </Container>
+            <Container>
+              {this.state.reviewlist.map((review) => (
+                <ReviewList
+                  rating={review.rating}
+                  reviewcomment={review.reviewcomment}
+                  datereviewed={review.datereviewed}
+                />
+              ))}
+            </Container>
+          </div>
         );
       }
     }
