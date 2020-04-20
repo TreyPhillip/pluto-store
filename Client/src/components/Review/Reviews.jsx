@@ -36,7 +36,6 @@ class Reviews extends Component {
       let reviewAccountID = this.seller_sel.value
       console.log(reviewAccountID)
       axios.get("http://localhost:5000/reviews/getforaccount/" + reviewAccountID)
-        
         .then(data => this.setState({ reviewlist: data.data }));
         console.log(this.state.reviewlist)
     }
@@ -93,13 +92,13 @@ class Reviews extends Component {
                 console.log(review_obj);
                 axios.post("http://localhost:5000/reviews/add", review_obj)  
                 .then(res => {
-                    //successfully created the product.
+                    //successfully created the review.
                     //create a toast message
                     toast("Review successfully listed")
                 })
                 .catch(err =>{
                   //the product had an issues adding to the database
-                    this.setState({product_error: err.response.data})
+                    this.setState({review_err: err.response.data})
                 })
           }
         }
@@ -173,7 +172,7 @@ calculateAverage() {
               {this.state.reviewlist.map((review) => (
                 <ReviewList
                   key={review.reviewid}
-                  rating={review.rating}
+                  numberrating={review.numberrating}
                   reviewcomment={review.reviewcomment}
                   datereviewed={review.datereviewed}
                 />

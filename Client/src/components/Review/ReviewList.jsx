@@ -6,7 +6,7 @@ export default class Reviewlist extends Component {
 		super(props);
 		this.state = {
             reviewlist: [],
-            rating: this.props.rating,
+            numberrating: this.props.numberrating,
             reviewcomment: this.props.reviewcomment,
             datereviewed: this.props.datereviewed
     };
@@ -15,9 +15,9 @@ export default class Reviewlist extends Component {
       return(
         <ListGroup>
           <ListGroupItem>
-            <ListGroupItemText>{this.state.rating}</ListGroupItemText>
-            <ListGroupItemText>{this.state.reviewcomment}</ListGroupItemText>
-            <ListGroupItemText>{this.state.datereviewed}</ListGroupItemText>
+            <ListGroupItemText>Rating: {this.state.numberrating}/5</ListGroupItemText>
+            <ListGroupItemText>Comment: {this.state.reviewcomment}</ListGroupItemText>
+            <ListGroupItemText>Date Reviewed: {this.state.datereviewed}</ListGroupItemText>
           </ListGroupItem>
         </ListGroup>
       ); 
