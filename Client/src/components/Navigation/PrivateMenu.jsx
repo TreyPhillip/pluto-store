@@ -9,7 +9,7 @@ import {
   NavLink
 } from "reactstrap";
 import cookie from 'react-cookies';
-import Logo from "../../assets/pluto-logo-dark.png";
+import Logo from "../../assets/Logo.PNG";
 import "./NavMenu.css";
 import {toast} from 'react-toastify';
 
@@ -51,8 +51,7 @@ import {logout} from '../Actions/authAction';
       <header>
         <Navbar color="primary" dark>
           <NavbarBrand href="/" className="mr-auto">
-            <img src={Logo} className="plutoLogo" alt="Pluto Logo" /> Pluto
-            Store
+          <img src={Logo} className="plutoLogo" alt="Pluto Logo" style={{width:260}}/>
           </NavbarBrand>
           <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
             <Collapse isOpen={!this.state.collapsed} navbar>
