@@ -132,7 +132,7 @@ calculateAverage() {
                   className="form-control "
                   ref={seller_sel => (this.seller_sel = seller_sel)}
                   >
-                  <option value="" disabled selected>Select seller</option>
+                  <option disabled selected>Select Seller</option>
                   {this.state.seller.map(seller => {
                     return (
                       <option key={seller.accountid} value={seller.accountid}>

@@ -21,12 +21,12 @@ export default class Reviewlist extends Component {
             <ListGroupItemText>{this.state.datereviewed}</ListGroupItemText>
           </ListGroupItem>
         </ListGroup>
-      ) 
+      ); 
     }
     else {
       return(
         <h1>This seller has no reviews!</h1>
-      )
+      );
     }
   }
 };
