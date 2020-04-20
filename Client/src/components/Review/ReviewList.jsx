@@ -12,7 +12,6 @@ export default class Reviewlist extends Component {
     };
   }
   render() {
-    if (this.state.reviewlist.length >= 1) {
       return(
         <ListGroup>
           <ListGroupItem>
@@ -23,10 +22,4 @@ export default class Reviewlist extends Component {
         </ListGroup>
       ); 
     }
-    else {
-      return(
-        <h1>This seller has no reviews!</h1>
-      );
-    }
-  }
 };

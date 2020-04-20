@@ -35,9 +35,9 @@ class Reviews extends Component {
     fetchReviews = () => {
       let reviewAccountID = this.seller_sel.value
       console.log(reviewAccountID)
-      fetch("http://localhost:5000/reviews/getforaccount/" + reviewAccountID)
-        .then(response => response.json())
-        .then(data => console.log(data));
+      axios.get("http://localhost:5000/reviews/getforaccount/" + reviewAccountID)
+        
+        .then(data => this.setState({ reviewlist: data.data }));
         console.log(this.state.reviewlist)
     }
     validateForm = (comment) => {
