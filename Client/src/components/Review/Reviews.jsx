@@ -169,6 +169,7 @@ calculateAverage() {
               <Button type="submit" color="info">Submit Review</Button>
             </Form>
             </Container>
+            <Container>
               {this.state.reviewlist.map((review) => (
                 <ReviewList
                   key={review.reviewid}
@@ -177,6 +178,7 @@ calculateAverage() {
                   datereviewed={review.datereviewed}
                 />
               ))}
+            </Container>
           </div>
         );
       }
