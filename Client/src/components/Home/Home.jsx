@@ -8,7 +8,6 @@ import {toast} from 'react-toastify';
 import {connect} from 'react-redux';
 import {loadUser} from '../Actions/authAction';
 
-
  class Home extends Component {
   constructor() {
     super();

@@ -94,6 +94,4 @@ console.log(wishlistid);
 });
 
 
-
-
 module.exports = router;

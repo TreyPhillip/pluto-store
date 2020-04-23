@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
-import Logo from '../../assets/pluto-logo-dark.png';
+import Logo from '../../assets/Logo.PNG';
 import './NavMenu.css';
 
  class NavMenu extends Component {
@@ -13,6 +13,10 @@ import './NavMenu.css';
 			collapsed: true
 		};
 	}
+	logoStyle = {
+		width:'322',
+		height:'67'
+	};
 	//Toggle for navbar collapsing
 	toggleNavbar() {
 		this.setState({
@@ -29,7 +33,7 @@ import './NavMenu.css';
 			<header>
 				<Navbar color="primary" dark>
 					<NavbarBrand href="/" className="mr-auto">
-						<img src={Logo} className="plutoLogo" alt="Pluto Logo" /> Pluto Store
+						<img src={Logo} className="plutoLogo" alt="Pluto Logo" style={{width:260}}/>
 					</NavbarBrand>
 					<NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
 					<Collapse isOpen={!this.state.collapsed} navbar>

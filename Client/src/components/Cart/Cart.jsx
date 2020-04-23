@@ -21,13 +21,13 @@ export class Cart extends Component {
             subtotal += item.linePrice;
         });
         sessionStorage.setItem("subtotal", JSON.stringify(subtotal));  
-		console.log(subtotal)
 		
 		this.props.history.push('/Checkout')
     }
 
 	componentDidMount(){
 		if(this.state.cartItems != null && this.state.cartItems.length > 0){
+			console.log(this.state.cartItems)
 		let subtotal = 0;
 		this.state.cartItems.map((item) => {
             subtotal += item.linePrice;
@@ -63,7 +63,7 @@ export class Cart extends Component {
 					sellerId={item.sellerId}
 					imageurl={item.imageurl}
 					description={item.description}
-            		categoryid={item.categoryId}
+            		categoryId={item.categoryId}
 					productName={item.productName} 
 					price={item.price} 
 					quantity={item.quantity}
@@ -83,7 +83,7 @@ export class Cart extends Component {
 		}
 		else{
 			return(
-				<Form onSubmit={this.handleSubmit}>
+				<Form>
 				<h3>Your cart is empty. Add some stuff!</h3>
 				</Form>
 			)

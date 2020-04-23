@@ -5,7 +5,6 @@ import {
     CardTitle, CardSubtitle  } from 'reactstrap';
 
 import './ProductCard.css';
-import Test from '../../../assets/318x180.svg'
 
 export const ProductCard = props => {
     return (
@@ -20,12 +19,6 @@ export const ProductCard = props => {
         </Link>
     );
 }
-// <Link to={"/Details/" + props.product.productid}>
-//<div className= "product-card">
-//<img className='card-img-top' alt='product images' src={props.product.productimagePath}/>
-//<p>{props.product.productname}</p>
-//</div>
-//</Link>
 
 const style ={
     width:'100%',

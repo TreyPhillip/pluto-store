@@ -21,11 +21,14 @@ router.post("/order/detail/add", (request, response, next) => {
     quantity,
     peritemprice
   } = request.body;
+  
   db_connection.query(
     "INSERT INTO orderdetail (productid, orderid, quantity, peritemprice) VALUES($1,$2,$3,$4)",
     [productid, orderid, quantity, peritemprice],
     (error, result) => {
       if (error) {
+        console.log("productID: "+ productid + " OrderID: " + orderid + " quantity: "+ quantity + " peritemprice: "+ peritemprice);
+        console.log(error);
         return response.status(401).json('Adding Order detail failed');
       }
         return response.status(200).json("Successfully added a order detail");

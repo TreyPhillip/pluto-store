@@ -25,10 +25,13 @@ import {storage} from '../../../firebase-config';
       //error messages
       empty_form_error:"",
       product_error:"",
+      price_error:"",
+      quantity_error:"",
       //image state
       imageAsFile:null,
       imageUrl:null,
       imagePreview:null,
+      
 
     };
     //Click Handler for the submit
@@ -66,34 +69,49 @@ import {storage} from '../../../firebase-config';
 
   handleSubmit = event => {
     event.preventDefault();
-      if(this.state.productName !=="" && this.state.price !== "" && this.state.description !==""){
-            //IMAGE------------------------------------
-            if(this.state.imageAsFile === '' ) {
-              console.error(`not an image, the image file is a ${typeof(imageAsFile)}`)
-            }
+      if(this.state.productName !=="" && this.state.price !== "" && this.state.description !=="" ){
+          
 
-            let product_obj ={};
-            if(this.validateForm(this.state.price) == true){
-            const uploadTask = storage.ref(`/images/${this.state.imageAsFile.name}`).put(this.state.imageAsFile)
-            //Uploading file to firebase storage
-            uploadTask.on('state_changed', 
-            (snapShot) => {
-              //takes a snap shot of the process as it is happening
-              console.log(snapShot)
-            }, (err) => {
-              //catches the errors
-              console.log(err)
-            }, () => {
-              // gets the functions from storage refences the image storage in firebase by the children
-              // gets the download url then sets the image from firebase as the value for the imgUrl key:
-              storage.ref('images').child(this.state.imageAsFile.name).getDownloadURL()
-              .then(fireBaseUrl => {
-                this.setState({imageUrl: fireBaseUrl})
-                //setImageAsUrl(prevObject => ({...prevObject, imgUrl: fireBaseUrl}))
-            })
-            .then(save =>{
-                    
-                  product_obj = {
+        if(this.state.price < 0){
+          this.setState({price_error: "Price must be greater than zero or equal to zero"})
+
+        }
+        else{
+          this.setState({price_error: ""})
+
+        }
+
+        if(this.state.quantity <= 0){
+          this.setState({quantity_error: "Quantity must be greater than zero"})
+        }
+        else{
+          this.setState({quantity_error: ""})
+
+        }
+
+
+        //Make sure the price is not less than zero -- zero would be the product is being give out for free
+        if( this.state.price >= 0 && this.state.quantity > 0){
+        //IMAGE------------------------------------
+            this.setState({quantity_error: ""})
+
+                let product_obj ={};
+                if(this.validateForm(this.state.price) == true){
+                const uploadTask = storage.ref(`/images/${this.state.imageAsFile.name}`).put(this.state.imageAsFile)
+                //Uploading file to firebase storage
+                uploadTask.on('state_changed', 
+                (snapShot) => {
+                }, (err) => {
+                }, () => {
+                  // gets the functions from storage refences the image storage in firebase by the children
+                  // gets the download url then sets the image from firebase as the value for the imgUrl key:
+                  storage.ref('images').child(this.state.imageAsFile.name).getDownloadURL()
+                  .then(fireBaseUrl => {
+                    this.setState({imageUrl: fireBaseUrl})
+                    //setImageAsUrl(prevObject => ({...prevObject, imgUrl: fireBaseUrl}))
+                })
+                .then(save =>{         
+                    product_obj = {
                       productname: this.state.productName,
                       categoryid: this.category_sel.value,
                       sellerid: this.props.Auth.user.decoded.accountid,
@@ -102,22 +120,21 @@ import {storage} from '../../../firebase-config';
                       quantity: parseInt(this.state.quantity),
                       imageurl: this.state.imageUrl
                     };
-                          //save product to the database
                     axios.post("http://localhost:5000/products/add", product_obj)  
-                    .then(res => {
-                      //sucess
-                      toast("Product successfully listed")
-                      window.setTimeout(function(){
-                        window.location.href = "/Home";
-                      }, 3000)
-                    })
-                    .catch(err =>{
-                    //the product had an issues adding to the database
-                    this.setState({product_error: err.response.data})
-                }) 
-                console.log(product_obj)
-            }) 
-        })
+                      .then(res => {
+                          //sucess
+                        toast("Product successfully listed")
+                        window.setTimeout(function(){
+                            window.location.href = "/Home";
+                        }, 900)
+                      })
+                      .catch(err =>{
+                        //the product had an issues adding to the database
+                      this.setState({product_error: err.response.data})
+                    }) 
+              }) 
+          }) 
+        }
       }
     }
     else{
@@ -132,8 +149,6 @@ import {storage} from '../../../firebase-config';
 
           const image = e.target.files[0]
           this.setState({imageAsFile: image})
-
-          console.log(image);
 
         if(image === undefined){
           this.setState({imagePreview: null});
@@ -189,6 +204,7 @@ import {storage} from '../../../firebase-config';
               onChange={e => this.handleChange(e)}
                />
                </InputGroup>
+              {this.state.price_error ? <Alert color="danger" >{this.state.price_error}</Alert> : null}
           </FormGroup>
           <FormGroup>
             <Label>Quantity: </Label>
@@ -198,8 +214,9 @@ import {storage} from '../../../firebase-config';
               id="quantity"
               value={quantity}
               onChange={e => this.handleChange(e)}
-               />
+               />   
           </FormGroup>
+          {this.state.quantity_error ? <Alert color="danger" >{this.state.quantity_error}</Alert> : null}
           <FormGroup>
             <Label>Description: </Label><br></br>
             <textarea

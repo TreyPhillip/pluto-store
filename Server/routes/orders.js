@@ -8,10 +8,20 @@ router.get('/orders', (request, response, next) => {
         if (error) {
             return response.status(401).json('Issues returning order records');
         }
-        response.status(200).json(result.rows);
+            return response.status(200).json(result.rows);
     });
 });
 
+//get an order detail by id
+router.get('/orders/:id', (request, response, next) => {
+    const id = parseInt(request.params.id)
+    db_connection.query('SELECT * FROM orders WHERE orderid=$1', [id], (error, result) => {
+        if (error) {
+            return response.status(401).json('Order is not exist');
+        }
+            return response.status(200).json(result.rows);
+    });
+});
 //Add new order detail
 router.post('/orders/add', (request, response, next) => {
     const {
@@ -22,9 +32,11 @@ router.post('/orders/add', (request, response, next) => {
     db_connection.query('INSERT INTO orders (buyerid,sellerid,orderdate) VALUES($1,$2,$3)',
         [buyerid, sellerid, orderdate], (error, result) => {
             if (error) {
+                console.log("BuyerID: "+ buyerid + "SellerID: "+ sellerid + "orderdate: "+ orderdate);
+                console.log(error);
                 return response.status(401).json('order failed to be added');
             }
-            response.status(200).json("Successfully added a order");
+                return response.status(200).json("Successfully added a order");
         });
 });
 //update order detail
@@ -41,7 +53,7 @@ router.put('/orders/update', (request, response, next) => {
             if (error) {
                 return response.status(401).json('order failed to update');
             }
-            response.status(200).json('Successfully updated the order');
+                return response.status(200).json('Successfully updated the order');
         });
 
 });
@@ -55,10 +67,11 @@ router.delete('/orders/delete', (request, response, next) => {
             return response.status(401).json('order failed to delete');
 
         }
-        response.status(200).json("Successfully deleted order detail");
+            return response.status(200).json("Successfully deleted order detail");
     });
 });
 
+//get the last added record from the database
 router.get('/orders/lastRecord', (request, response, next) => {
     db_connection.query("SELECT orderid FROM orders ORDER BY orderid DESC LIMIT 1", (error, result) => {
         if (error) {
