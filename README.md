@@ -67,4 +67,6 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify -->
 
-An Open-Source web app created with React.js, Node.js/Express, and PostgreSQL
+An Open-Source web app created with React.js, Node.js/Express, and PostgreSQL. 
+
+Note: images do not appear on screen due to the database being shutdown. 
