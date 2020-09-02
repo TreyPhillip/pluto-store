@@ -1,0 +1,16 @@
+table, td,tr{
+    margin-left: 35%;
+    margin-top: 25px;
+}
+
+.btn_payment{
+    border: none;
+}
+#btn_update{
+    background-color: lightgreen;
+    margin-right: 5px;
+}
+#btn_remove{
+    background-color: lightcoral;
+    margin-left: 5px;
+}

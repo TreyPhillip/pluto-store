@@ -26,8 +26,6 @@ export const register = (userName, email, password, isverified, profile_id) => d
         isverified: isverified,
         profileid: profile_id
     }
-
-    console.log(userName  + email + password + isverified + profile_id)
     axios.post('http://localhost:5000/account/register', data,config)
         .then(res => dispatch({
             type: REGISTER_SUCCESS,
@@ -57,7 +55,24 @@ export const uniqueUsernameCheck = (userName) => dispatch => {
     });
 };
 
-export const createProfile = (firstName, lastName,phoneNumber) => dispatch =>{
+export const uniqueEmailCheck = (email) => dispatch =>{
+    axios.post("http://localhost:5000/account/uniqueEmail", {
+        emailaddress:email
+    })
+    .then(res => dispatch({
+        type: "EMAIL_AVAILABLE"
+    }))
+    .catch(err=>{
+        dispatch(returnRegErrors(err.response.data, err.response.status, "EMAIL_TAKEN"));
+        dispatch({
+            type: "EMAIL_TAKEN"
+        });
+    })
+}
+
+
+
+export const createProfile =  (firstName, lastName,phoneNumber) => dispatch =>{
 
     axios.post('http://localhost:5000/profile/add',{
         firstname:firstName,

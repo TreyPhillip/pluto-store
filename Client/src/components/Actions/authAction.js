@@ -5,15 +5,10 @@ import {
     //Account
     USER_LOADED, USER_LOADING, AUTH_ERROR,
     LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_SUCCESS,
-    //REGISTER_FAIL, REGISTER_SUCCESS,
     UPDATE_SUCCESS,  UPDATE_FAIL, DELETE_FAIL,
     DELETE_SUCCESS,
-    //USERNAME_TAKEN,USERNAME_AVAILABLE,
-    //Profile
     DELETE_PROFILE_SUCCESS, DELETE_PROFILE_FAIL, UPDATE_PROFILE_SUCCESS,
     UPDATE_PROFILE_FAIL,PROFILE_LOADED, PROFILE_FAILED,
-    //CREATE_PROFILE_SUCCESS,
-    //CREATE_PROFILE_FAIL,
 } from './types';
 
 //header
@@ -22,7 +17,21 @@ const config = {
         'Content-Type': 'application/json'
     }
 };
+//get last record
+export const getLastRecord = () => dispatch =>{
 
+    axios.get('http://localhost:5000/lastRecord')
+    .then(data => dispatch({
+        type:'GET_LAST_PROFILE_RECORD',
+        payload:data.data[0]
+    }))
+    .catch(err =>{
+    dispatch(returnErrors(err.response.data, err.response.status, "CREATE_PROFILE_FAIL"));
+    dispatch({
+        type:"GET_LAST_PROFILE_RECORD_ERR",
+        });
+    });
+ }
 //Check Token
 export const loadUser = () => (dispatch, getState) => {
     //get token from cookie
@@ -65,7 +74,7 @@ export const logout = () => {
         type: LOGOUT_SUCCESS
     };
 };
-
+//delete an account
 export const deleteAccount = (account_id) => dispatch => {
 
     const headers = {
@@ -89,7 +98,7 @@ export const deleteAccount = (account_id) => dispatch => {
         })
     })
 };
-
+//update an account
 export const updateAccount = (username, userpassword, emailaddress, isverified, profile_id) => dispatch => {
     axios.put('http://localhost:5000/account/update', {
             username: username,
@@ -108,7 +117,6 @@ export const updateAccount = (username, userpassword, emailaddress, isverified, 
         })
     })
 };
-
 //profile actions
 export const getProfile = (id) => (dispatch) =>{
     axios.post('http://localhost:5000/profile/',{
@@ -124,7 +132,7 @@ export const getProfile = (id) => (dispatch) =>{
         });
     })
 }
-
+//delete a profile
 export const deleteProfile = (profile_id) => dispatch => {
     axios.delete('http://localhost:5000/profile/delete', {
             profileid: profile_id
@@ -139,7 +147,7 @@ export const deleteProfile = (profile_id) => dispatch => {
             })
         })
 }
-
+//update a profile
 export const updateProfile = (firstname, lastname, phonenumber, profile_id) => dispatch => {
     axios.put('http://localhost:5000/profile/update', {
             firstname: firstname,

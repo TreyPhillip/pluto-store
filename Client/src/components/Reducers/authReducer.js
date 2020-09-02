@@ -51,11 +51,23 @@ const initialState = {
    // profile_added_success:false,
     profileDeleteSuccess: false,
     profileDeleteFail: false,
+    profile:null,
 
 }
 
 export default function (state = initialState, action) {
     switch (action.type) {
+
+        case "GET_LAST_PROFILE_RECORD":
+            return {
+                ...state,
+                profile:action.payload,
+        }
+        case "GET_LAST_PROFILE_RECORD_ERR":
+            return{
+                ...state
+            }
+
         case USER_LOADING:
             return {
                 ...state,

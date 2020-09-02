@@ -1,21 +1,25 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText, Container } from 'reactstrap'
 
-export const ReviewList = props => {
-    return (
-        <Container className="reviewList">
-            <ListGroup>
-                <ListGroupItem>
-                    <ListGroupItemHeading>
-                        <p>User: {props.ratings.accountId}</p>
-                        <hr/>
-                        <p id='rating'>Rating: {props.ratings.ratingValue}/5</p>
-                    </ListGroupItemHeading>
-                    <ListGroupItemText id='review'>
-                        {props.ratings.reviewInfo} 
-                    </ListGroupItemText>
-                </ListGroupItem>
-            </ListGroup>
-        </Container>
-    );
+export default class Reviewlist extends Component {
+  constructor(props) {
+		super(props);
+		this.state = {
+            reviewlist: [],
+            numberrating: this.props.numberrating,
+            reviewcomment: this.props.reviewcomment,
+            datereviewed: this.props.datereviewed
+    };
+  }
+  render() {
+      return(
+        <ListGroup>
+          <ListGroupItem>
+            <ListGroupItemText>Rating: {this.state.numberrating}/5</ListGroupItemText>
+            <ListGroupItemText>Comment: {this.state.reviewcomment}</ListGroupItemText>
+            <ListGroupItemText>Date Reviewed: {this.state.datereviewed}</ListGroupItemText>
+          </ListGroupItem>
+        </ListGroup>
+      ); 
+    }
 };

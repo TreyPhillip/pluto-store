@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 
 //get all reviews
-router.get('/reviews', (request,response,next) => {
+router.get('/reviews', (request, response, next) => {
     db_connection.query('SELECT * FROM reviews',(error, result) =>{
         if(error){
             response.status(401).json('issues getting all the errors')
@@ -11,6 +11,16 @@ router.get('/reviews', (request,response,next) => {
         response.status(200).json(result.rows);
     });
 });
+//gets all reviews for a specific account
+router.get('/reviews/getforaccount/:id', (request, response, next) =>{
+    const id = parseInt(request.params.id)
+    db_connection.query('SELECT * FROM reviews WHERE reviewedid = $1', [id], (error, result) =>{
+        if(error){
+            response.status(404).json('no reviews for specified account')
+        }
+        response.status(200).json(result.rows);
+    })
+})
 //get all accounts for review
 router.get('/reviews/getaccounts', (request, response, next) => {
     db_connection.query('SELECT accountid, username FROM account', (error, result) =>{
@@ -27,7 +37,7 @@ router.get('/reviews/getaccounts', (request, response, next) => {
 
         db_connection.query('SELECT * FROM reviews WHERE reviewid = $1', [id], (error,result) =>{
         if(error){
-            response.status(401).json('review doesnt exist')
+            response.status(401).json("review doesn't exist")
         }
         response.status(200).json(result.rows);
     });
